@@ -7,7 +7,7 @@ public class EnemySpawner : MonoBehaviour
     public Transform startPoint;
     public List<Transform> movePoints;
     public GameObject enemyPrefab;              
-    public float spawnInterval = 0.2f;   
+    public float spawnInterval = 0.3f;   
     public int enemiesPerRound = 20;     
     private int currentRound = 1;        
 

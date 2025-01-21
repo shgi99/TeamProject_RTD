@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,17 +11,19 @@ public class EnemyHealth : MonoBehaviour, IDamageable
     public bool IsDead { get; protected set; }
     public Slider HpSlider;
     public Image HpFillImage;
-    public Transform hpSliderOffset;
+    public Canvas hpCanvas;
     private Animator animator;
     private EnemyMovement enemyMovement;
     private void Awake()
     {
         animator = GetComponent<Animator>();
         enemyMovement = GetComponent<EnemyMovement>();
+
     }
     private void Start()
     {
         HP = maxHp;
+        hpCanvas.enabled = false;
         HpSliderUpdate();
     }
 
@@ -43,6 +46,12 @@ public class EnemyHealth : MonoBehaviour, IDamageable
 
         HP -= damage;
         HP = Mathf.Clamp(HP, 0, maxHp);
+
+        if (!hpCanvas.enabled)
+        {
+            hpCanvas.enabled = true;
+        }
+
         HpSliderUpdate();
 
         if (HP <= 0)
@@ -73,6 +82,7 @@ public class EnemyHealth : MonoBehaviour, IDamageable
         IsDead = true;
         HP = 0;
         animator.SetTrigger("Dead");
+        GetComponent<Rigidbody>().velocity = Vector3.zero;
         enemyMovement.enabled = false;
         StartCoroutine(StartSinking());
     }

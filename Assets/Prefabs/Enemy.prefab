@@ -491,7 +491,7 @@ MonoBehaviour:
   maxHp: 100
   HpSlider: {fileID: 1874786557786888781}
   HpFillImage: {fileID: 836744074785477758}
-  hpSliderOffset: {fileID: 0}
+  hpCanvas: {fileID: 3150929057383025392}
 --- !u!1 &4423550114420604912
 GameObject:
   m_ObjectHideFlags: 0

@@ -10,15 +10,16 @@ public class EnemyMovement : MonoBehaviour
     public float speed = 1.5f;            
     public float rotationSpeed = 5.0f;    
     public float waypointThreshold = 0.1f;
-
+    private int damage;
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
     }
-    public void SetMovePoints(Transform startPoint, List<Transform> movePoints)
+    public void Init(Transform startPoint, List<Transform> movePoints, int damage)
     {
         this.startPoint = startPoint;
         this.movePoints = movePoints;
+        this.damage = damage;
     }
     private void Start()
     {
@@ -65,6 +66,7 @@ public class EnemyMovement : MonoBehaviour
     {
         if(other.tag == "End")
         {
+            GameManager.instance.CheckClear(gameObject);
             Destroy(gameObject);
         }
     }

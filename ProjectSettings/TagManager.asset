@@ -6,11 +6,14 @@ TagManager:
   tags:
   - End
   - MovePoint
+  - Enemy
+  - BuilableTile
+  - PathTile
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Buildable
   - Water
   - UI
   - 

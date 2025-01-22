@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class EnemyHealth : MonoBehaviour, IDamageable
 {
-    public int maxHp = 100;
+    public int maxHp;
     public int HP { get; private set; }
     public bool IsDead { get; protected set; }
     public Slider HpSlider;
@@ -18,7 +18,6 @@ public class EnemyHealth : MonoBehaviour, IDamageable
     {
         animator = GetComponent<Animator>();
         enemyMovement = GetComponent<EnemyMovement>();
-
     }
     private void Start()
     {
@@ -26,7 +25,11 @@ public class EnemyHealth : MonoBehaviour, IDamageable
         hpCanvas.enabled = false;
         HpSliderUpdate();
     }
-
+    public void Init(int hpData)
+    {
+        maxHp = hpData;
+        HP = maxHp;
+    }
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -81,9 +84,10 @@ public class EnemyHealth : MonoBehaviour, IDamageable
     {
         IsDead = true;
         HP = 0;
-        animator.SetTrigger("Dead");
         GetComponent<Rigidbody>().velocity = Vector3.zero;
         enemyMovement.enabled = false;
+        animator.SetTrigger("Dead");
+        GameManager.instance.CheckClear(gameObject);
         StartCoroutine(StartSinking());
     }
     public IEnumerator StartSinking()

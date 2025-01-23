@@ -8,15 +8,19 @@ using static UnityEngine.GraphicsBuffer;
 public class Tower : MonoBehaviour
 {
     public int towerId;
-    private float attackRange;
-    private float attackInterval;
-    private int damage;
+    public float attackRange;
+    public float attackInterval;
+    public int damage;
+    public TowerRarity towerRarity;
+    public TowerType towerType;
+    public string towerName;
 
     public Transform currentTarget;
     private List<Transform> enemiesInRange = new List<Transform>();
     private SphereCollider sphereCollider;
     private float rotationSpeed = 5f;
     private Animator animator;
+    public Transform visualParent;
     // Start is called before the first frame update
     private void Awake()
     {
@@ -25,13 +29,6 @@ public class Tower : MonoBehaviour
     }
     void Start()
     {
-        attackRange = 1.5f;
-        attackInterval = 0.8f;
-        damage = 25;
-
-
-        sphereCollider.radius = attackRange;
-
         StartCoroutine(AttackCoroutine());
     }
     private void Update()
@@ -46,19 +43,28 @@ public class Tower : MonoBehaviour
     {
         if (other.CompareTag("Enemy"))
         {
+            var enemyHealth = other.GetComponent<EnemyHealth>();
+            if (enemyHealth != null)
+            {
+                enemyHealth.OnDeath += HandleEnemyDeath;
+            }
+
             enemiesInRange.Add(other.transform);
             UpdateTarget();
         }
     }
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Enemy") && other.transform == currentTarget)
+        if (other.CompareTag("Enemy"))
         {
-            enemiesInRange.Remove(other.transform);
-            if (other.transform == currentTarget)
+            var enemyHealth = other.GetComponent<EnemyHealth>();
+            if (enemyHealth != null)
             {
-                UpdateTarget();
+                enemyHealth.OnDeath -= HandleEnemyDeath;
             }
+
+            enemiesInRange.Remove(other.transform);
+            UpdateTarget();
         }
     }
     public IEnumerator AttackCoroutine()
@@ -82,6 +88,7 @@ public class Tower : MonoBehaviour
         if (enemiesInRange.Count == 0)
         {
             currentTarget = null;
+            animator.SetBool("IsAttack", false);
             return;
         }
 
@@ -90,11 +97,15 @@ public class Tower : MonoBehaviour
 
         foreach (Transform enemy in enemiesInRange)
         {
-            float distance = Vector3.Distance(transform.position, enemy.position);
-            if (distance < closestDistance)
+            var enemyHealth = enemy.GetComponent<EnemyHealth>();
+            if (enemyHealth != null && !enemyHealth.IsDead)
             {
-                closestDistance = distance;
-                closestEnemy = enemy;
+                float distance = Vector3.Distance(transform.position, enemy.position);
+                if (distance < closestDistance)
+                {
+                    closestDistance = distance;
+                    closestEnemy = enemy;
+                }
             }
         }
 
@@ -104,16 +115,21 @@ public class Tower : MonoBehaviour
     {
         if (target == null)
         {
+            animator.SetBool("IsAttack", false);
             currentTarget = null;
             return;
         }
 
         var attackTarget = target.GetComponent<EnemyHealth>();
-        if (attackTarget != null)
+        if (attackTarget != null && !attackTarget.IsDead)
         {
-            attackTarget.OnDamage(damage);
             animator.SetBool("IsAttack", true);
-            Debug.Log($"Attacking {target.name} for {damage} damage.");
+            attackTarget.OnDamage(damage);
+        }
+        else
+        {
+            animator.SetBool("IsAttack", false);
+            UpdateTarget();
         }
     }
     public void RotateToTarget(Transform target)
@@ -125,15 +141,75 @@ public class Tower : MonoBehaviour
     }
     private void CleanUpDestroyedEnemies()
     {
-        enemiesInRange.RemoveAll(enemy => enemy == null);
+        enemiesInRange.RemoveAll(enemy =>
+        {
+            var enemyHealth = enemy.GetComponent<EnemyHealth>();
+            return enemyHealth == null || enemyHealth.IsDead;
+        });
         if (currentTarget != null && !enemiesInRange.Contains(currentTarget))
         {
             currentTarget = null;
         }
+
     }
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, attackRange);
+    }
+    private void HandleEnemyDeath(Transform enemy)
+    {
+        enemiesInRange.Remove(enemy);
+        UpdateTarget();
+    }
+    public void InitTower(TowerData towerData)
+    {
+        towerId = towerData.Tower_ID;
+        towerName = towerData.Tower_Name;
+        towerRarity = (TowerRarity)towerData.Tower_Rarity;
+        towerType = (TowerType)towerData.Tower_Type;
+        attackRange = towerData.AtkRng;
+        attackInterval = towerData.AtkSpd;
+        damage = towerData.AtkDmg;
+
+        sphereCollider.radius = attackRange;
+
+        ApplyVisual(towerData.Asset_Path);
+    }
+
+    private void ApplyVisual(string asset_Path)
+    {
+        GameObject visualPrefab = Resources.Load<GameObject>(asset_Path);
+        if (visualPrefab != null)
+        {
+            foreach (Transform child in visualParent)
+            {
+                Destroy(child.gameObject);
+            }
+
+            GameObject visualInstance = Instantiate(visualPrefab, visualParent);
+            visualInstance.transform.localPosition = visualPrefab.transform.localPosition;
+            visualInstance.transform.localRotation = Quaternion.identity;
+
+            animator = visualInstance.GetComponent<Animator>();
+        }
+    }
+    public void ClearBeforeDestroy()
+    {
+        foreach (Transform enemy in enemiesInRange)
+        {
+            if (enemy != null)
+            {
+                var enemyHealth = enemy.GetComponent<EnemyHealth>();
+                if (enemyHealth != null)
+                {
+                    enemyHealth.OnDeath -= HandleEnemyDeath;
+                }
+            }
+        }
+
+        enemiesInRange.Clear();
+        StopAllCoroutines();
+        currentTarget = null;
     }
 }

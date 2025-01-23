@@ -16,7 +16,19 @@ public static class DataTableManager
         var waveTable = new WaveTable();
         waveTable.Load(DataTableIds.Wave);
         tables.Add(DataTableIds.Wave, waveTable);
+        var towerTable = new TowerTable();
+        towerTable.Load(DataTableIds.Tower);
+        tables.Add(DataTableIds.Tower, towerTable);
 #else
+        var enemyTable = new EnemyTable();
+        enemyTable.Load(DataTableIds.Enemy);
+        tables.Add(DataTableIds.Enemy, enemyTable);
+        var waveTable = new WaveTable();
+        waveTable.Load(DataTableIds.Wave);
+        tables.Add(DataTableIds.Wave, waveTable);
+        var towerTable = new TowerTable();
+        towerTable.Load(DataTableIds.Tower);
+        tables.Add(DataTableIds.Tower, towerTable);
 #endif
     }
     public static EnemyTable EnemyTable
@@ -31,6 +43,13 @@ public static class DataTableManager
         get
         {
             return Get<WaveTable>(DataTableIds.Wave);
+        }
+    }
+    public static TowerTable TowerTable
+    {
+        get
+        {
+            return Get<TowerTable>(DataTableIds.Tower);
         }
     }
     public static T Get<T>(string id) where T : DataTable

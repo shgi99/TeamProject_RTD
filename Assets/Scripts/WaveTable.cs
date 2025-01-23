@@ -2,16 +2,16 @@ using System.Collections.Generic;
 using UnityEngine;
 public class WaveData
 {
-    public string Round_ID { get; set; }
+    public int Round_ID { get; set; }
     public int Round { get; set; }
-    public string Enemy_ID { get; set; }
+    public int Enemy_ID { get; set; }
     public int NumofEnemy { get; set; }
     public int DmgToLife { get; set; }
 }
 
 public class WaveTable : DataTable
 {
-    private readonly Dictionary<string, WaveData> dictionary = new Dictionary<string, WaveData>();
+    private readonly Dictionary<int, WaveData> dictionary = new Dictionary<int, WaveData>();
     public override void Load(string filename)
     {
         var path = string.Format(FormatPath, filename);
@@ -31,7 +31,7 @@ public class WaveTable : DataTable
             }
         }
     }
-    public WaveData Get(string id)
+    public WaveData Get(int id)
     {
         if (!dictionary.ContainsKey(id))
         {

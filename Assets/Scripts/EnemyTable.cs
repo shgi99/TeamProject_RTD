@@ -2,13 +2,13 @@ using System.Collections.Generic;
 using UnityEngine;
 public class EnemyData
 {
-    public string Enemy_ID { get; set; }
+    public int Enemy_ID { get; set; }
     public int Enemy_HP { get; set; }
 }
 
 public class EnemyTable : DataTable
 {
-    private readonly Dictionary<string, EnemyData> dictionary = new Dictionary<string, EnemyData>();
+    private readonly Dictionary<int, EnemyData> dictionary = new Dictionary<int, EnemyData>();
     public override void Load(string filename)
     {
         var path = string.Format(FormatPath, filename);
@@ -28,7 +28,7 @@ public class EnemyTable : DataTable
             }
         }
     }
-    public EnemyData Get(string id)
+    public EnemyData Get(int id)
     {
         if (!dictionary.ContainsKey(id))
         {

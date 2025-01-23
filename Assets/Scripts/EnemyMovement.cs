@@ -66,6 +66,7 @@ public class EnemyMovement : MonoBehaviour
     {
         if(other.tag == "End")
         {
+            GameManager.instance.DamageToLife(damage);
             GameManager.instance.CheckClear(gameObject);
             Destroy(gameObject);
         }

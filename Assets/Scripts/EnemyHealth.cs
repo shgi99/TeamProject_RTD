@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -12,6 +13,8 @@ public class EnemyHealth : MonoBehaviour, IDamageable
     public Slider HpSlider;
     public Image HpFillImage;
     public Canvas hpCanvas;
+    public event Action<Transform> OnDeath;
+
     private Animator animator;
     private EnemyMovement enemyMovement;
     private void Awake()
@@ -22,6 +25,12 @@ public class EnemyHealth : MonoBehaviour, IDamageable
     private void Start()
     {
         HP = maxHp;
+
+        if (hpCanvas != null && hpCanvas.GetComponent<Billboard>() == null)
+        {
+            hpCanvas.gameObject.AddComponent<Billboard>();
+        }
+
         hpCanvas.enabled = false;
         HpSliderUpdate();
     }
@@ -87,6 +96,7 @@ public class EnemyHealth : MonoBehaviour, IDamageable
         GetComponent<Rigidbody>().velocity = Vector3.zero;
         enemyMovement.enabled = false;
         animator.SetTrigger("Dead");
+        OnDeath?.Invoke(transform);
         GameManager.instance.CheckClear(gameObject);
         StartCoroutine(StartSinking());
     }

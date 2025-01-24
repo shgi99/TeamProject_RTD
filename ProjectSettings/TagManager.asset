@@ -3,12 +3,17 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - End
+  - MovePoint
+  - Enemy
+  - BuilableTile
+  - PathTile
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Buildable
   - Water
   - UI
   - 

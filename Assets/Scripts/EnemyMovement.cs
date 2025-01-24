@@ -35,7 +35,7 @@ public class EnemyMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (movePoints.Count == 0 || movePointIdx >= movePoints.Count)
+        if (movePoints.Count == 0 || movePointIdx >= movePoints.Count || GameManager.instance.isGameOver)
             return;
 
         Vector3 targetPosition = movePoints[movePointIdx].position;

@@ -39,13 +39,6 @@ public class EnemyHealth : MonoBehaviour, IDamageable
         maxHp = hpData;
         HP = maxHp;
     }
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            OnDamage(20);
-        }
-    }
     private void OnEnable()
     {
         IsDead = false;

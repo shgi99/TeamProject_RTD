@@ -2,18 +2,18 @@ using UnityEngine;
 
 public class BuildableObject : MonoBehaviour
 {
-    public bool isOccupied = false; // 타워가 설치되었는지 여부
+    public bool isOccupied = false;
     public Tower currentTower {  get; private set; }
     public void PlaceTower(GameObject towerPrefab, TowerData towerData)
     {
         if (isOccupied)
         {
-            Debug.Log("This object is already occupied");
+            Debug.Log("This object is occupied");
             return;
         }
 
         GameObject tower = Instantiate(towerPrefab, transform.position, Quaternion.identity);
-        tower.transform.SetParent(transform); // 타워를 이 오브젝트의 자식으로 설정
+        tower.transform.SetParent(transform);
 
         currentTower = tower.GetComponent<Tower>();
         if (currentTower != null)
@@ -21,7 +21,7 @@ public class BuildableObject : MonoBehaviour
             currentTower.InitTower(towerData);
         }
 
-        isOccupied = true; // 상태 업데이트
+        isOccupied = true;
         Debug.Log($"Tower '{towerData.Tower_Name}' placed successfully.");
     }
     public void RemoveTower()

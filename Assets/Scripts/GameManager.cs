@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
     public List<GameObject> enemies = new List<GameObject>();
     public bool isGameOver = false;
+    public UIManager uiManager;
     private int life = 10;
     private int currentRound = 1;
     private EnemySpawner enemySpawner;
@@ -17,6 +18,8 @@ public class GameManager : MonoBehaviour
     }
     void Start()
     {
+        uiManager.SetRoundText(currentRound);
+        uiManager.SetLifeText(life);
         StartCoroutine(SpawnNextRound());
     }
     public IEnumerator SpawnNextRound()
@@ -32,15 +35,20 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log($"{currentRound} Clear!!");
             currentRound++;
+            uiManager.SetRoundText(currentRound);
             StartCoroutine(SpawnNextRound());
         }
     }
     public void DamageToLife(int damage)
     {
         life -= damage;
+
         if(life <= 0)
         {
+            life = 0;
             isGameOver = true;
+            uiManager.SetGameOver();
         }
+        uiManager.SetLifeText(life);
     }
 }

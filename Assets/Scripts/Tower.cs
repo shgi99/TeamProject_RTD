@@ -20,7 +20,7 @@ public class Tower : MonoBehaviour
     private SphereCollider sphereCollider;
     private float rotationSpeed = 5f;
     private Animator animator;
-    public Transform visualParent;
+    public Transform resourceParent;
     // Start is called before the first frame update
     private void Awake()
     {
@@ -33,6 +33,11 @@ public class Tower : MonoBehaviour
     }
     private void Update()
     {
+        if(GameManager.instance.isGameOver)
+        {
+            return;
+        }
+
         CleanUpDestroyedEnemies();
         if (currentTarget != null)
         {
@@ -75,11 +80,8 @@ public class Tower : MonoBehaviour
             {
                 Attack(currentTarget);
             }
-            else
-            {
-                animator.SetBool("IsAttack", false);
-            }
             yield return new WaitForSeconds(attackInterval);
+            animator.SetBool("IsAttack", false);
         }
     }
     private void UpdateTarget()
@@ -152,11 +154,6 @@ public class Tower : MonoBehaviour
         }
 
     }
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, attackRange);
-    }
     private void HandleEnemyDeath(Transform enemy)
     {
         enemiesInRange.Remove(enemy);
@@ -174,24 +171,24 @@ public class Tower : MonoBehaviour
 
         sphereCollider.radius = attackRange;
 
-        ApplyVisual(towerData.Asset_Path);
+        ApplyResource(towerData.Asset_Path);
     }
 
-    private void ApplyVisual(string asset_Path)
+    private void ApplyResource(string asset_Path)
     {
-        GameObject visualPrefab = Resources.Load<GameObject>(asset_Path);
-        if (visualPrefab != null)
+        GameObject towerResource = Resources.Load<GameObject>(asset_Path);
+        if (towerResource != null)
         {
-            foreach (Transform child in visualParent)
+            foreach (Transform child in resourceParent)
             {
                 Destroy(child.gameObject);
             }
 
-            GameObject visualInstance = Instantiate(visualPrefab, visualParent);
-            visualInstance.transform.localPosition = visualPrefab.transform.localPosition;
-            visualInstance.transform.localRotation = Quaternion.identity;
+            GameObject towerInstance = Instantiate(towerResource, resourceParent);
+            towerInstance.transform.localPosition = towerResource.transform.localPosition;
+            towerInstance.transform.localRotation = Quaternion.identity;
 
-            animator = visualInstance.GetComponent<Animator>();
+            animator = towerInstance.GetComponent<Animator>();
         }
     }
     public void ClearBeforeDestroy()

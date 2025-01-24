@@ -75,7 +75,7 @@ MonoBehaviour:
   towerType: 0
   towerName: 
   currentTarget: {fileID: 0}
-  visualParent: {fileID: 6744958117887307336}
+  resourceParent: {fileID: 6744958117887307336}
 --- !u!1 &3463276468866083698
 GameObject:
   m_ObjectHideFlags: 0

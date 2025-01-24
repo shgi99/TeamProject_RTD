@@ -24,15 +24,19 @@ public class TowerBuildManager : MonoBehaviour
 
     private void Update()
     {
-        if ((!isBuildingMode && !isMergingMode) || Input.touchCount == 0 || GameManager.instance.isGameOver)
+        if(GameManager.instance.isGameOver)
         {
-            if(buildedTowers.Count > 0)
+            if (buildedTowers.Count > 0)
             {
-                foreach(var tower in buildedTowers)
+                foreach (var tower in buildedTowers)
                 {
                     tower.ClearBeforeDestroy();
                 }
             }
+            return;
+        }
+        if ((!isBuildingMode && !isMergingMode) || Input.touchCount == 0)
+        {
             return;
         }
 

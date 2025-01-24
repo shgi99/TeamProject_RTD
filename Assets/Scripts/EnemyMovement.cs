@@ -39,10 +39,11 @@ public class EnemyMovement : MonoBehaviour
             return;
 
         Vector3 targetPosition = movePoints[movePointIdx].position;
-        Vector3 direction = (targetPosition - transform.position).normalized;
 
+        Vector3 direction = (targetPosition - transform.position).normalized;
         Quaternion targetRotation = Quaternion.LookRotation(direction);
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+
+        rb.MoveRotation(Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime));
 
         rb.MovePosition(rb.position + direction * (speed * Time.deltaTime));
 

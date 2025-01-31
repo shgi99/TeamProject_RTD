@@ -19,3 +19,10 @@ public enum TowerType
     Machine,
     Monster
 }
+public enum ResourceType
+{
+    None = 0,
+    Terazin,
+    Mineral,
+    Gas
+}

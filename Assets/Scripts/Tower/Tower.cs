@@ -22,6 +22,7 @@ public class Tower : MonoBehaviour
     private float rotationSpeed = 5f;
     private Animator animator;
     public Transform resourceParent;
+    private GameManager gameManager;
     // Start is called before the first frame update
     private void Awake()
     {
@@ -34,7 +35,7 @@ public class Tower : MonoBehaviour
     }
     private void Update()
     {
-        if(GameManager.instance.isGameOver)
+        if(gameManager.isGameOver)
         {
             return;
         }
@@ -164,13 +165,13 @@ public class Tower : MonoBehaviour
     {
         if (towerData == null)
         {
-            Debug.LogError("InitTower() 오류: towerData가 null입니다!");
+            Debug.LogError("InitTower() 오류: towerData가 null입니다..");
             return;
         }
 
         Debug.Log($"InitTower 호출 - ID: {towerData.Tower_ID}, Name: {towerData.Tower_Name}");
 
-
+        gameManager = FindObjectOfType<GameManager>();
         towerId = towerData.Tower_ID;
         towerName = towerData.Tower_Name;
         towerRarity = (TowerRarity)towerData.Tower_Rarity;

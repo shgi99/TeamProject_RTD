@@ -31,18 +31,21 @@ public class UpgradeManager : MonoBehaviour
         int currentLevel = upgradeLevels[targetType];
 
         UpgradeData upgradeData = DataTableManager.UpgradeTable.Get(currentLevel + 1);
-        if (upgradeData == null)
+        GameManager gameManager = FindObjectOfType<GameManager>();
+        if (gameManager.gas >= upgradeData.Gas_Amount)
         {
-            Debug.LogError($"강화 레벨 {currentLevel + 1}에 대한 업그레이드 데이터를 찾을 수 없습니다.");
-            return;
+            gameManager.MinusResource(ResourceType.Gas, upgradeData.Gas_Amount);
+            upgradeLevels[targetType]++;
+            List<Tower> matchingTowers = towerBuildManager.GetTowersByType(targetType);
+
+            foreach (Tower tower in matchingTowers)
+            {
+                tower.ApplyUpgrade(upgradeLevels[targetType]);
+            }
         }
-
-        upgradeLevels[targetType]++;
-        List<Tower> matchingTowers = towerBuildManager.GetTowersByType(targetType);
-
-        foreach (Tower tower in matchingTowers)
+        else
         {
-            tower.ApplyUpgrade(upgradeLevels[targetType]);
+            Debug.Log("가스가 부족합니다.");
         }
     }
     public int GetUpgradeLevel(TowerType type)

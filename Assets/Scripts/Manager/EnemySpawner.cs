@@ -15,10 +15,12 @@ public class EnemySpawner : MonoBehaviour
         {
             GameObject enemy = Instantiate(enemyPrefab);
             EnemyMovement enemyMovement = enemy.GetComponent<EnemyMovement>();
-            enemyMovement.Init(startPoint, movePoints, waveData.DmgToLife);
+            EnemyData currentEnemyData = DataTableManager.EnemyTable.Get(waveData.Enemy_ID);
+            
+            enemyMovement.Init(startPoint, movePoints, currentEnemyData.DmgToLife);
             EnemyHealth enemyHealth = enemy.GetComponent<EnemyHealth>();
-            enemyHealth.Init(DataTableManager.EnemyTable.Get(waveData.Enemy_ID).Enemy_HP);
-            GameManager.instance.enemies.Add(enemy);
+            enemyHealth.Init(currentEnemyData);
+            GetComponent<GameManager>().enemies.Add(enemy);
             yield return new WaitForSeconds(spawnInterval);
         }
     }

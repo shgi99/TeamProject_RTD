@@ -11,12 +11,14 @@ public class EnemyMovement : MonoBehaviour
     public float rotationSpeed = 5.0f;    
     public float waypointThreshold = 0.1f;
     private int damage;
+    private GameManager gameManager;
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
     }
     public void Init(Transform startPoint, List<Transform> movePoints, int damage)
     {
+        gameManager = FindObjectOfType<GameManager>();
         this.startPoint = startPoint;
         this.movePoints = movePoints;
         this.damage = damage;
@@ -35,7 +37,7 @@ public class EnemyMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (movePoints.Count == 0 || movePointIdx >= movePoints.Count || GameManager.instance.isGameOver)
+        if (movePoints.Count == 0 || movePointIdx >= movePoints.Count || gameManager.isGameOver)
             return;
 
         Vector3 targetPosition = movePoints[movePointIdx].position;
@@ -67,8 +69,8 @@ public class EnemyMovement : MonoBehaviour
     {
         if(other.tag == "End")
         {
-            GameManager.instance.DamageToLife(damage);
-            GameManager.instance.CheckClear(gameObject);
+            gameManager.DamageToLife(damage);
+            gameManager.CheckClear(gameObject);
             Destroy(gameObject);
         }
     }

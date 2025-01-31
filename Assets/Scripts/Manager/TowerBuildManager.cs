@@ -9,7 +9,13 @@ public class TowerBuildManager : MonoBehaviour
 
     private bool isBuildingMode = false;
     private bool isMergingMode = false;
+    private int buildCost = 100;
     private List<Tower> buildedTowers = new List<Tower>();
+    private GameManager gameManager;
+    private void Awake()
+    {
+        gameManager = GetComponent<GameManager>();
+    }
     public void ToggleBuildingMode()
     {
         isBuildingMode = !isBuildingMode;
@@ -25,7 +31,7 @@ public class TowerBuildManager : MonoBehaviour
 
     private void Update()
     {
-        if(GameManager.instance.isGameOver)
+        if(gameManager.isGameOver)
         {
             if (buildedTowers.Count > 0)
             {
@@ -44,7 +50,6 @@ public class TowerBuildManager : MonoBehaviour
         Touch touch = Input.GetTouch(0);
         if (touch.phase == TouchPhase.Began)
         {
-            Debug.Log($"{touch.position}");
             Ray ray = Camera.main.ScreenPointToRay(touch.position);
             if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, buildableLayer))
             {
@@ -53,9 +58,17 @@ public class TowerBuildManager : MonoBehaviour
                 {
                     if (isBuildingMode)
                     {
-                        buildable.PlaceTower(towerPrefab, DataTableManager.TowerTable.GetRandomByRarity(1));
-                        Tower buildedTower = buildable.currentTower;
-                        buildedTowers.Add(buildedTower);
+                        if(gameManager.mineral >= buildCost)
+                        {
+                            buildable.PlaceTower(towerPrefab, DataTableManager.TowerTable.GetRandomByRarity(1));
+                            gameManager.MinusResource(ResourceType.Mineral, buildCost);
+                            Tower buildedTower = buildable.currentTower;
+                            buildedTowers.Add(buildedTower);
+                        }
+                        else
+                        {
+                            Debug.Log("미네랄이 부족합니다.");
+                        }
                     }
                     else if(isMergingMode)
                     {

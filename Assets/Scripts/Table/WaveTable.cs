@@ -6,7 +6,6 @@ public class WaveData
     public int Round { get; set; }
     public int Enemy_ID { get; set; }
     public int NumofEnemy { get; set; }
-    public int DmgToLife { get; set; }
 }
 
 public class WaveTable : DataTable

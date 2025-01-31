@@ -1,25 +1,28 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.Antlr3.Runtime.Tree;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager instance;
     public List<GameObject> enemies = new List<GameObject>();
     public bool isGameOver = false;
     public UIManager uiManager;
-    private int life = 10;
+    public int life { get; private set; } = 10;
+    public int mineral { get; private set; } = 300;
+    public int gas { get; private set; } = 0;
+    public int terazin { get; private set; } = 0;
     private int currentRound = 1;
     private EnemySpawner enemySpawner;
+    private int costMineralToGas = 100;
     private void Awake()
     {
-        instance = this;
         enemySpawner = GetComponent<EnemySpawner>();
     }
     void Start()
     {
         uiManager.SetRoundText(currentRound);
-        uiManager.SetLifeText(life);
+        uiManager.UpdateResources();
         StartCoroutine(SpawnNextRound());
     }
     public IEnumerator SpawnNextRound()
@@ -34,6 +37,7 @@ public class GameManager : MonoBehaviour
         if (enemies.Count <= 0)
         {
             Debug.Log($"{currentRound} Clear!!");
+            AddResource(ResourceType.Mineral, 300);
             currentRound++;
             uiManager.SetRoundText(currentRound);
             StartCoroutine(SpawnNextRound());
@@ -49,6 +53,46 @@ public class GameManager : MonoBehaviour
             isGameOver = true;
             uiManager.SetGameOver();
         }
-        uiManager.SetLifeText(life);
+        uiManager.UpdateResources();
+    }
+    public void AddResource(ResourceType resourceType, int amount)
+    {
+        switch(resourceType)
+        {
+            case ResourceType.Terazin:
+                terazin += amount;
+                break;
+            case ResourceType.Mineral:
+                mineral += amount;
+                break;
+            case ResourceType.Gas:
+                gas += amount;
+                break;
+        }
+        uiManager.UpdateResources();
+    }
+    public void MinusResource(ResourceType resourceType, int amount) 
+    {
+        switch (resourceType)
+        {
+            case ResourceType.Terazin:
+                terazin -= amount;
+                break;
+            case ResourceType.Mineral:
+                mineral -= amount;
+                break;
+            case ResourceType.Gas:
+                gas -= amount;
+                break;
+        }
+        uiManager.UpdateResources();
+    }
+
+    public void MineralToGas()
+    {
+        MinusResource(ResourceType.Mineral, costMineralToGas);
+        int addGas = Random.Range(20, 129);
+        addGas = addGas - addGas % 10;
+        AddResource(ResourceType.Gas, addGas);
     }
 }

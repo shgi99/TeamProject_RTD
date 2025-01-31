@@ -13,6 +13,8 @@ public class EnemyHealth : MonoBehaviour, IDamageable
     public Slider HpSlider;
     public Image HpFillImage;
     public Canvas hpCanvas;
+    public ResourceType resourceType;
+    public int resourceAmount;
     public event Action<Transform> OnDeath;
 
     private Animator animator;
@@ -34,10 +36,13 @@ public class EnemyHealth : MonoBehaviour, IDamageable
         hpCanvas.enabled = false;
         HpSliderUpdate();
     }
-    public void Init(float hpData)
+    public void Init(EnemyData enemyData)
     {
-        maxHp = hpData;
+        maxHp = enemyData.Enemy_HP;
         HP = maxHp;
+
+        resourceType = (ResourceType)enemyData.Drop;
+        resourceAmount = enemyData.Drop_Amount;
     }
     private void OnEnable()
     {
@@ -90,7 +95,10 @@ public class EnemyHealth : MonoBehaviour, IDamageable
         enemyMovement.enabled = false;
         animator.SetTrigger("Dead");
         OnDeath?.Invoke(transform);
-        GameManager.instance.CheckClear(gameObject);
+
+        GameManager gameManager = FindObjectOfType<GameManager>();
+        gameManager.CheckClear(gameObject);
+        gameManager.AddResource(resourceType, resourceAmount);
         StartCoroutine(StartSinking());
     }
     public IEnumerator StartSinking()

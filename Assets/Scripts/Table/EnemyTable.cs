@@ -4,6 +4,10 @@ public class EnemyData
 {
     public int Enemy_ID { get; set; }
     public float Enemy_HP { get; set; }
+    public int DmgToLife { get; set; }
+    public int Drop {  get; set; }
+    public int Drop_Amount { get; set; }
+    public string AssetPath { get; set; }
 }
 
 public class EnemyTable : DataTable

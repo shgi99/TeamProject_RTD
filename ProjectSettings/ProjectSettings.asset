@@ -163,6 +163,7 @@ PlayerSettings:
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
     Android: com.Kyungil.RandomTowerDefence
+    Standalone: com.Kyungil.RandomTowerDefence
   buildNumber:
     Standalone: 0
     VisionOS: 0

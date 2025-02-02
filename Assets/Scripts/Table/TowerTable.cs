@@ -11,12 +11,11 @@ public class TowerData
     public float AtkSpd { get; set; }
     public float AtkDmg { get; set; }
     public float Pct_1 { get; set; }
+    public string Pjt_1 { get; set; }
     public int SkillAtk_ID { get; set; }
     public float Pct_2 { get; set; }
     public int Sell_Price { get; set; }
     public string Asset_Path { get; set; }
-    public int Pjt {  get; set; }
-
 }
 public class TowerTable : DataTable
 {

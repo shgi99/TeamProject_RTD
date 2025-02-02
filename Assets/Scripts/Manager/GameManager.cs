@@ -9,9 +9,9 @@ public class GameManager : MonoBehaviour
     public bool isGameOver = false;
     public UIManager uiManager;
     public int life { get; private set; } = 10;
-    public int mineral { get; private set; } = 300;
-    public int gas { get; private set; } = 0;
-    public int terazin { get; private set; } = 0;
+    public int mineral { get; private set; } = 10000;
+    public int gas { get; private set; } = 10000;
+    public int terazin { get; private set; } = 99;
     private int currentRound = 1;
     private EnemySpawner enemySpawner;
     private int costMineralToGas = 100;

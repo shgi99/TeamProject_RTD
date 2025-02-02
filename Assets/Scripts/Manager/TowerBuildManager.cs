@@ -72,7 +72,10 @@ public class TowerBuildManager : MonoBehaviour
                     }
                     else if(isMergingMode)
                     {
-                        MergingTower(buildable);
+                        if(buildable.currentTower != null)
+                        {
+                            MergingTower(buildable);
+                        }
                     }
                 }
             }

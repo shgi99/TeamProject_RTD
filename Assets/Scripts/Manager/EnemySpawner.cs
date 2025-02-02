@@ -6,21 +6,60 @@ public class EnemySpawner : MonoBehaviour
 {
     public Transform startPoint;
     public List<Transform> movePoints;
-    public GameObject enemyPrefab;
+    public GameObject enemyBasePrefab;
     public float spawnInterval = 0.3f;
 
     public IEnumerator SpawnEnemies(WaveData waveData)
     {
         for (int i = 0; i < waveData.NumofEnemy; i++)
         {
-            GameObject enemy = Instantiate(enemyPrefab);
-            EnemyMovement enemyMovement = enemy.GetComponent<EnemyMovement>();
             EnemyData currentEnemyData = DataTableManager.EnemyTable.Get(waveData.Enemy_ID);
-            
-            enemyMovement.Init(startPoint, movePoints, currentEnemyData.DmgToLife);
-            EnemyHealth enemyHealth = enemy.GetComponent<EnemyHealth>();
-            enemyHealth.Init(currentEnemyData);
-            GetComponent<GameManager>().enemies.Add(enemy);
+
+            GameObject enemyInstance = Instantiate(enemyBasePrefab, startPoint.position, Quaternion.identity);
+
+            Transform visualParent = enemyInstance.transform.Find("VisualParent");
+            if (visualParent == null)
+            {
+                visualParent = new GameObject("VisualParent").transform;
+                visualParent.SetParent(enemyInstance.transform);
+                visualParent.localPosition = Vector3.zero;
+            }
+
+            foreach (Transform child in visualParent)
+            {
+                Destroy(child.gameObject);
+            }
+
+            string assetPath = currentEnemyData.AssetPath;
+            GameObject visualPrefab = Resources.Load<GameObject>(assetPath);
+            if (visualPrefab == null)
+            {
+                Debug.LogError($"Enemy VisualPrefab not found{assetPath}");
+            }
+            else
+            {
+                GameObject visualInstance = Instantiate(visualPrefab, visualParent);
+                visualInstance.transform.localRotation = Quaternion.identity;
+            }
+
+            EnemyMovement enemyMovement = enemyInstance.GetComponent<EnemyMovement>();
+            if (enemyMovement != null)
+            {
+                enemyMovement.Init(startPoint, movePoints, currentEnemyData.DmgToLife);
+            }
+
+            EnemyHealth enemyHealth = enemyInstance.GetComponent<EnemyHealth>();
+            if (enemyHealth != null)
+            {
+                enemyHealth.Init(currentEnemyData);
+            }
+
+            GameManager gameManager = GetComponent<GameManager>();
+            if (gameManager != null)
+            {
+                gameManager.enemies.Add(enemyInstance);
+            }
+
             yield return new WaitForSeconds(spawnInterval);
         }
     }

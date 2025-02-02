@@ -14,6 +14,7 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI lifeText;
 
     public GameObject gameOverPanel;
+    public GameObject useTerazinPanel;
     public GameObject upgradePanel;
 
     public void SetRoundText(int currentRound)
@@ -28,7 +29,10 @@ public class UIManager : MonoBehaviour
     {
         upgradePanel.SetActive(true);
     }
-
+    public void ShowUsingTerazinPanel()
+    {
+        useTerazinPanel.SetActive(true);
+    }
     internal void UpdateResources()
     {
         GameManager gameManager = FindObjectOfType<GameManager>();

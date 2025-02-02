@@ -4,6 +4,7 @@ public static class DataTableIds
     public static readonly string Wave = "WaveTable";
     public static readonly string Tower = "TowerTable";
     public static readonly string Upgrade = "UpgradeTable";
+    public static readonly string Skill = "SkillTable";
 }
 public enum TowerRarity
 {

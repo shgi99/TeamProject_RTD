@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -73,5 +74,13 @@ public class EnemyMovement : MonoBehaviour
             gameManager.CheckClear(gameObject);
             Destroy(gameObject);
         }
+    }
+
+    public IEnumerator OnSkillEffect(float slowPct, float duration)
+    {
+        float baseSpeed = speed;
+        speed *= (slowPct / 100f);
+        yield return new WaitForSeconds(duration);
+        speed = baseSpeed;
     }
 }

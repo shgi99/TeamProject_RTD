@@ -86,7 +86,7 @@ public class TowerBuildManager : MonoBehaviour
         Tower selectedTower = buildableObject.currentTower;
 
         List<Tower> matchingTowers = GetMatchingTowers(selectedTower);
-
+        matchingTowers.RemoveAll(tower => tower == null || !tower.gameObject.activeInHierarchy);
         if (GetMatchingTowers(selectedTower).Count < 2)
         {
             Debug.Log("No Same Tower.");
@@ -132,7 +132,12 @@ public class TowerBuildManager : MonoBehaviour
 
         foreach(var tower in matchingTowers)
         {
-            if(tower == selectedTower)
+            if (tower == null || !tower.gameObject.activeInHierarchy)
+            {
+                continue;
+            }
+
+            if (tower == selectedTower)
             {
                 continue;
             }

@@ -1,9 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SocialPlatforms;
 using static UnityEngine.GraphicsBuffer;
+using Random = UnityEngine.Random;
 
 public class Tower : MonoBehaviour
 {
@@ -14,7 +16,11 @@ public class Tower : MonoBehaviour
     public float currentDamage;
     public TowerRarity towerRarity;
     public TowerType towerType;
+    public SkillData skillData;
     public string towerName;
+
+    public float normalAttackChance;
+    public float skillAttackChance;
 
     public Transform currentTarget;
     private List<Transform> enemiesInRange = new List<Transform>();
@@ -23,6 +29,7 @@ public class Tower : MonoBehaviour
     private Animator animator;
     public Transform resourceParent;
     private GameManager gameManager;
+    private bool isAttacking = false;
     // Start is called before the first frame update
     private void Awake()
     {
@@ -31,7 +38,9 @@ public class Tower : MonoBehaviour
     }
     void Start()
     {
+        gameManager = FindObjectOfType<GameManager>();
         StartCoroutine(AttackCoroutine());
+        SetAnimationSpeed();
     }
     private void Update()
     {
@@ -78,12 +87,11 @@ public class Tower : MonoBehaviour
     {
         while(true)
         {
-            if(currentTarget != null)
+            if(currentTarget != null && !isAttacking)
             {
-                Attack(currentTarget);
+                StartCoroutine(PerformAttack());
             }
-            yield return new WaitForSeconds(attackInterval);
-            animator.SetBool("IsAttack", false);
+            yield return null;
         }
     }
     private void UpdateTarget()
@@ -92,7 +100,6 @@ public class Tower : MonoBehaviour
         if (enemiesInRange.Count == 0)
         {
             currentTarget = null;
-            animator.SetBool("IsAttack", false);
             return;
         }
 
@@ -115,11 +122,33 @@ public class Tower : MonoBehaviour
 
         currentTarget = closestEnemy;
     }
+    private IEnumerator PerformAttack()
+    {
+        isAttacking = true;
+        animator.SetTrigger("Attack");
+
+        yield return new WaitForSeconds(attackInterval / 2);
+
+        if (currentTarget != null)
+        {
+            float randomAttack = Random.Range(0f, 100f);
+            if (randomAttack <= skillAttackChance && skillData != null)
+            {
+                UseSkill();
+            }
+            else
+            {
+                Attack(currentTarget);
+            }
+        }
+
+        yield return new WaitForSeconds(attackInterval / 2);
+        isAttacking = false;
+    }
     private void Attack(Transform target)
     {
         if (target == null)
         {
-            animator.SetBool("IsAttack", false);
             currentTarget = null;
             return;
         }
@@ -127,13 +156,47 @@ public class Tower : MonoBehaviour
         var attackTarget = target.GetComponent<EnemyHealth>();
         if (attackTarget != null && !attackTarget.IsDead)
         {
-            animator.SetBool("IsAttack", true);
             attackTarget.OnDamage(currentDamage);
         }
         else
         {
-            animator.SetBool("IsAttack", false);
             UpdateTarget();
+        }
+    }
+    private void UseSkill()
+    {
+
+        if(skillData.Area == 0)
+        {
+            if (currentTarget != null)
+            {
+                ApplySkillEffect(currentTarget);
+            }
+        }
+        else
+        {
+            foreach (var enemy in enemiesInRange.ToList())
+            {
+                if (Vector3.Distance(transform.position, enemy.position) <= skillData.Area)
+                {
+                    ApplySkillEffect(enemy);
+                }
+            }
+        }
+    }
+    private void ApplySkillEffect(Transform target)
+    {
+        var attackTargetHealth = target.GetComponent<EnemyHealth>();
+        if (attackTargetHealth != null && !attackTargetHealth.IsDead)
+        {
+            Debug.Log($"Using skill: {skillData.SkillAtk_ID}, {currentDamage * skillData.SkillDmgMul} damaged!");
+            attackTargetHealth.OnDamage(currentDamage * skillData.SkillDmgMul);
+
+            if (skillData.Enemy_Speed < 100)
+            {
+                var attackTargetMovement = target.GetComponent<EnemyMovement>();
+                attackTargetMovement.StartCoroutine(attackTargetMovement.OnSkillEffect(skillData.Enemy_Speed, skillData.Duration));
+            }
         }
     }
     public void RotateToTarget(Transform target)
@@ -179,13 +242,19 @@ public class Tower : MonoBehaviour
         attackRange = towerData.AtkRng;
         attackInterval = towerData.AtkSpd;
         damage = towerData.AtkDmg;
+        normalAttackChance = towerData.Pct_1;
+        skillAttackChance = towerData.Pct_2;
+
+        if (towerData.SkillAtk_ID > 0)
+        {
+            skillData = DataTableManager.SkillTable.Get(towerData.SkillAtk_ID);
+        }
 
         UpgradeManager upgradeManager = FindObjectOfType<UpgradeManager>();
 
         ApplyUpgrade(upgradeManager.GetUpgradeLevel(towerType));
 
         sphereCollider.radius = attackRange;
-
         ApplyResource(towerData.Asset_Path);
     }
 
@@ -204,6 +273,7 @@ public class Tower : MonoBehaviour
             towerInstance.transform.localRotation = Quaternion.identity;
 
             animator = towerInstance.GetComponent<Animator>();
+            SetAnimationSpeed();
         }
     }
     public void ClearBeforeDestroy()
@@ -239,5 +309,36 @@ public class Tower : MonoBehaviour
                 currentDamage = damage + damage * (upgradeData.Change_Stat / 100);
             }
         }
+    }
+    private void SetAnimationSpeed()
+    {
+        if (animator == null) 
+        {
+            return;
+        }
+
+        AnimationClip attackClip = GetAttackClip();
+        if (attackClip == null)
+        {
+            return;
+        }
+
+        float baseAnimationDuration = attackClip.length;
+        float newAnimationSpeed = baseAnimationDuration / attackInterval;
+
+        animator.SetFloat("AttackSpeed", newAnimationSpeed);
+    }
+
+    private AnimationClip GetAttackClip()
+    {
+        RuntimeAnimatorController ac = animator.runtimeAnimatorController;
+        foreach (AnimationClip clip in ac.animationClips)
+        {
+            if (clip.name.Contains("Attack"))
+            {
+                return clip;
+            }
+        }
+        return null;
     }
 }

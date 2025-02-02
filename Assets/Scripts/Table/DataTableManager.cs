@@ -21,6 +21,9 @@ public static class DataTableManager
         var upgradeTable = new UpgradeTable();
         upgradeTable.Load(DataTableIds.Upgrade);
         tables.Add(DataTableIds.Upgrade, upgradeTable);
+        var skillTable = new SkillTable();
+        skillTable.Load(DataTableIds.Skill);
+        tables.Add(DataTableIds.Skill, skillTable);
     }
     public static EnemyTable EnemyTable
     {
@@ -49,6 +52,13 @@ public static class DataTableManager
         get
         {
             return Get<UpgradeTable>(DataTableIds.Upgrade);
+        }
+    }
+    public static SkillTable SkillTable
+    {
+        get
+        {
+            return Get<SkillTable>(DataTableIds.Skill);
         }
     }
     public static T Get<T>(string id) where T : DataTable

@@ -63,4 +63,52 @@ public class EnemySpawner : MonoBehaviour
             yield return new WaitForSeconds(spawnInterval);
         }
     }
+    public void SpawnMissionBoss(int stage)
+    {
+        EnemyData currentEnemyData = DataTableManager.EnemyTable.Get(150 + stage);
+        GameObject enemyInstance = Instantiate(enemyBasePrefab, startPoint.position, Quaternion.identity);
+
+        Transform visualParent = enemyInstance.transform.Find("VisualParent");
+        if (visualParent == null)
+        {
+            visualParent = new GameObject("VisualParent").transform;
+            visualParent.SetParent(enemyInstance.transform);
+            visualParent.localPosition = Vector3.zero;
+        }
+
+        foreach (Transform child in visualParent)
+        {
+            Destroy(child.gameObject);
+        }
+
+        string assetPath = currentEnemyData.AssetPath;
+        GameObject visualPrefab = Resources.Load<GameObject>(assetPath);
+        if (visualPrefab == null)
+        {
+            Debug.LogError($"Enemy VisualPrefab not found{assetPath}");
+        }
+        else
+        {
+            GameObject visualInstance = Instantiate(visualPrefab, visualParent);
+            visualInstance.transform.localRotation = Quaternion.identity;
+        }
+
+        EnemyMovement enemyMovement = enemyInstance.GetComponent<EnemyMovement>();
+        if (enemyMovement != null)
+        {
+            enemyMovement.Init(startPoint, movePoints, currentEnemyData.DmgToLife);
+        }
+
+        EnemyHealth enemyHealth = enemyInstance.GetComponent<EnemyHealth>();
+        if (enemyHealth != null)
+        {
+            enemyHealth.Init(currentEnemyData);
+        }
+
+        GameManager gameManager = GetComponent<GameManager>();
+        if (gameManager != null)
+        {
+            gameManager.enemies.Add(enemyInstance);
+        }
+    }
 }

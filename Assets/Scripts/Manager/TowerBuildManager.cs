@@ -85,10 +85,15 @@ public class TowerBuildManager : MonoBehaviour
     public void MergingTower(BuildableObject buildableObject)
     {
         Tower selectedTower = buildableObject.currentTower;
+        TowerRarity currentRarity = selectedTower.towerRarity;
+        if (currentRarity == TowerRarity.God)
+        {
+            return;
+        }
 
         List<Tower> matchingTowers = GetMatchingTowers(selectedTower);
         matchingTowers.RemoveAll(tower => tower == null || !tower.gameObject.activeInHierarchy);
-        if (GetMatchingTowers(selectedTower).Count < 2)
+        if (matchingTowers.Count < 2)
         {
             Debug.Log("No Same Tower.");
             return;
@@ -99,8 +104,6 @@ public class TowerBuildManager : MonoBehaviour
         {
             return;
         }
-
-        TowerRarity currentRarity = selectedTower.towerRarity;
 
         RemoveTower(selectedTower);
         RemoveTower(closestTower);

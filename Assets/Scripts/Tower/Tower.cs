@@ -210,6 +210,10 @@ public class Tower : MonoBehaviour
     {
         enemiesInRange.RemoveAll(enemy =>
         {
+            if (enemy == null)
+            {
+                return true;
+            }
             var enemyHealth = enemy.GetComponent<EnemyHealth>();
             return enemyHealth == null || enemyHealth.IsDead;
         });

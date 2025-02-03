@@ -32,9 +32,8 @@ public class UpgradeManager : MonoBehaviour
 
         UpgradeData upgradeData = DataTableManager.UpgradeTable.Get(currentLevel + 1);
         GameManager gameManager = FindObjectOfType<GameManager>();
-        if (gameManager.gas >= upgradeData.Gas_Amount)
+        if (gameManager.MinusResource(ResourceType.Gas, upgradeData.Gas_Amount))
         {
-            gameManager.MinusResource(ResourceType.Gas, upgradeData.Gas_Amount);
             upgradeLevels[targetType]++;
             List<Tower> matchingTowers = towerBuildManager.GetTowersByType(targetType);
 

@@ -24,13 +24,17 @@ public class UIUsingTerazin : MonoBehaviour
         quitButton.onClick.AddListener(() => usingTerazinPanel.SetActive(false));
         getMineralButton.onClick.AddListener(() =>
         {
-            gameManager.MinusResource(ResourceType.Terazin, 1);
-            gameManager.AddResource(ResourceType.Mineral, 400);
+            if(gameManager.MinusResource(ResourceType.Terazin, 1))
+            {
+                gameManager.AddResource(ResourceType.Mineral, 400);
+            }
         });
         getGasButton.onClick.AddListener(() =>
         {
-            gameManager.MinusResource(ResourceType.Terazin, 1);
-            gameManager.AddResource(ResourceType.Gas, 300);
+            if(gameManager.MinusResource(ResourceType.Terazin, 1))
+            {
+                gameManager.AddResource(ResourceType.Gas, 300);
+            }
         });
 
     }

@@ -58,12 +58,12 @@ public class TowerBuildManager : MonoBehaviour
                 {
                     if (isBuildingMode)
                     {
-                        if(gameManager.mineral >= buildCost)
+                        if(gameManager.MinusResource(ResourceType.Mineral, buildCost))
                         {
                             buildable.PlaceTower(towerPrefab, DataTableManager.TowerTable.GetRandomByRarity(1));
-                            gameManager.MinusResource(ResourceType.Mineral, buildCost);
                             Tower buildedTower = buildable.currentTower;
                             buildedTowers.Add(buildedTower);
+                            ToggleBuildingMode();
                         }
                         else
                         {
@@ -75,6 +75,7 @@ public class TowerBuildManager : MonoBehaviour
                         if(buildable.currentTower != null)
                         {
                             MergingTower(buildable);
+                            ToggleMergingMode();
                         }
                     }
                 }

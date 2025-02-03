@@ -58,7 +58,7 @@ public class TowerBuildManager : MonoBehaviour
                 {
                     if (isBuildingMode)
                     {
-                        if(gameManager.MinusResource(ResourceType.Mineral, buildCost))
+                        if(!buildable.isOccupied && gameManager.MinusResource(ResourceType.Mineral, buildCost))
                         {
                             buildable.PlaceTower(towerPrefab, DataTableManager.TowerTable.GetRandomByRarity(1));
                             Tower buildedTower = buildable.currentTower;

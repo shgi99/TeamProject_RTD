@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
     public bool isGameOver = false;
     public UIManager uiManager;
     public int life { get; private set; } = 10;
-    public int mineral { get; private set; } = 600;
+    public int mineral { get; private set; } = 60000;
     public int gas { get; private set; } = 0;
     public int terazin { get; private set; } = 0;
     private int currentRound = 1;
@@ -23,6 +23,7 @@ public class GameManager : MonoBehaviour
     }
     void Start()
     {
+        Application.targetFrameRate = 60;
         uiManager.SetRoundText(currentRound);
         uiManager.UpdateResources();
         StartCoroutine(SpawnNextRound());

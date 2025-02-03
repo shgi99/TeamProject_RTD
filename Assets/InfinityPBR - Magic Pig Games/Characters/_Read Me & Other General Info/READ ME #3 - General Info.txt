@@ -1,0 +1,37 @@
+**********************************************************************************
+For discussion & support, join the Discord: https://discord.com/invite/cmZY2tH
+Scripting Documentation: https://infinitypbr.gitbook.io/infinity-pbr
+Be sure to sign up for the mailing list at https://infinitypbr.com
+**********************************************************************************
+
+** Thank you for supporting my work **
+
+** Did you install Post Processing Stack? Cameras in the demo scenes have a Post Process Layer attached, which may be missing if you do not have Post Processing in your project. **
+
+YOUTUBE:
+Lots of demo scenes, tutorials, and more.
+
+https://www.youtube.com/channel/UCzATh2-NC_xZSGnhZF-cFaw
+
+
+REVIEWS:
+Please take a moment to write an honest, positive review. It's very helpful to other users, letting them know they aren't taking a risk with their money. If for any reason you do not feel the package deserves a 5-star rating, please contact me so I can try to fix the issue.
+
+
+LODS:
+All of my work is game-ready, including mobile devices. LODS are not provided, however, as they really should be created on a per-project basis depending entirely on the requirements of each project.  Please use products like Mantis Online (free) or Mantis Pro (Asset Store) to create LODs for your products. I like Mantis as it retains blend shapes -- not all LOD creation tools do that.
+
+Free: http://www.mesh-online.net
+Paid: https://assetstore.unity.com/packages/tools/modeling/mantis-lod-editor-professional-edition-37086
+
+
+QUICK START:
+Drag the "Demo" prefab (Assets/InfinityPBR/[Character]/_Prefabs/) into your scene. Demo characters are used in my demo scenes, and, when applicable, will have particles, sounds, and more attached to them. Use the other prefab if you'd like to manage all of that yourself.
+
+
+BLEND SHAPES:
+We achieve mesh morphing, the ability to change the physical mesh of the characters/objects, through non-animated blend shapes. The "DEMO" prefabs will have a "Blend Shape Manager" script attached, which makes it easier to manage the blend shape values. You can also find the raw values in the SkinnedMeshRenderer of each object that has blend shapes.  It is highly recommended you use the manager script provided, or write your own.
+
+Not all objects/characters will have blend shapes. For those that do, often there will be a "Blend Shapes Preset" folder in the character folder. The "Ranges" .txt file has suggested range limitations for the shape. Check out my YouTube channel for instructions on how to use this file. (In most cases, the values will already be active on the character/object)
+
+If there is no folder for presets, it is likely because the min/max values will work for this character.

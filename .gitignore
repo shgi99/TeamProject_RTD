@@ -71,3 +71,7 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
+ProjectSettings/QualitySettings_BACKUP_1705.asset
+ProjectSettings/QualitySettings_BASE_1705.asset
+ProjectSettings/QualitySettings_LOCAL_1705.asset
+ProjectSettings/QualitySettings_REMOTE_1705.asset

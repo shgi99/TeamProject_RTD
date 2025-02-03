@@ -40,7 +40,7 @@ public class GameManager : MonoBehaviour
     }
     public IEnumerator SpawnNextRound()
     {
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(10f);
         var currentRoundData = DataTableManager.WaveTable.Get(200 + currentRound);
         StartCoroutine(enemySpawner.SpawnEnemies(currentRoundData));
     }

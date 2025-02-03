@@ -1,17 +1,24 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TowerBuildManager : MonoBehaviour
 {
     public GameObject towerPrefab;
     public LayerMask buildableLayer;
+    public GameObject buildModeOffButton;
 
     private bool isBuildingMode = false;
     private bool isMergingMode = false;
     private int buildCost = 100;
     private List<Tower> buildedTowers = new List<Tower>();
+    private List<BuildableObject> buildableTiles;
     private GameManager gameManager;
+    private void Start()
+    {
+        buildableTiles = new List<BuildableObject>(FindObjectsOfType<BuildableObject>());
+    }
     private void Awake()
     {
         gameManager = GetComponent<GameManager>();
@@ -19,8 +26,20 @@ public class TowerBuildManager : MonoBehaviour
     public void ToggleBuildingMode()
     {
         isBuildingMode = !isBuildingMode;
+        buildModeOffButton.SetActive(isBuildingMode);
         isMergingMode = false;
         Debug.Log($"Building mode: {(isBuildingMode ? "ON" : "OFF")}");
+
+        foreach (var tile in buildableTiles)
+        {
+            if (!tile.isOccupied)
+            {
+                if (isBuildingMode)
+                    tile.ShowArrow();
+                else
+                    tile.HideArrow();
+            }
+        }
     }
     public void ToggleMergingMode()
     {
@@ -63,7 +82,6 @@ public class TowerBuildManager : MonoBehaviour
                             buildable.PlaceTower(towerPrefab, DataTableManager.TowerTable.GetRandomByRarity(1));
                             Tower buildedTower = buildable.currentTower;
                             buildedTowers.Add(buildedTower);
-                            ToggleBuildingMode();
                         }
                         else
                         {

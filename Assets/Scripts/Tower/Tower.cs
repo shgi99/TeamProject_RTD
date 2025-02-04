@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SocialPlatforms;
@@ -23,6 +24,8 @@ public class Tower : MonoBehaviour
     public ParticleSystem rarityParticle;
     public float normalAttackChance;
     public float skillAttackChance;
+    public string projectilePath;
+    public Transform firePoint;
 
     public Transform currentTarget;
     private List<Transform> enemiesInRange = new List<Transform>();
@@ -159,6 +162,10 @@ public class Tower : MonoBehaviour
         var attackTarget = target.GetComponent<EnemyHealth>();
         if (attackTarget != null && !attackTarget.IsDead)
         {
+            if(projectilePath != null)
+            {
+                Fire(false);
+            }
             attackTarget.OnDamage(currentDamage);
         }
         else
@@ -192,6 +199,7 @@ public class Tower : MonoBehaviour
         var attackTargetHealth = target.GetComponent<EnemyHealth>();
         if (attackTargetHealth != null && !attackTargetHealth.IsDead)
         {
+            Fire(true);
             Debug.Log($"Using skill: {skillData.SkillAtk_ID}, {currentDamage * skillData.SkillDmgMul} damaged!");
             attackTargetHealth.OnDamage(currentDamage * skillData.SkillDmgMul);
 
@@ -252,6 +260,7 @@ public class Tower : MonoBehaviour
         sellPrice = towerData.Sell_Price;
         normalAttackChance = towerData.Pct_1;
         skillAttackChance = towerData.Pct_2;
+        projectilePath = towerData.Pjt_1;
 
         if (towerData.SkillAtk_ID > 0)
         {
@@ -290,6 +299,8 @@ public class Tower : MonoBehaviour
             GameObject towerInstance = Instantiate(towerResource, resourceParent);
             towerInstance.transform.localPosition = towerResource.transform.localPosition;
             towerInstance.transform.localRotation = Quaternion.identity;
+
+            firePoint = towerInstance.transform;
 
             animator = towerInstance.GetComponent<Animator>();
             SetAnimationSpeed();
@@ -359,5 +370,16 @@ public class Tower : MonoBehaviour
             }
         }
         return null;
+    }
+    public void Fire(bool isSkillAttack)
+    {
+        GameObject projectilePrefab = isSkillAttack? Resources.Load<GameObject>(skillData.Pjt) : Resources.Load<GameObject>(projectilePath);
+        GameObject projectileInstance = Instantiate(projectilePrefab, firePoint.position, Quaternion.identity);
+        ProjectileMoveScript projectile = projectileInstance.GetComponent<ProjectileMoveScript>();
+
+        if (projectile != null)
+        {
+            projectile.SetTarget(currentTarget.gameObject);
+        }
     }
 }

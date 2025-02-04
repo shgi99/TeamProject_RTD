@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class TowerBuildManager : MonoBehaviour
@@ -9,43 +10,33 @@ public class TowerBuildManager : MonoBehaviour
     public LayerMask buildableLayer;
     public GameObject buildModeOffButton;
 
-    private bool isBuildingMode = false;
-    private bool isMergingMode = false;
+    public bool isBuildingMode = false;
     private int buildCost = 100;
     private List<Tower> buildedTowers = new List<Tower>();
-    private List<BuildableObject> buildableTiles;
+
     private GameManager gameManager;
+    private TowerUIManager towerUIManager;
     private void Start()
     {
-        buildableTiles = new List<BuildableObject>(FindObjectsOfType<BuildableObject>());
     }
     private void Awake()
     {
         gameManager = GetComponent<GameManager>();
+        towerUIManager = FindObjectOfType<TowerUIManager>();
     }
     public void ToggleBuildingMode()
     {
         isBuildingMode = !isBuildingMode;
         buildModeOffButton.SetActive(isBuildingMode);
-        isMergingMode = false;
-        Debug.Log($"Building mode: {(isBuildingMode ? "ON" : "OFF")}");
-
-        foreach (var tile in buildableTiles)
+        if(isBuildingMode)
         {
-            if (!tile.isOccupied)
-            {
-                if (isBuildingMode)
-                    tile.ShowArrow();
-                else
-                    tile.HideArrow();
-            }
+            towerUIManager.ShowBuildableTiles();
         }
-    }
-    public void ToggleMergingMode()
-    {
-        isMergingMode = !isMergingMode;
-        isBuildingMode = false;
-        Debug.Log($"Merging mode: {(isMergingMode ? "ON" : "OFF")}");
+        else
+        {
+            towerUIManager.HideBuildableTiles();
+        }
+        Debug.Log($"Building mode: {(isBuildingMode ? "ON" : "OFF")}");
     }
 
     private void Update()
@@ -61,7 +52,7 @@ public class TowerBuildManager : MonoBehaviour
             }
             return;
         }
-        if ((!isBuildingMode && !isMergingMode) || Input.touchCount == 0)
+        if (Input.touchCount == 0)
         {
             return;
         }
@@ -69,6 +60,10 @@ public class TowerBuildManager : MonoBehaviour
         Touch touch = Input.GetTouch(0);
         if (touch.phase == TouchPhase.Began)
         {
+            if(IsPointerOverUIObject())
+            {
+                return;
+            }
             Ray ray = Camera.main.ScreenPointToRay(touch.position);
             if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, buildableLayer))
             {
@@ -88,12 +83,15 @@ public class TowerBuildManager : MonoBehaviour
                             Debug.Log("미네랄이 부족합니다.");
                         }
                     }
-                    else if(isMergingMode)
+                    else
                     {
-                        if(buildable.currentTower != null)
+                        if(buildable.isOccupied)
                         {
-                            MergingTower(buildable);
-                            ToggleMergingMode();
+                            towerUIManager.DisplayTowerUI(buildable);
+                        }
+                        else
+                        {
+                            towerUIManager.HideUI();
                         }
                     }
                 }
@@ -190,5 +188,18 @@ public class TowerBuildManager : MonoBehaviour
     public List<Tower> GetTowersByType(TowerType type)
     {
         return buildedTowers.FindAll(tower => tower.towerType == type);
+    }
+
+    internal void SellTower(Tower selectedTower)
+    {
+        throw new NotImplementedException();
+    }
+    private bool IsPointerOverUIObject()
+    {
+        PointerEventData eventData = new PointerEventData(EventSystem.current);
+        eventData.position = Input.GetTouch(0).position;
+        List<RaycastResult> results = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(eventData, results);
+        return results.Count > 0;
     }
 }

@@ -69,4 +69,22 @@ public class TowerTable : DataTable
     {
         return GetRandomByRarity(currentRarity + 1);
     }
+
+    public string GetTowerTypeString(TowerType towerType)
+    {
+        string towerTypeString = "";
+        switch (towerType)
+        {
+            case TowerType.Human:
+                towerTypeString = "인간";
+                break;
+            case TowerType.Machine:
+                towerTypeString = "기계";
+                break;
+            case TowerType.Monster:
+                towerTypeString = "괴물";
+                break;
+        }
+        return towerTypeString;
+    }
 }

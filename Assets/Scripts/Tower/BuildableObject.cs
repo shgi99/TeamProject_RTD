@@ -104,4 +104,5 @@ public class BuildableObject : MonoBehaviour
         }
         HideUI();
     }
+    
 }

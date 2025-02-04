@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SocialPlatforms;
+using UnityEngine.UIElements;
 using static UnityEngine.GraphicsBuffer;
 using Random = UnityEngine.Random;
 
@@ -18,7 +19,8 @@ public class Tower : MonoBehaviour
     public TowerType towerType;
     public SkillData skillData;
     public string towerName;
-
+    public int sellPrice;
+    public ParticleSystem rarityParticle;
     public float normalAttackChance;
     public float skillAttackChance;
 
@@ -38,6 +40,7 @@ public class Tower : MonoBehaviour
     }
     void Start()
     {
+        
         gameManager = FindObjectOfType<GameManager>();
         StartCoroutine(AttackCoroutine());
         SetAnimationSpeed();
@@ -246,6 +249,7 @@ public class Tower : MonoBehaviour
         attackRange = towerData.AtkRng;
         attackInterval = towerData.AtkSpd;
         damage = towerData.AtkDmg;
+        sellPrice = towerData.Sell_Price;
         normalAttackChance = towerData.Pct_1;
         skillAttackChance = towerData.Pct_2;
 
@@ -260,6 +264,14 @@ public class Tower : MonoBehaviour
 
         sphereCollider.radius = attackRange;
         ApplyResource(towerData.Asset_Path);
+
+        GameObject particleInstance = Instantiate(rarityParticle.gameObject, resourceParent);
+        particleInstance.transform.localPosition = rarityParticle.gameObject.transform.localPosition;
+
+        ParticleSystem.MainModule rarityParticleMain = particleInstance.GetComponent<ParticleSystem>().main;
+        rarityParticleMain.startColor = DataTableManager.TowerTable.GetRarityColor(towerRarity);
+
+        particleInstance.GetComponent<ParticleSystem>().Play();
     }
 
     private void ApplyResource(string asset_Path)
@@ -269,7 +281,10 @@ public class Tower : MonoBehaviour
         {
             foreach (Transform child in resourceParent)
             {
-                Destroy(child.gameObject);
+                if(child != rarityParticle.transform)
+                {
+                    Destroy(child.gameObject);
+                }
             }
 
             GameObject towerInstance = Instantiate(towerResource, resourceParent);

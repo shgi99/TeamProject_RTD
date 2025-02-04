@@ -374,7 +374,7 @@ public class Tower : MonoBehaviour
     public void Fire(bool isSkillAttack)
     {
         GameObject projectilePrefab = isSkillAttack? Resources.Load<GameObject>(skillData.Pjt) : Resources.Load<GameObject>(projectilePath);
-        GameObject projectileInstance = Instantiate(projectilePrefab, firePoint.position, Quaternion.identity);
+        GameObject projectileInstance = Instantiate(projectilePrefab, firePoint.position + Vector3.up * 2f, Quaternion.identity);
         ProjectileMoveScript projectile = projectileInstance.GetComponent<ProjectileMoveScript>();
 
         if (projectile != null)

@@ -10,9 +10,12 @@ public class EnemyHealth : MonoBehaviour, IDamageable
     public float maxHp;
     public float HP { get; private set; }
     public bool IsDead { get; protected set; }
+    
     public Slider HpSlider;
     public Image HpFillImage;
     public Canvas hpCanvas;
+    public UIBossHpBar bossHpBar;
+    public EnemyType enemyType;
     public ResourceType resourceType;
     public int resourceAmount;
     public event Action<Transform> OnDeath;
@@ -36,13 +39,19 @@ public class EnemyHealth : MonoBehaviour, IDamageable
         hpCanvas.enabled = false;
         HpSliderUpdate();
     }
-    public void Init(EnemyData enemyData)
+    public void Init(EnemyData enemyData, EnemyType type)
     {
         maxHp = enemyData.Enemy_HP;
         HP = maxHp;
 
         resourceType = (ResourceType)enemyData.Drop;
         resourceAmount = enemyData.Drop_Amount;
+        enemyType = type;
+        bossHpBar = FindObjectOfType<UIBossHpBar>();
+        if(enemyType == EnemyType.Boss)
+        {
+            bossHpBar.UpdateHpBar(maxHp, HP, HpFillImage.color);
+        }
     }
     private void OnEnable()
     {
@@ -62,12 +71,11 @@ public class EnemyHealth : MonoBehaviour, IDamageable
             hpCanvas.enabled = true;
         }
 
-        HpSliderUpdate();
-
         if (HP <= 0)
         {
             Die();
         }
+        HpSliderUpdate();
     }
     private void HpSliderUpdate()
     {
@@ -86,6 +94,11 @@ public class EnemyHealth : MonoBehaviour, IDamageable
         {
             HpFillImage.color = Color.green;
         }
+
+        if (enemyType == EnemyType.Boss && bossHpBar != null)
+        {
+            bossHpBar.UpdateHpBar(maxHp, HP, HpFillImage.color);
+        }
     }
     public void Die()
     {
@@ -95,7 +108,11 @@ public class EnemyHealth : MonoBehaviour, IDamageable
         enemyMovement.enabled = false;
         animator.SetTrigger("Dead");
         OnDeath?.Invoke(transform);
-
+        if(bossHpBar != null)
+        {
+            bossHpBar.UpdateHpBar(maxHp, HP, HpFillImage.color);
+            bossHpBar = null;
+        }
         GameManager gameManager = FindObjectOfType<GameManager>();
         gameManager.CheckClear(gameObject);
         gameManager.AddResource(resourceType, resourceAmount);
@@ -103,7 +120,7 @@ public class EnemyHealth : MonoBehaviour, IDamageable
     }
     public IEnumerator StartSinking()
     {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1f);
         Destroy(gameObject);
     }
 }

@@ -27,3 +27,8 @@ public enum ResourceType
     Mineral,
     Gas
 }
+public enum EnemyType
+{
+    Common,
+    Boss
+}

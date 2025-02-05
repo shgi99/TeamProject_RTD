@@ -185,11 +185,12 @@ public class Tower : MonoBehaviour
         }
         else
         {
-            foreach (var enemy in enemiesInRange.ToList())
+            if(currentTarget != null)
             {
-                if (Vector3.Distance(transform.position, enemy.position) <= skillData.Area)
+                var enemiesInSkillRange = Physics.OverlapSphere(currentTarget.position, skillData.Area, LayerMask.GetMask("Enemy"));
+                foreach (var enemy in enemiesInSkillRange)
                 {
-                    ApplySkillEffect(enemy);
+                    ApplySkillEffect(enemy.transform);
                 }
             }
         }
@@ -259,7 +260,7 @@ public class Tower : MonoBehaviour
         damage = towerData.AtkDmg;
         sellPrice = towerData.Sell_Price;
         normalAttackChance = towerData.Pct_1;
-        skillAttackChance = towerData.Pct_2;
+        skillAttackChance = 100;
         projectilePath = towerData.Pjt_1;
 
         if (towerData.SkillAtk_ID > 0)
@@ -374,12 +375,17 @@ public class Tower : MonoBehaviour
     public void Fire(bool isSkillAttack)
     {
         GameObject projectilePrefab = isSkillAttack? Resources.Load<GameObject>(skillData.Pjt) : Resources.Load<GameObject>(projectilePath);
+        if(projectilePrefab == null)
+        {
+            return;
+        }
         GameObject projectileInstance = Instantiate(projectilePrefab, firePoint.position + Vector3.up * 2f, Quaternion.identity);
         ProjectileMoveScript projectile = projectileInstance.GetComponent<ProjectileMoveScript>();
 
-        if (projectile != null)
+        if (projectile != null && currentTarget != null)
         {
             projectile.SetTarget(currentTarget.gameObject);
         }
+
     }
 }

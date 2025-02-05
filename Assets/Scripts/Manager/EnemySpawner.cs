@@ -8,7 +8,11 @@ public class EnemySpawner : MonoBehaviour
     public List<Transform> movePoints;
     public GameObject enemyBasePrefab;
     public float spawnInterval = 0.3f;
-
+    private UIManager uiManager;
+    private void Awake()
+    {
+        uiManager = FindObjectOfType<UIManager>();
+    }
     public IEnumerator SpawnEnemies(WaveData waveData)
     {
         for (int i = 0; i < waveData.NumofEnemy; i++)
@@ -51,7 +55,12 @@ public class EnemySpawner : MonoBehaviour
             EnemyHealth enemyHealth = enemyInstance.GetComponent<EnemyHealth>();
             if (enemyHealth != null)
             {
-                enemyHealth.Init(currentEnemyData);
+                EnemyType enemyType = waveData.Round % 10 == 0 ? EnemyType.Boss : EnemyType.Common;
+                if(enemyType == EnemyType.Boss)
+                {
+                    uiManager.ShowBossHpBar();
+                }
+                enemyHealth.Init(currentEnemyData, enemyType);
             }
 
             GameManager gameManager = GetComponent<GameManager>();
@@ -102,13 +111,7 @@ public class EnemySpawner : MonoBehaviour
         EnemyHealth enemyHealth = enemyInstance.GetComponent<EnemyHealth>();
         if (enemyHealth != null)
         {
-            enemyHealth.Init(currentEnemyData);
-        }
-
-        GameManager gameManager = GetComponent<GameManager>();
-        if (gameManager != null)
-        {
-            gameManager.enemies.Add(enemyInstance);
+            enemyHealth.Init(currentEnemyData, EnemyType.Common);
         }
     }
 }

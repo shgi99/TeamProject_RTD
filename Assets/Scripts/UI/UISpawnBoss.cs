@@ -31,7 +31,7 @@ public class UISpawnBoss : MonoBehaviour
     {
         enemySpawner.SpawnMissionBoss(stage);
         button.interactable = false;
-        SetButtonTextAlpha(button, 0.1f);
+        SetButtonTextAlpha(button, 0.01f);
         StartCoroutine(CooldownRoutine(button, timertext));
     }
     public IEnumerator CooldownRoutine(Button button, TextMeshProUGUI timerText)

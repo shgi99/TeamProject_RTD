@@ -34140,11 +34140,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12ba759cd568c0e47a7018ab70867a0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotate: 0
+  rotate: 1
   rotateAmount: 45
   bounce: 0
   bounceForce: 10
-  speed: 23
+  speed: 50
   accuracy: 100
   fireRate: 5
   muzzlePrefab: {fileID: 1034775600002406, guid: 0253f99e08c0f1b4b826d7a400c0752a, type: 3}

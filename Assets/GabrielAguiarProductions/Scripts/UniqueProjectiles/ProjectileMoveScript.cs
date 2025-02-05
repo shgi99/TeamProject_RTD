@@ -20,7 +20,7 @@ using UnityEngine;
 
 public class ProjectileMoveScript : MonoBehaviour {
 
-    public bool rotate = false;
+    public bool rotate = true;
     public float rotateAmount = 45;
     public bool bounce = false;
     public float bounceForce = 10;
@@ -92,7 +92,7 @@ public class ProjectileMoveScript : MonoBehaviour {
 	void OnCollisionEnter (Collision co) {
         if (!bounce)
         {
-            if (co.gameObject.tag != "Bullet" && !collided)
+            if (co.gameObject.tag != "Bullet" && !collided && co.gameObject.tag != "BuildableTile" && co.gameObject.tag != "Tower")
             {
                 collided = true;
 

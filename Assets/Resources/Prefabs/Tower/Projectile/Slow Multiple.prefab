@@ -24536,11 +24536,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12ba759cd568c0e47a7018ab70867a0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotate: 0
+  rotate: 1
   rotateAmount: 45
   bounce: 0
   bounceForce: 10
-  speed: 25
+  speed: 50
   accuracy: 95
   fireRate: 2
   muzzlePrefab: {fileID: 1566250857169354, guid: 12dcc997f0e67a04ab2980acb5ccdcf3, type: 3}

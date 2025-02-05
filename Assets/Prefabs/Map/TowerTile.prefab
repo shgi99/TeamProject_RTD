@@ -308,8 +308,8 @@ Canvas:
   m_VertexColorAlwaysGammaSpace: 0
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
-  m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: 451609157
+  m_SortingOrder: 1
   m_TargetDisplay: 0
 --- !u!114 &7460336469587172388
 MonoBehaviour:
@@ -620,7 +620,7 @@ GameObject:
   - component: {fileID: 8379940562242697057}
   m_Layer: 3
   m_Name: TowerTile
-  m_TagString: Untagged
+  m_TagString: BuilableTile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647

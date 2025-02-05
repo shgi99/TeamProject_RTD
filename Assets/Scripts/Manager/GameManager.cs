@@ -11,17 +11,18 @@ public class GameManager : MonoBehaviour
     public bool isGameOver = false;
     public UIManager uiManager;
     public int life { get; private set; } = 10;
-    public int mineral { get; private set; } = 60000;
+    public int mineral { get; private set; } = 40000;
     public int gas { get; private set; } = 0;
     public int terazin { get; private set; } = 0;
     private int currentRound = 1;
     private EnemySpawner enemySpawner;
-    private int costMineralToGas = 100;
+    public int costMineralToGas { get; private set; } = 100;
+    public int costBuildTower { get; private set; } = 100;
     private void Awake()
     {
         enemySpawner = GetComponent<EnemySpawner>();
     }
-    void Start()
+    private void Start()
     {
         uiManager.SetRoundText(currentRound);
         uiManager.UpdateResources();
@@ -51,6 +52,10 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log($"{currentRound} Clear!!");
             AddResource(ResourceType.Mineral, 300);
+            if (currentRound % 10 == 0)
+            {
+                uiManager.HideBossHpBar();
+            }
             currentRound++;
             uiManager.SetRoundText(currentRound);
             StartCoroutine(SpawnNextRound());

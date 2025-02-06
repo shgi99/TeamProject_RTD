@@ -14,12 +14,19 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI lifeText;
     public TextMeshProUGUI buildTowerCostText;
     public TextMeshProUGUI buyGasCostText;
+    public TextMeshProUGUI playTimerText;
 
+    public GameObject gameClearPanel;
     public GameObject gameOverPanel;
     public GameObject useTerazinPanel;
     public GameObject upgradePanel;
     public GameObject bossHpBarUI;
-
+    public GameObject pausePanel;
+    private GameManager gameManager;
+    private void Awake()
+    {
+        gameManager = FindObjectOfType<GameManager>();
+    }
     public void SetRoundText(int currentRound)
     {
         roundText.text = $"{currentRound} ¶ó¿îµå";
@@ -38,8 +45,6 @@ public class UIManager : MonoBehaviour
     }
     internal void UpdateResources()
     {
-        GameManager gameManager = FindObjectOfType<GameManager>();
-
         mineralText.text = gameManager.mineral.ToString();
         gasText.text = gameManager.gas.ToString();
         terazinText.text = gameManager.terazin.ToString();
@@ -55,5 +60,24 @@ public class UIManager : MonoBehaviour
     public void HideBossHpBar()
     {
         bossHpBarUI.SetActive(false);
+    }
+    public void OnClickPauseButton()
+    {
+        pausePanel.SetActive(true);
+        gameManager.TogglePause();
+    }
+    public void OnClickResumeButton()
+    {
+        pausePanel.SetActive(false);
+        gameManager.TogglePause();
+    }
+    public void UpdatePlayTime(float playTime)
+    {
+        TimeSpan timeSpan = TimeSpan.FromSeconds(playTime);
+        playTimerText.text = string.Format("{0:D2}:{1:D2}", timeSpan.Minutes, timeSpan.Seconds);
+    }
+    public void ShowGameClearPanel()
+    {
+        gameClearPanel.SetActive(true);
     }
 }

@@ -38,4 +38,8 @@ public class WaveTable : DataTable
         }
         return dictionary[id];
     }
+    public int GetWaveCount()
+    {
+        return dictionary.Count;
+    }
 }

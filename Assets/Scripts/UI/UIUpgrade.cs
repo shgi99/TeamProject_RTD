@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.Android.Types;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -27,10 +26,13 @@ public class UIUpgrade : MonoBehaviour
         {
             return;
         }
-
+        quitButton.onClick.RemoveAllListeners();
         quitButton.onClick.AddListener(() => upgradePanel.SetActive(false));
+        humanUpgradeButton.onClick.RemoveAllListeners();
         humanUpgradeButton.onClick.AddListener(() => UpgradeTower(TowerType.Human));
+        machineUpgradeButton.onClick.RemoveAllListeners();
         machineUpgradeButton.onClick.AddListener(() => UpgradeTower(TowerType.Machine));
+        monsterUpgradeButton.onClick.RemoveAllListeners();
         monsterUpgradeButton.onClick.AddListener(() => UpgradeTower(TowerType.Monster));
         UpdateUpgradeUI();
     }

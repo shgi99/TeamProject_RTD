@@ -114,7 +114,10 @@ public class EnemyHealth : MonoBehaviour, IDamageable
             bossHpBar = null;
         }
         GameManager gameManager = FindObjectOfType<GameManager>();
-        gameManager.CheckClear(gameObject);
+        if(enemyType != EnemyType.MissionBoss)
+        {
+            gameManager.CheckClear(gameObject);
+        }
         gameManager.AddResource(resourceType, resourceAmount);
         StartCoroutine(StartSinking());
     }

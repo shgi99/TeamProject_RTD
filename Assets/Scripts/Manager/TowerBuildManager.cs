@@ -83,22 +83,19 @@ public class TowerBuildManager : MonoBehaviour
                             Debug.Log("미네랄이 부족합니다.");
                         }
                     }
+                    else if(buildable.isOccupied)
+                    {
+                        towerUIManager.DisplayTowerUI(buildable.currentTower);
+                    }
                     else
                     {
-                        if(buildable.isOccupied)
-                        {
-                            towerUIManager.DisplayTowerUI(buildable);
-                        }
-                        else
-                        {
-                            towerUIManager.HideUI();
-                        }
+                        towerUIManager.HideTowerUI();
                     }
                 }
             }
             else
             {
-                towerUIManager.HideUI();
+                towerUIManager.HideTowerUI();
             }
         }
     }

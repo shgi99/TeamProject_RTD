@@ -35,6 +35,8 @@ public class Tower : MonoBehaviour
     public Transform resourceParent;
     private GameManager gameManager;
     private bool isAttacking = false;
+    private GameObject normalProjectile;
+    private GameObject skillProjectile;
     // Start is called before the first frame update
     private void Awake()
     {
@@ -162,7 +164,7 @@ public class Tower : MonoBehaviour
         var attackTarget = target.GetComponent<EnemyHealth>();
         if (attackTarget != null && !attackTarget.IsDead)
         {
-            if(projectilePath != null)
+            if(normalProjectile != null)
             {
                 Fire(false);
             }
@@ -260,12 +262,13 @@ public class Tower : MonoBehaviour
         damage = towerData.AtkDmg;
         sellPrice = towerData.Sell_Price;
         normalAttackChance = towerData.Pct_1;
-        skillAttackChance = 100;
-        projectilePath = towerData.Pjt_1;
+        skillAttackChance = towerData.Pct_2;
+        normalProjectile = Resources.Load<GameObject>(towerData.Pjt_1);
 
         if (towerData.SkillAtk_ID > 0)
         {
             skillData = DataTableManager.SkillTable.Get(towerData.SkillAtk_ID);
+            skillProjectile = Resources.Load<GameObject>(skillData.Pjt);
         }
 
         UpgradeManager upgradeManager = FindObjectOfType<UpgradeManager>();
@@ -374,7 +377,7 @@ public class Tower : MonoBehaviour
     }
     public void Fire(bool isSkillAttack)
     {
-        GameObject projectilePrefab = isSkillAttack? Resources.Load<GameObject>(skillData.Pjt) : Resources.Load<GameObject>(projectilePath);
+        GameObject projectilePrefab = isSkillAttack ? skillProjectile : normalProjectile;
         if(projectilePrefab == null)
         {
             return;

@@ -1,14 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Build.Reporting;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class TowerUIManager : MonoBehaviour
 {
+    public GameObject towerInfoPanel;
+    public Image attackRange;
     private BuildableObject selectedTile;
     private List<BuildableObject> buildableTiles;
     private TowerBuildManager towerBuildManager;
+    private Tower selectedTower;
     // Start is called before the first frame update
     void Start()
     {
@@ -16,30 +18,45 @@ public class TowerUIManager : MonoBehaviour
         towerBuildManager = FindObjectOfType<TowerBuildManager>();
     }
 
-    public void DisplayTowerUI(BuildableObject buildable)
+    public void DisplayTowerUI(Tower tower)
     {
-        if (buildable != null)
-        {
-            if (selectedTile != null && selectedTile != buildable)
-            {
-                selectedTile.HideUI();
-            }
-            buildable.ShowUI();
-            selectedTile = buildable;
-        }
-        else if (selectedTile != null)
-        {
-            selectedTile.HideUI();
-            selectedTile = null;
-        }
+        if (tower == null) return;
+
+        selectedTower = tower;
+        float rangeSize = tower.attackRange * 2;  // 크기 조정 필요
+        attackRange.rectTransform.sizeDelta = new Vector3(rangeSize, rangeSize);
+
+        Vector3 screenPosition = Camera.main.WorldToScreenPoint(tower.transform.position);
+        screenPosition.x = Mathf.Clamp(screenPosition.x, 50, Screen.width - 50);
+        screenPosition.y = Mathf.Clamp(screenPosition.y, 50, Screen.height - 50);
+
+        towerInfoPanel.transform.position = screenPosition;
+        towerInfoPanel.GetComponentInChildren<UITowerInfo>().SetTowerInfo(tower);
+        towerInfoPanel.SetActive(true);
     }
-    public void HideUI()
+    public void HideTowerUI()
     {
-        if (selectedTile != null)
-        {
-            selectedTile.HideUI();
-            selectedTile = null;
-        }
+        towerInfoPanel.SetActive(false);
+        selectedTower = null;
+    }
+    public void MergeTower()
+    {
+        if (selectedTower == null) return;
+
+        TowerBuildManager buildManager = FindObjectOfType<TowerBuildManager>();
+        buildManager.MergingTower(selectedTower.GetComponentInParent<BuildableObject>());
+
+        HideTowerUI();
+    }
+
+    public void SellTower()
+    {
+        if (selectedTower == null) return;
+
+        TowerBuildManager buildManager = FindObjectOfType<TowerBuildManager>();
+        buildManager.SellTower(selectedTower);
+
+        HideTowerUI();
     }
     public void ShowBuildableTiles()
     {

@@ -30,5 +30,6 @@ public enum ResourceType
 public enum EnemyType
 {
     Common,
-    Boss
+    Boss,
+    MissionBoss
 }

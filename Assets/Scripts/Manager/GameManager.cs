@@ -16,12 +16,13 @@ public class GameManager : MonoBehaviour
     public int terazin { get; private set; } = 0;
     private int currentRound = 1;
     private EnemySpawner enemySpawner;
-    private int costMineralToGas = 100;
+    public int costMineralToGas { get; private set; } = 100;
+    public int costBuildTower { get; private set; } = 100;
     private void Awake()
     {
         enemySpawner = GetComponent<EnemySpawner>();
     }
-    void Start()
+    private void Start()
     {
         uiManager.SetRoundText(currentRound);
         uiManager.UpdateResources();
@@ -51,6 +52,10 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log($"{currentRound} Clear!!");
             AddResource(ResourceType.Mineral, 200);
+            if (currentRound % 10 == 0)
+            {
+                uiManager.HideBossHpBar();
+            }
             currentRound++;
             uiManager.SetRoundText(currentRound);
             StartCoroutine(SpawnNextRound());

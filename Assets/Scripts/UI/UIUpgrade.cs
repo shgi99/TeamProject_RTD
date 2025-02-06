@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.Android.Types;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,15 +11,18 @@ public class UIUpgrade : MonoBehaviour
     public TextMeshProUGUI humanLevelText;
     public TextMeshProUGUI machineLevelText;
     public TextMeshProUGUI monsterLevelText;
+
     public Button quitButton;
     public Button humanUpgradeButton;
     public Button machineUpgradeButton;
     public Button monsterUpgradeButton;
 
     private UpgradeManager upgradeManager;
-    private void Start()
+    private GameManager gameManager;
+    private void OnEnable()
     {
-        upgradeManager = FindObjectOfType<UpgradeManager>();
+        gameManager = FindObjectOfType<GameManager>();
+        upgradeManager = gameManager.GetComponent<UpgradeManager>();
         if (upgradeManager == null)
         {
             return;
@@ -28,10 +32,8 @@ public class UIUpgrade : MonoBehaviour
         humanUpgradeButton.onClick.AddListener(() => UpgradeTower(TowerType.Human));
         machineUpgradeButton.onClick.AddListener(() => UpgradeTower(TowerType.Machine));
         monsterUpgradeButton.onClick.AddListener(() => UpgradeTower(TowerType.Monster));
-
         UpdateUpgradeUI();
     }
-
     private void UpgradeTower(TowerType type)
     {
         upgradeManager.UpgradeTower(type);
@@ -51,9 +53,17 @@ public class UIUpgrade : MonoBehaviour
         machineLevelText.text = $"Lv.{machineLevel}";
         monsterLevelText.text = $"Lv.{monsterLevel}";
 
-        humanUpgradeButton.GetComponentInChildren<TextMeshProUGUI>().text = $"{humanCost}";
-        machineUpgradeButton.GetComponentInChildren<TextMeshProUGUI>().text = $"{machineCost}";
-        monsterUpgradeButton.GetComponentInChildren<TextMeshProUGUI>().text = $"{monsterCost}";
+        var humanUpgradeCostText = humanUpgradeButton.GetComponentInChildren<TextMeshProUGUI>();
+        var machineUpgradeCostText = machineUpgradeButton.GetComponentInChildren<TextMeshProUGUI>();
+        var monsterUpgradeCostText = monsterUpgradeButton.GetComponentInChildren<TextMeshProUGUI>();
+
+        humanUpgradeCostText.color = gameManager.gas < humanCost ? Color.red : Color.black;
+        machineUpgradeCostText.color = gameManager.gas < machineCost ? Color.red : Color.black;
+        monsterUpgradeCostText.color = gameManager.gas < monsterCost ? Color.red : Color.black;
+
+        humanUpgradeCostText.text = $"{humanCost}";
+        machineUpgradeCostText.text = $"{machineCost}";
+        monsterUpgradeCostText.text = $"{monsterCost}";
 
         humanUpgradeButton.interactable = upgradeManager.CanUpgrade(TowerType.Human);
         machineUpgradeButton.interactable = upgradeManager.CanUpgrade(TowerType.Machine);

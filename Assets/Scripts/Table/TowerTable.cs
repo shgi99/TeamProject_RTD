@@ -87,4 +87,26 @@ public class TowerTable : DataTable
         }
         return towerTypeString;
     }
+    public Color GetRarityColor(TowerRarity towerRarity)
+    {
+        Color rarityColor = Color.white;
+        switch (towerRarity)
+        {
+            case TowerRarity.Common:
+                break;
+            case TowerRarity.Rare:
+                rarityColor = Color.blue;
+                break;
+            case TowerRarity.Hero:
+                rarityColor = new Color(0.4f, 0, 1, 1);
+                break;
+            case TowerRarity.Legendary:
+                rarityColor = new Color(1, 0.2f, 0, 1);
+                break;
+            case TowerRarity.God:
+                rarityColor = new Color(0.25f, 1, 0.35f, 1);
+                break;
+        }
+        return rarityColor;
+    }
 }

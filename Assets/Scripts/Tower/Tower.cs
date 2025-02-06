@@ -1,9 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SocialPlatforms;
+using UnityEngine.UIElements;
 using static UnityEngine.GraphicsBuffer;
 using Random = UnityEngine.Random;
 
@@ -18,9 +20,12 @@ public class Tower : MonoBehaviour
     public TowerType towerType;
     public SkillData skillData;
     public string towerName;
-
+    public int sellPrice;
+    public ParticleSystem rarityParticle;
     public float normalAttackChance;
     public float skillAttackChance;
+    public string projectilePath;
+    public Transform firePoint;
 
     public Transform currentTarget;
     private List<Transform> enemiesInRange = new List<Transform>();
@@ -38,6 +43,7 @@ public class Tower : MonoBehaviour
     }
     void Start()
     {
+        
         gameManager = FindObjectOfType<GameManager>();
         StartCoroutine(AttackCoroutine());
         SetAnimationSpeed();
@@ -156,6 +162,10 @@ public class Tower : MonoBehaviour
         var attackTarget = target.GetComponent<EnemyHealth>();
         if (attackTarget != null && !attackTarget.IsDead)
         {
+            if(projectilePath != null)
+            {
+                Fire(false);
+            }
             attackTarget.OnDamage(currentDamage);
         }
         else
@@ -175,11 +185,12 @@ public class Tower : MonoBehaviour
         }
         else
         {
-            foreach (var enemy in enemiesInRange.ToList())
+            if(currentTarget != null)
             {
-                if (Vector3.Distance(transform.position, enemy.position) <= skillData.Area)
+                var enemiesInSkillRange = Physics.OverlapSphere(currentTarget.position, skillData.Area, LayerMask.GetMask("Enemy"));
+                foreach (var enemy in enemiesInSkillRange)
                 {
-                    ApplySkillEffect(enemy);
+                    ApplySkillEffect(enemy.transform);
                 }
             }
         }
@@ -189,6 +200,7 @@ public class Tower : MonoBehaviour
         var attackTargetHealth = target.GetComponent<EnemyHealth>();
         if (attackTargetHealth != null && !attackTargetHealth.IsDead)
         {
+            Fire(true);
             Debug.Log($"Using skill: {skillData.SkillAtk_ID}, {currentDamage * skillData.SkillDmgMul} damaged!");
             attackTargetHealth.OnDamage(currentDamage * skillData.SkillDmgMul);
 
@@ -246,8 +258,10 @@ public class Tower : MonoBehaviour
         attackRange = towerData.AtkRng;
         attackInterval = towerData.AtkSpd;
         damage = towerData.AtkDmg;
+        sellPrice = towerData.Sell_Price;
         normalAttackChance = towerData.Pct_1;
-        skillAttackChance = towerData.Pct_2;
+        skillAttackChance = 100;
+        projectilePath = towerData.Pjt_1;
 
         if (towerData.SkillAtk_ID > 0)
         {
@@ -260,6 +274,14 @@ public class Tower : MonoBehaviour
 
         sphereCollider.radius = attackRange;
         ApplyResource(towerData.Asset_Path);
+
+        GameObject particleInstance = Instantiate(rarityParticle.gameObject, resourceParent);
+        particleInstance.transform.localPosition = rarityParticle.gameObject.transform.localPosition;
+
+        ParticleSystem.MainModule rarityParticleMain = particleInstance.GetComponent<ParticleSystem>().main;
+        rarityParticleMain.startColor = DataTableManager.TowerTable.GetRarityColor(towerRarity);
+
+        particleInstance.GetComponent<ParticleSystem>().Play();
     }
 
     private void ApplyResource(string asset_Path)
@@ -269,12 +291,17 @@ public class Tower : MonoBehaviour
         {
             foreach (Transform child in resourceParent)
             {
-                Destroy(child.gameObject);
+                if(child != rarityParticle.transform)
+                {
+                    Destroy(child.gameObject);
+                }
             }
 
             GameObject towerInstance = Instantiate(towerResource, resourceParent);
             towerInstance.transform.localPosition = towerResource.transform.localPosition;
             towerInstance.transform.localRotation = Quaternion.identity;
+
+            firePoint = towerInstance.transform;
 
             animator = towerInstance.GetComponent<Animator>();
             SetAnimationSpeed();
@@ -344,5 +371,21 @@ public class Tower : MonoBehaviour
             }
         }
         return null;
+    }
+    public void Fire(bool isSkillAttack)
+    {
+        GameObject projectilePrefab = isSkillAttack? Resources.Load<GameObject>(skillData.Pjt) : Resources.Load<GameObject>(projectilePath);
+        if(projectilePrefab == null)
+        {
+            return;
+        }
+        GameObject projectileInstance = Instantiate(projectilePrefab, firePoint.position + Vector3.up * 2f, Quaternion.identity);
+        ProjectileMoveScript projectile = projectileInstance.GetComponent<ProjectileMoveScript>();
+
+        if (projectile != null && currentTarget != null)
+        {
+            projectile.SetTarget(currentTarget.gameObject);
+        }
+
     }
 }

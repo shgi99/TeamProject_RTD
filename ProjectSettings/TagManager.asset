@@ -9,6 +9,8 @@ TagManager:
   - Enemy
   - BuilableTile
   - PathTile
+  - Tower
+  - Bullet
   layers:
   - Default
   - TransparentFX
@@ -16,7 +18,7 @@ TagManager:
   - Buildable
   - Water
   - UI
-  - 
+  - Enemy
   - 
   - 
   - 
@@ -43,6 +45,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: TowerUI
+    uniqueID: 451609157
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0

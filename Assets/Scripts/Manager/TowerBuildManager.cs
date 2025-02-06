@@ -196,7 +196,8 @@ public class TowerBuildManager : MonoBehaviour
 
     internal void SellTower(Tower selectedTower)
     {
-        throw new NotImplementedException();
+        gameManager.AddResource(ResourceType.Mineral, selectedTower.sellPrice);
+        RemoveTower(selectedTower);
     }
     private bool IsPointerOverUIObject()
     {

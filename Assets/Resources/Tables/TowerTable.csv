@@ -4,28 +4,28 @@ Tower_ID,Tower_Name,Tower_Rarity,Tower_Type,AtkRng,AtkSpd,AtkDmg,Pct_1,Pjt_1,Ski
 1021,aaa,1,2,3,0.8,32,100,Prefabs/Tower/Projectile/Machine,0,0,50,Prefabs/Tower/Common/drone2(material A)
 1022,aaaa,1,2,3,0.8,35,100,Prefabs/Tower/Projectile/Machine,0,0,50,Prefabs/Tower/Common/drone7(material A)
 1031,aaaaa,1,3,3,0.8,40,100,Prefabs/Tower/Projectile/Monster,0,0,50,Prefabs/Tower/Common/mushroom
-1032,aaaaaa,1,3,3,1,45,100,Prefabs/Tower/Projectile/Monster,0,0,50,Prefabs/Tower/Common/slime
-2011,b,2,1,2,0.75,100,100,0,0,0,100,Prefabs/Tower/Rare/MC5
+1032,aaaaaa,1,3,3,0.8,45,100,Prefabs/Tower/Projectile/Monster,0,0,50,Prefabs/Tower/Common/slime
+2011,b,2,1,2,0.8,100,100,0,0,0,100,Prefabs/Tower/Rare/MC5
 2012,bb,2,1,2,0.5,75,100,0,0,0,100,Prefabs/Tower/Rare/MC10
-2021,bbb,2,2,4,0.8,70,100,Prefabs/Tower/Projectile/Machine,0,0,100,Prefabs/Tower/Rare/drone1(material A 00FFFF)
-2022,bbbb,2,2,3,0.8,80,100,Prefabs/Tower/Projectile/Machine,0,0,100,Prefabs/Tower/Rare/drone5(material A 00FFFF)
+2021,bbb,2,2,4,0.75,70,100,Prefabs/Tower/Projectile/Machine,0,0,100,Prefabs/Tower/Rare/drone1(material A 00FFFF)
+2022,bbbb,2,2,3,0.75,80,100,Prefabs/Tower/Projectile/Machine,0,0,100,Prefabs/Tower/Rare/drone5(material A 00FFFF)
 2031,bbbbb,2,3,3,0.8,84,100,Prefabs/Tower/Projectile/Monster,0,0,100,Prefabs/Tower/Rare/stingray
 2032,bbbbbb,2,3,3,0.8,80,100,Prefabs/Tower/Projectile/Monster,0,0,100,Prefabs/Tower/Rare/spider
 3011,c,3,1,2,0.8,175,85,0,1000012,15,200,Prefabs/Tower/Hero/MC16
-3012,cc,3,1,2,1,200,85,0,1000022,15,200,Prefabs/Tower/Hero/MC22
-3021,ccc,3,2,4,0.8,185,90,Prefabs/Tower/Projectile/Machine,1000011,10,200,Prefabs/Tower/Hero/drone2(material D)
-3022,cccc,3,2,4,0.8,180,85,Prefabs/Tower/Projectile/Machine,1000013,15,200,Prefabs/Tower/Hero/drone10(material D)
+3012,cc,3,1,2,0.8,200,85,0,1000022,15,200,Prefabs/Tower/Hero/MC22
+3021,ccc,3,2,4,0.75,185,90,Prefabs/Tower/Projectile/Machine,1000011,10,200,Prefabs/Tower/Hero/drone2(material D)
+3022,cccc,3,2,4,0.75,180,85,Prefabs/Tower/Projectile/Machine,1000013,15,200,Prefabs/Tower/Hero/drone10(material D)
 3031,ccccc,3,3,2,0.5,195,85,0,1000022,15,200,Prefabs/Tower/Hero/chest monster
 3032,cccccc,3,3,3,1,250,90,Prefabs/Tower/Projectile/Monster,1000021,10,200,Prefabs/Tower/Hero/naga wizard
 4011,d,4,1,2,0.5,1200,90,0,1000011,10,400,Prefabs/Tower/Legendary/MC09
-4012,dd,4,1,4,0.75,1500,85,Prefabs/Tower/Projectile/Human,1000023,15,400,Prefabs/Tower/Legendary/MC11
-4021,ddd,4,2,3,0.5,1100,85,Prefabs/Tower/Projectile/Machine,1000012,15,400,Prefabs/Tower/Legendary/drone1(material C)
-4022,dddd,4,2,3,0.8,1500,90,Prefabs/Tower/Projectile/Machine,1000011,10,400,Prefabs/Tower/Legendary/drone7(material C)
+4012,dd,4,1,4,0.8,1500,85,Prefabs/Tower/Projectile/Human,1000023,15,400,Prefabs/Tower/Legendary/MC11
+4021,ddd,4,2,3,0.8,1100,85,Prefabs/Tower/Projectile/Machine,1000012,15,400,Prefabs/Tower/Legendary/drone1(material C)
+4022,dddd,4,2,3,0.65,1500,90,Prefabs/Tower/Projectile/Machine,1000011,10,400,Prefabs/Tower/Legendary/drone7(material C)
 4031,ddddd,4,3,3,1,1800,90,Prefabs/Tower/Projectile/Monster,1000021,10,400,Prefabs/Tower/Legendary/evilmage
-4032,dddddd,4,3,2,0.5,1350,85,0,1000022,15,400,Prefabs/Tower/Legendary/flying demon
-5011,e,5,1,3,0.5,5000,90,Prefabs/Tower/Projectile/Human,1000021,10,800,Prefabs/Tower/God/MC24
-5012,ee,5,1,3,1,7000,90,Prefabs/Tower/Projectile/Human,1000021,10,800,Prefabs/Tower/God/MC07
-5021,eee,5,2,4,0.8,5000,85,Prefabs/Tower/Projectile/Machine,1000023,15,800,Prefabs/Tower/God/drone5(material B)
-5022,eeee,5,2,5,0.5,3800,85,Prefabs/Tower/Projectile/Machine,1000023,15,800,Prefabs/Tower/God/drone10(material B)
-5031,eeeee,5,3,2,1,11000,85,0,1000022,15,800,Prefabs/Tower/God/black knight
-5032,eeeeee,5,3,2,0.5,4000,90,0,1000011,10,800,Prefabs/Tower/God/werewolf
+4032,dddddd,4,3,2,0.8,1350,85,0,1000022,15,400,Prefabs/Tower/Legendary/flying demon
+5011,e,5,1,3,0.65,5000,95,Prefabs/Tower/Projectile/Human,1000021,5,800,Prefabs/Tower/God/MC24
+5012,ee,5,1,3,0.8,7000,95,Prefabs/Tower/Projectile/Human,1000021,5,800,Prefabs/Tower/God/MC07
+5021,eee,5,2,4,0.65,5000,90,Prefabs/Tower/Projectile/Machine,1000023,10,800,Prefabs/Tower/God/drone5(material B)
+5022,eeee,5,2,5,0.5,3800,90,Prefabs/Tower/Projectile/Machine,1000023,10,800,Prefabs/Tower/God/drone10(material B)
+5031,eeeee,5,3,2,0.8,11000,90,0,1000022,10,800,Prefabs/Tower/God/black knight
+5032,eeeeee,5,3,2,0.5,4000,95,0,1000011,5,800,Prefabs/Tower/God/werewolf

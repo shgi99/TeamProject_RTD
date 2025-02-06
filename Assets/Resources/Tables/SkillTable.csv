@@ -2,6 +2,6 @@ SkillAtk_ID,SkillDmgMul,Area,Enemy_Speed,Duration,Pjt
 1000011,3,0,100,0,Prefabs/Tower/Projectile/Strong Single
 1000012,2.5,0,50,2,Prefabs/Tower/Projectile/Slow Single
 1000013,2,0,0,1,Prefabs/Tower/Projectile/Stun Single
-1000021,3,1.5,100,0,Prefabs/Tower/Projectile/Strong Multiple
-1000022,2.5,1.5,50,2,Prefabs/Tower/Projectile/Slow Multiple
-1000023,2,1.5,0,1,Prefabs/Tower/Projectile/Stun Multiple
+1000021,2,1.5,100,0,Prefabs/Tower/Projectile/Strong Multiple
+1000022,1.75,1.5,50,2,Prefabs/Tower/Projectile/Slow Multiple
+1000023,1.5,1.5,0,1,Prefabs/Tower/Projectile/Stun Multiple

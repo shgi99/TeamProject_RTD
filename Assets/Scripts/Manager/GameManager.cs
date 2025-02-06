@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
     public bool isGameOver = false;
     public UIManager uiManager;
     public int life { get; private set; } = 10;
-    public int mineral { get; private set; } = 60000;
+    public int mineral { get; private set; } = 500;
     public int gas { get; private set; } = 0;
     public int terazin { get; private set; } = 0;
     private int currentRound = 1;
@@ -50,7 +50,7 @@ public class GameManager : MonoBehaviour
         if (enemies.Count <= 0)
         {
             Debug.Log($"{currentRound} Clear!!");
-            AddResource(ResourceType.Mineral, 300);
+            AddResource(ResourceType.Mineral, 200);
             currentRound++;
             uiManager.SetRoundText(currentRound);
             StartCoroutine(SpawnNextRound());

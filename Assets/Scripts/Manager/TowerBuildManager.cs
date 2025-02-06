@@ -72,7 +72,7 @@ public class TowerBuildManager : MonoBehaviour
                 {
                     if (isBuildingMode)
                     {
-                        if(!buildable.isOccupied && gameManager.MinusResource(ResourceType.Mineral, buildCost))
+                        if (!buildable.isOccupied && gameManager.MinusResource(ResourceType.Mineral, buildCost))
                         {
                             buildable.PlaceTower(towerPrefab, DataTableManager.TowerTable.GetRandomByRarity(1));
                             Tower buildedTower = buildable.currentTower;
@@ -85,7 +85,7 @@ public class TowerBuildManager : MonoBehaviour
                     }
                     else
                     {
-                        if(buildable.isOccupied)
+                        if (buildable.isOccupied)
                         {
                             towerUIManager.DisplayTowerUI(buildable);
                         }
@@ -95,6 +95,10 @@ public class TowerBuildManager : MonoBehaviour
                         }
                     }
                 }
+            }
+            else
+            {
+                towerUIManager.HideUI();
             }
         }
     }

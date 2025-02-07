@@ -8,7 +8,8 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Trail2
-  m_Shader: {fileID: -6465566751694194690, guid: 90fce2b2b4dd22946a206c5af2369ae2, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: 90fce2b2b4dd22946a206c5af2369ae2,
+    type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
@@ -93,8 +94,6 @@ Material:
     - Vector1_25a2df4ce766476888970a0ac7474693: -1
     - Vector1_89bcc8638aeb4eb98b6b8b61db4dd490: 0
     - _AlphaClip: 0
-    - _BUILTIN_QueueControl: 0
-    - _BUILTIN_QueueOffset: 0
     - _Blend: 0
     - _BumpScale: 1
     - _ClearCoatMask: 0
@@ -122,8 +121,9 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - Color_18d890ee80824248a51ee0a2b47a330e: {r: 110.13088, g: 110.13088, b: 110.13088, a: 1}
-    - Color_8eede2b3ffe147bc911ee668e4223cca: {r: 2.9960785, g: 2.1960785, b: 0, a: 0}
+    - Color_18d890ee80824248a51ee0a2b47a330e: {r: 110.13088, g: 110.13088, b: 110.13088,
+        a: 1}
+    - Color_8eede2b3ffe147bc911ee668e4223cca: {r: 5.992157, g: 4.392157, b: 0, a: 0}
     - Vector2_47b54501113b4c409f7770bf21e02d97: {r: -1, g: 0, b: 0, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
@@ -132,19 +132,6 @@ Material:
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _Tile: {r: 1, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []
---- !u!114 &1693218328827895229
-MonoBehaviour:
-  m_ObjectHideFlags: 11
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 639247ca83abc874e893eb93af2b5e44, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  version: 0
 --- !u!114 &2818197081452155180
 MonoBehaviour:
   m_ObjectHideFlags: 11

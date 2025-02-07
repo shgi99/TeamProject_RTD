@@ -27,7 +27,6 @@ public class TowerBuildManager : MonoBehaviour
     public void ToggleBuildingMode()
     {
         isBuildingMode = !isBuildingMode;
-        buildModeOffButton.SetActive(isBuildingMode);
         if(isBuildingMode)
         {
             towerUIManager.ShowBuildableTiles();
@@ -80,25 +79,22 @@ public class TowerBuildManager : MonoBehaviour
                         }
                         else
                         {
-                            Debug.Log("¹Ì³×¶öÀÌ ºÎÁ·ÇÕ´Ï´Ù.");
+                            Debug.Log("ï¿½Ì³×¶ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.");
                         }
+                    }
+                    else if(buildable.isOccupied)
+                    {
+                        towerUIManager.DisplayTowerUI(buildable.currentTower);
                     }
                     else
                     {
-                        if (buildable.isOccupied)
-                        {
-                            towerUIManager.DisplayTowerUI(buildable);
-                        }
-                        else
-                        {
-                            towerUIManager.HideUI();
-                        }
+                        towerUIManager.HideTowerUI();
                     }
                 }
             }
             else
             {
-                towerUIManager.HideUI();
+                towerUIManager.HideTowerUI();
             }
         }
     }

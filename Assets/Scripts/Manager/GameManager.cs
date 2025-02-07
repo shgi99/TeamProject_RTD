@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
 {
     public List<GameObject> enemies = new List<GameObject>();
     public bool isGameOver = false;
+
     public UIManager uiManager;
     public int life { get; private set; } = 10;
     public int mineral { get; private set; } = 500;
@@ -18,18 +19,30 @@ public class GameManager : MonoBehaviour
     private EnemySpawner enemySpawner;
     public int costMineralToGas { get; private set; } = 100;
     public int costBuildTower { get; private set; } = 100;
+    public float clearTime = 0f;
+    private bool isGamePause = false;
+    private float playTime = 0f;
+    private int finalRound;
+    private float nextRoundTimeLeft = 10f;
     private void Awake()
     {
         enemySpawner = GetComponent<EnemySpawner>();
     }
     private void Start()
     {
+        Application.targetFrameRate = int.MaxValue;
+        finalRound = DataTableManager.WaveTable.GetWaveCount();
         uiManager.SetRoundText(currentRound);
         uiManager.UpdateResources();
         StartCoroutine(SpawnNextRound());
     }
     private void Update()
     {
+        if(!isGameOver && !isGamePause)
+        {
+            playTime += Time.deltaTime;
+            uiManager.UpdatePlayTime(playTime);
+        }
         if(isGameOver && Input.touchCount > 0)
         {
             Touch touch = Input.GetTouch(0);
@@ -38,10 +51,33 @@ public class GameManager : MonoBehaviour
                 SceneManager.LoadScene(SceneManager.GetActiveScene().name);
             }
         }
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            SetGameClear();
+        }
+    }
+    public void TogglePause()
+    {
+        isGamePause = !isGamePause;
+        if(isGamePause)
+        {
+            Time.timeScale = 0f;
+        }
+        else
+        {
+            Time.timeScale = 1f;
+        }
     }
     public IEnumerator SpawnNextRound()
     {
-        yield return new WaitForSeconds(10f);
+        nextRoundTimeLeft = 10f;
+        while (nextRoundTimeLeft > 0)
+        {
+            FindObjectOfType<UILogPanel>().AddLog($"다음 라운드까지 {nextRoundTimeLeft}초");
+            yield return new WaitForSeconds(1f);
+            nextRoundTimeLeft -= 1f;
+        }
+
         var currentRoundData = DataTableManager.WaveTable.Get(200 + currentRound);
         StartCoroutine(enemySpawner.SpawnEnemies(currentRoundData));
     }
@@ -56,11 +92,25 @@ public class GameManager : MonoBehaviour
             {
                 uiManager.HideBossHpBar();
             }
-            currentRound++;
-            uiManager.SetRoundText(currentRound);
-            StartCoroutine(SpawnNextRound());
+            if(currentRound == finalRound)
+            {
+                SetGameClear();
+            }
+            else
+            {
+                currentRound++;
+                uiManager.SetRoundText(currentRound);
+                StartCoroutine(SpawnNextRound());
+            }
         }
     }
+    private void SetGameClear()
+    {
+        clearTime = playTime;
+        TogglePause();
+        uiManager.ShowGameClearPanel();
+    }
+
     public void DamageToLife(int damage)
     {
         life -= damage;

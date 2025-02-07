@@ -111,7 +111,7 @@ public class EnemySpawner : MonoBehaviour
         EnemyHealth enemyHealth = enemyInstance.GetComponent<EnemyHealth>();
         if (enemyHealth != null)
         {
-            enemyHealth.Init(currentEnemyData, EnemyType.Common);
+            enemyHealth.Init(currentEnemyData, EnemyType.MissionBoss);
         }
     }
 }

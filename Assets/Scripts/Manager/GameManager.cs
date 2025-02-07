@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
 
     public UIManager uiManager;
     public int life { get; private set; } = 10;
-    public int mineral { get; private set; } = 40000;
+    public int mineral { get; private set; } = 500;
     public int gas { get; private set; } = 0;
     public int terazin { get; private set; } = 0;
     private int currentRound = 1;

@@ -22,6 +22,7 @@ public class UIManager : MonoBehaviour
     public GameObject upgradePanel;
     public GameObject bossHpBarUI;
     public GameObject pausePanel;
+    public GameObject cheatPanel;
     private GameManager gameManager;
     private void Awake()
     {
@@ -70,6 +71,10 @@ public class UIManager : MonoBehaviour
     {
         pausePanel.SetActive(false);
         gameManager.TogglePause();
+    }
+    public void OnClickCheatButton()
+    {
+        cheatPanel.SetActive(true);
     }
     public void UpdatePlayTime(float playTime)
     {

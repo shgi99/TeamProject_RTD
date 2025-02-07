@@ -87,7 +87,7 @@ public class GameManager : MonoBehaviour
         if (enemies.Count <= 0)
         {
             Debug.Log($"{currentRound} Clear!!");
-            AddResource(ResourceType.Mineral, 300);
+            AddResource(ResourceType.Mineral, 250);
             if (currentRound % 10 == 0)
             {
                 uiManager.HideBossHpBar();

@@ -246,11 +246,11 @@ public class Tower : MonoBehaviour
     {
         if (towerData == null)
         {
-            Debug.LogError("InitTower() ¿À·ù: towerData°¡ nullÀÔ´Ï´Ù..");
+            Debug.LogError("InitTower() ï¿½ï¿½ï¿½ï¿½: towerDataï¿½ï¿½ nullï¿½Ô´Ï´ï¿½..");
             return;
         }
 
-        Debug.Log($"InitTower È£Ãâ - ID: {towerData.Tower_ID}, Name: {towerData.Tower_Name}");
+        Debug.Log($"InitTower È£ï¿½ï¿½ - ID: {towerData.Tower_ID}, Name: {towerData.Tower_Name}");
 
         gameManager = FindObjectOfType<GameManager>();
         towerId = towerData.Tower_ID;

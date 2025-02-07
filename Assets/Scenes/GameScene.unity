@@ -3621,6 +3621,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Plane
       objectReference: {fileID: 0}
+    - target: {fileID: 4031439957015945708, guid: f2cfe91230dd60842bfd9c58e1cacdbb, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 8868984626155138794, guid: f2cfe91230dd60842bfd9c58e1cacdbb, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.1
@@ -3697,6 +3701,10 @@ PrefabInstance:
     - target: {fileID: 4031439957015945708, guid: f2cfe91230dd60842bfd9c58e1cacdbb, type: 3}
       propertyPath: m_Name
       value: StartPlane
+      objectReference: {fileID: 0}
+    - target: {fileID: 4031439957015945708, guid: f2cfe91230dd60842bfd9c58e1cacdbb, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 7485220968334503207, guid: f2cfe91230dd60842bfd9c58e1cacdbb, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -7293,6 +7301,7 @@ GameObject:
   m_Component:
   - component: {fileID: 705507995}
   - component: {fileID: 705507994}
+  - component: {fileID: 705507996}
   m_Layer: 0
   m_Name: Directional Light
   m_TagString: Untagged
@@ -7377,6 +7386,29 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!114 &705507996
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 705507993}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Version: 3
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_LightLayerMask: 1
+  m_RenderingLayers: 1
+  m_CustomShadowLayers: 0
+  m_ShadowLayerMask: 1
+  m_ShadowRenderingLayers: 1
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
+  m_SoftShadowQuality: 0
 --- !u!1001 &707434277
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8427,6 +8459,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: EndPlane
       objectReference: {fileID: 0}
+    - target: {fileID: 4031439957015945708, guid: f2cfe91230dd60842bfd9c58e1cacdbb, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 7485220968334503207, guid: f2cfe91230dd60842bfd9c58e1cacdbb, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -9105,6 +9141,10 @@ PrefabInstance:
     - target: {fileID: 5965160224338186080, guid: a13df112f32d7f046a4a0a4ed70067d2, type: 3}
       propertyPath: m_Name
       value: TowerTile
+      objectReference: {fileID: 0}
+    - target: {fileID: 5965160224338186080, guid: a13df112f32d7f046a4a0a4ed70067d2, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 6009449429565014349, guid: a13df112f32d7f046a4a0a4ed70067d2, type: 3}
       propertyPath: m_LocalPosition.x
@@ -13654,6 +13694,10 @@ PrefabInstance:
     - target: {fileID: 4031439957015945708, guid: f2cfe91230dd60842bfd9c58e1cacdbb, type: 3}
       propertyPath: m_Name
       value: Plane
+      objectReference: {fileID: 0}
+    - target: {fileID: 4031439957015945708, guid: f2cfe91230dd60842bfd9c58e1cacdbb, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 8868984626155138794, guid: f2cfe91230dd60842bfd9c58e1cacdbb, type: 3}
       propertyPath: m_LocalScale.x

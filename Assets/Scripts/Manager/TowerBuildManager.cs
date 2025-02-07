@@ -16,6 +16,7 @@ public class TowerBuildManager : MonoBehaviour
 
     private GameManager gameManager;
     private TowerUIManager towerUIManager;
+    private TowerData selectedHeroTower;
     private void Start()
     {
     }
@@ -23,6 +24,12 @@ public class TowerBuildManager : MonoBehaviour
     {
         gameManager = GetComponent<GameManager>();
         towerUIManager = FindObjectOfType<TowerUIManager>();
+    }
+    public void SelectTower(TowerData towerData)
+    {
+        selectedHeroTower = towerData;
+        isBuildingMode = true;
+        towerUIManager.ShowBuildableTiles();
     }
     public void ToggleBuildingMode()
     {
@@ -71,20 +78,36 @@ public class TowerBuildManager : MonoBehaviour
                 {
                     if (isBuildingMode)
                     {
-                        if (!buildable.isOccupied && gameManager.MinusResource(ResourceType.Mineral, buildCost))
+                        if (!buildable.isOccupied && gameManager.canUseResource(ResourceType.Mineral, buildCost))
                         {
-                            buildable.PlaceTower(towerPrefab, DataTableManager.TowerTable.GetRandomByRarity(1));
-                            Tower buildedTower = buildable.currentTower;
-                            buildedTowers.Add(buildedTower);
-                        }
-                        else
-                        {
-                            Debug.Log("�̳׶��� �����մϴ�.");
+                            if(selectedHeroTower != null && gameManager.canUseResource(ResourceType.Terazin, 1))
+                            {
+                                gameManager.MinusResource(ResourceType.Mineral, buildCost);
+                                gameManager.MinusResource(ResourceType.Terazin, 1);
+                                buildable.PlaceTower(towerPrefab, selectedHeroTower);
+                                Tower buildedTower = buildable.currentTower;
+                                var towerRarityText = DataTableManager.TowerTable.GetColoredRarityText(buildedTower.towerName, buildedTower.towerRarity);
+                                FindObjectOfType<UILogPanel>().AddLog($"{towerRarityText} 설치!");
+                                buildedTowers.Add(buildedTower);
+
+                                selectedHeroTower = null;
+                                isBuildingMode = false;
+                                towerUIManager.HideBuildableTiles();
+                            }
+                            else
+                            {
+                                gameManager.MinusResource(ResourceType.Mineral, buildCost);
+                                buildable.PlaceTower(towerPrefab, DataTableManager.TowerTable.GetRandomByRarity(1));
+                                Tower buildedTower = buildable.currentTower;
+                                var towerRarityText = DataTableManager.TowerTable.GetColoredRarityText(buildedTower.towerName, buildedTower.towerRarity);
+                                FindObjectOfType<UILogPanel>().AddLog($"{towerRarityText} 설치!");
+                                buildedTowers.Add(buildedTower);
+                            }
                         }
                     }
                     else if(buildable.isOccupied)
                     {
-                        towerUIManager.DisplayTowerUI(buildable.currentTower);
+                        towerUIManager.DisplayTowerUI(buildable.currentTower, GetMatchingTowers(buildable.currentTower).Count > 1);
                     }
                     else
                     {
@@ -127,6 +150,8 @@ public class TowerBuildManager : MonoBehaviour
         buildableObject.PlaceTower(towerPrefab, DataTableManager.TowerTable.GetUpgradeRarity((int)currentRarity));
 
         Tower newTower = buildableObject.currentTower;
+        var towerRarityText = DataTableManager.TowerTable.GetColoredRarityText(newTower.towerName, newTower.towerRarity);
+        FindObjectOfType<UILogPanel>().AddLog($"{towerRarityText} 합성 완료!");
         buildedTowers.Add(newTower);
     }
 

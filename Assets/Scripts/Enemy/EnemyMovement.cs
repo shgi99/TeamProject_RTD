@@ -86,14 +86,6 @@ public class EnemyMovement : MonoBehaviour
             Destroy(gameObject);
         }
     }
-
-    public IEnumerator OnSkillEffect(float slowPct, float duration)
-    {
-        float baseSpeed = speed;
-        speed *= (slowPct / 100f);
-        yield return new WaitForSeconds(duration);
-        speed = baseSpeed;
-    }
     public void ApplyEffect(float slowPct, float duration)
     {
         if (slowPct <= 0)

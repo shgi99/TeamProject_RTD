@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
     public int life { get; private set; } = 10;
     public int mineral { get; private set; } = 500;
     public int gas { get; private set; } = 0;
-    public int terazin { get; private set; } = 0;
+    public int terazin { get; private set; } = 10;
     private int currentRound = 1;
     private EnemySpawner enemySpawner;
     public int costMineralToGas { get; private set; } = 100;
@@ -77,7 +77,7 @@ public class GameManager : MonoBehaviour
             yield return new WaitForSeconds(1f);
             nextRoundTimeLeft -= 1f;
         }
-
+        FindObjectOfType<UILogPanel>().AddLog($"{currentRound}라운드 시작!");
         var currentRoundData = DataTableManager.WaveTable.Get(200 + currentRound);
         StartCoroutine(enemySpawner.SpawnEnemies(currentRoundData));
     }
@@ -86,7 +86,7 @@ public class GameManager : MonoBehaviour
         enemies.Remove(enemy);
         if (enemies.Count <= 0)
         {
-            Debug.Log($"{currentRound} Clear!!");
+            FindObjectOfType<UILogPanel>().AddLog($"{currentRound}라운드 클리어!");
             AddResource(ResourceType.Mineral, 250);
             if (currentRound % 10 == 0)
             {
@@ -139,45 +139,61 @@ public class GameManager : MonoBehaviour
         }
         uiManager.UpdateResources();
     }
-    public bool MinusResource(ResourceType resourceType, int amount) 
+    public void MinusResource(ResourceType resourceType, int amount) 
     {
         switch (resourceType)
         {
             case ResourceType.Terazin:
-                if(terazin - amount < 0)
-                {
-                    return false;
-                }
                 terazin -= amount;
                 break;
             case ResourceType.Mineral:
-                if (mineral - amount < 0)
-                {
-                    return false;
-                }
                 mineral -= amount;
                 break;
             case ResourceType.Gas:
-                if (gas - amount < 0)
-                {
-                    return false;
-                }
                 gas -= amount;
                 break;
         }
         uiManager.UpdateResources();
+    }
+    public bool canUseResource(ResourceType resourceType, int amount)
+    {
+        switch (resourceType)
+        {
+            case ResourceType.Terazin:
+                if (terazin - amount < 0)
+                {
+                    FindObjectOfType<UILogPanel>().AddLog("<color=red>테라진이 부족합니다.</color>");
+                    return false;
+                }
+                break;
+            case ResourceType.Mineral:
+                if (mineral - amount < 0)
+                {
+                    FindObjectOfType<UILogPanel>().AddLog("<color=red>미네랄이 부족합니다.</color>");
+                    return false;
+                }
+                break;
+            case ResourceType.Gas:
+                if (gas - amount < 0)
+                {
+                    FindObjectOfType<UILogPanel>().AddLog("<color=red>가스가 부족합니다.</color>");
+                    return false;
+                }
+                break;
+        }
         return true;
     }
-
     public void MineralToGas()
     {
         
-        if(!MinusResource(ResourceType.Mineral, costMineralToGas))
+        if(!canUseResource(ResourceType.Mineral, costMineralToGas))
         {
             return;
         }
+
         int addGas = Random.Range(20, 129);
         addGas = addGas - addGas % 10;
+        FindObjectOfType<UILogPanel>().AddLog($"<color=green>{addGas}가스</color> 획득!");
         AddResource(ResourceType.Gas, addGas);
     }
     

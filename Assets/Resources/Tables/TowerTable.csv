@@ -1,31 +1,31 @@
 Tower_ID,Tower_Name,Tower_Rarity,Tower_Type,AtkRng,AtkSpd,AtkDmg,Pct_1,Pjt_1,SkillAtk_ID,Pct_2,Sell_Price,Asset_Path
-1011,ÃÊº¸ÀÚ,1,1,2,0.5,40,100,0,0,0,50,Prefabs/Tower/Common/maplestick
-1012,ºÎ·®ÀÚ,1,1,2,0.5,35,100,0,0,0,50,Prefabs/Tower/Common/mustachebh
-1021,¼ÒÇü °¨½ÃÀÚ,1,2,3,0.8,40,100,Prefabs/Tower/Projectile/Machine,0,0,50,Prefabs/Tower/Common/drone2(material A)
-1022,¼ÒÇü µå·Ğ,1,2,3,0.8,38,100,Prefabs/Tower/Projectile/Machine,0,0,50,Prefabs/Tower/Common/drone7(material A)
-1031,¸Ó½¬·ë,1,3,3,0.8,40,100,Prefabs/Tower/Projectile/Monster,0,0,50,Prefabs/Tower/Common/mushroom
-1032,½½¶óÀÓ,1,3,3,0.8,42,100,Prefabs/Tower/Projectile/Monster,0,0,50,Prefabs/Tower/Common/slime
-2011,¸Á³ª´Ï,2,1,2,0.8,90,100,0,0,0,100,Prefabs/Tower/Rare/MC5
-2012,°æºñº´,2,1,2,0.5,80,100,0,0,0,100,Prefabs/Tower/Rare/MC10
-2021,Àú°İ µå·Ğ,2,2,4,0.75,75,100,Prefabs/Tower/Projectile/Machine,0,0,100,Prefabs/Tower/Rare/drone1(material A 00FFFF)
-2022,¼øÂû µå·Ğ,2,2,3,0.75,80,100,Prefabs/Tower/Projectile/Machine,0,0,100,Prefabs/Tower/Rare/drone5(material A 00FFFF)
-2031,¾Æ½Î°¡¿À¸®,2,3,3,0.8,100,100,Prefabs/Tower/Projectile/Monster,0,0,100,Prefabs/Tower/Rare/stingray
-2032,¾Æ¶óÅ©³×,2,3,3,0.8,90,100,Prefabs/Tower/Projectile/Monster,0,0,100,Prefabs/Tower/Rare/spider
-3011,Ã¢¼ú»ç,3,1,2,0.8,175,85,0,1000012,15,200,Prefabs/Tower/Hero/MC16
-3012,¹Ù´Ù ±â»ç,3,1,2,0.8,200,85,0,1000022,15,200,Prefabs/Tower/Hero/MC22
-3021,»ì»ó µå·Ğ,3,2,4,0.75,185,85,Prefabs/Tower/Projectile/Machine,1000011,15,200,Prefabs/Tower/Hero/drone2(material D)
-3022,Ã¼Æ÷ µå·Ğ,3,2,4,0.75,180,85,Prefabs/Tower/Projectile/Machine,1000013,15,200,Prefabs/Tower/Hero/drone10(material D)
-3031,¹Ì¹Í,3,3,2,0.5,195,85,0,1000022,15,200,Prefabs/Tower/Hero/chest monster
-3032,³ª°¡ ¹ı»ç,3,3,3,1,250,85,Prefabs/Tower/Projectile/Monster,1000021,15,200,Prefabs/Tower/Hero/naga wizard
-4011,±¤Àü»ç,4,1,2,0.5,1200,85,0,1000022,15,400,Prefabs/Tower/Legendary/MC09
-4012,¿¤ÇÁ ±Ã¼ö,4,1,4,0.8,1500,85,Prefabs/Tower/Projectile/Human,1000023,15,400,Prefabs/Tower/Legendary/MC11
-4021,´ëÀüÂ÷ µå·Ğ,4,2,3,0.8,1100,85,Prefabs/Tower/Projectile/Machine,1000011,15,400,Prefabs/Tower/Legendary/drone1(material C)
-4022,¸Ó½Å°Ç µå·Ğ,4,2,3,0.65,1500,85,Prefabs/Tower/Projectile/Machine,1000012,15,400,Prefabs/Tower/Legendary/drone7(material C)
-4031,»ç¾ÇÇÑ ¹ı»ç,4,3,3,1,1800,85,Prefabs/Tower/Projectile/Monster,1000021,15,400,Prefabs/Tower/Legendary/evilmage
-4032,°í´ë ¾Ç¸¶,4,3,2,0.8,1350,85,0,1000022,15,400,Prefabs/Tower/Legendary/flying demon
-5011,ÀºµĞ°í¼ö,5,1,3,0.65,5000,90,Prefabs/Tower/Projectile/Human,1000011,10,800,Prefabs/Tower/God/MC24
-5012,´ë¸¶¹ı»ç,5,1,3,0.8,7000,90,Prefabs/Tower/Projectile/Human,1000021,10,800,Prefabs/Tower/God/MC07
-5021,Æç¸®ÄÁ,5,2,4,0.65,5000,90,Prefabs/Tower/Projectile/Machine,1000023,10,800,Prefabs/Tower/God/drone5(material B)
-5022,¸®ÆÛ,5,2,5,0.5,3800,90,Prefabs/Tower/Projectile/Machine,1000022,10,800,Prefabs/Tower/God/drone10(material B)
-5031,´ÙÅ© ³ªÀÌÆ®,5,3,2,0.8,11000,90,0,1000022,10,800,Prefabs/Tower/God/black knight
-5032,¿ş¾î¿ïÇÁ,5,3,2,0.5,4000,90,0,1000011,10,800,Prefabs/Tower/God/werewolf
+1011,ì´ˆë³´ì,1,1,2,0.5,40,100,0,0,0,50,Prefabs/Tower/Common/maplestick
+1012,ë¶€ëŸ‰ì,1,1,2,0.5,35,100,0,0,0,50,Prefabs/Tower/Common/mustachebh
+1021,ì†Œí˜• ê°ì‹œì,1,2,3,0.8,40,100,Prefabs/Tower/Projectile/Machine,0,0,50,Prefabs/Tower/Common/drone2(material A)
+1022,ì†Œí˜• ë“œë¡ ,1,2,3,0.8,38,100,Prefabs/Tower/Projectile/Machine,0,0,50,Prefabs/Tower/Common/drone7(material A)
+1031,ë¨¸ì‰¬ë£¸,1,3,3,0.8,40,100,Prefabs/Tower/Projectile/Monster,0,0,50,Prefabs/Tower/Common/mushroom
+1032,ìŠ¬ë¼ì„,1,3,3,0.8,42,100,Prefabs/Tower/Projectile/Monster,0,0,50,Prefabs/Tower/Common/slime
+2011,ë§ë‚˜ë‹ˆ,2,1,2,0.8,90,100,0,0,0,100,Prefabs/Tower/Rare/MC5
+2012,ê²½ë¹„ë³‘,2,1,2,0.5,80,100,0,0,0,100,Prefabs/Tower/Rare/MC10
+2021,ì €ê²© ë“œë¡ ,2,2,4,0.75,75,100,Prefabs/Tower/Projectile/Machine,0,0,100,Prefabs/Tower/Rare/drone1(material A 00FFFF)
+2022,ìˆœì°° ë“œë¡ ,2,2,3,0.75,80,100,Prefabs/Tower/Projectile/Machine,0,0,100,Prefabs/Tower/Rare/drone5(material A 00FFFF)
+2031,ì•„ì‹¸ê°€ì˜¤ë¦¬,2,3,3,0.8,100,100,Prefabs/Tower/Projectile/Monster,0,0,100,Prefabs/Tower/Rare/stingray
+2032,ì•„ë¼í¬ë„¤,2,3,3,0.8,90,100,Prefabs/Tower/Projectile/Monster,0,0,100,Prefabs/Tower/Rare/spider
+3011,ì°½ìˆ ì‚¬,3,1,2,0.8,175,85,0,1000012,15,200,Prefabs/Tower/Hero/MC16
+3012,ë°”ë‹¤ ê¸°ì‚¬,3,1,2,0.8,200,85,0,1000022,15,200,Prefabs/Tower/Hero/MC22
+3021,ì‚´ìƒ ë“œë¡ ,3,2,4,0.75,185,85,Prefabs/Tower/Projectile/Machine,1000011,15,200,Prefabs/Tower/Hero/drone2(material D)
+3022,ì²´í¬ ë“œë¡ ,3,2,4,0.75,180,85,Prefabs/Tower/Projectile/Machine,1000013,15,200,Prefabs/Tower/Hero/drone10(material D)
+3031,ë¯¸ë¯¹,3,3,2,0.5,195,85,0,1000022,15,200,Prefabs/Tower/Hero/chest monster
+3032,ë‚˜ê°€ ë²•ì‚¬,3,3,3,1,250,85,Prefabs/Tower/Projectile/Monster,1000021,15,200,Prefabs/Tower/Hero/naga wizard
+4011,ê´‘ì „ì‚¬,4,1,2,0.5,1200,85,0,1000022,15,400,Prefabs/Tower/Legendary/MC09
+4012,ì—˜í”„ ê¶ìˆ˜,4,1,4,0.8,1500,85,Prefabs/Tower/Projectile/Human,1000023,15,400,Prefabs/Tower/Legendary/MC11
+4021,ëŒ€ì „ì°¨ ë“œë¡ ,4,2,3,0.8,1100,85,Prefabs/Tower/Projectile/Machine,1000011,15,400,Prefabs/Tower/Legendary/drone1(material C)
+4022,ë¨¸ì‹ ê±´ ë“œë¡ ,4,2,3,0.65,1500,85,Prefabs/Tower/Projectile/Machine,1000012,15,400,Prefabs/Tower/Legendary/drone7(material C)
+4031,ì‚¬ì•…í•œ ë²•ì‚¬,4,3,3,1,1800,85,Prefabs/Tower/Projectile/Monster,1000021,15,400,Prefabs/Tower/Legendary/evilmage
+4032,ê³ ëŒ€ ì•…ë§ˆ,4,3,2,0.8,1350,85,0,1000022,15,400,Prefabs/Tower/Legendary/flying demon
+5011,ì€ë‘”ê³ ìˆ˜,5,1,3,0.65,5000,90,Prefabs/Tower/Projectile/Human,1000011,10,800,Prefabs/Tower/God/MC24
+5012,ëŒ€ë§ˆë²•ì‚¬,5,1,3,0.8,7000,90,Prefabs/Tower/Projectile/Human,1000021,10,800,Prefabs/Tower/God/MC07
+5021,í ë¦¬ì»¨,5,2,4,0.65,5000,90,Prefabs/Tower/Projectile/Machine,1000023,10,800,Prefabs/Tower/God/drone5(material B)
+5022,ë¦¬í¼,5,2,5,0.5,3800,90,Prefabs/Tower/Projectile/Machine,1000022,10,800,Prefabs/Tower/God/drone10(material B)
+5031,ë‹¤í¬ ë‚˜ì´íŠ¸,5,3,2,0.8,11000,90,0,1000022,10,800,Prefabs/Tower/God/black knight
+5032,ì›¨ì–´ìš¸í”„,5,3,2,0.5,4000,90,0,1000011,10,800,Prefabs/Tower/God/werewolf

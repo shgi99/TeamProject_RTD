@@ -28,6 +28,8 @@ public class Tower : MonoBehaviour
     public Transform firePoint;
 
     public Transform currentTarget;
+    public EffectState skillType;
+    public AttackType skillAttackType;
     private List<Transform> enemiesInRange = new List<Transform>();
     private SphereCollider sphereCollider;
     private float rotationSpeed = 5f;
@@ -209,7 +211,7 @@ public class Tower : MonoBehaviour
             if (skillData.Enemy_Speed < 100)
             {
                 var attackTargetMovement = target.GetComponent<EnemyMovement>();
-                attackTargetMovement.StartCoroutine(attackTargetMovement.OnSkillEffect(skillData.Enemy_Speed, skillData.Duration));
+                attackTargetMovement.ApplyEffect(skillData.Enemy_Speed, skillData.Duration);
             }
         }
     }
@@ -268,6 +270,8 @@ public class Tower : MonoBehaviour
         if (towerData.SkillAtk_ID > 0)
         {
             skillData = DataTableManager.SkillTable.Get(towerData.SkillAtk_ID);
+            skillType = DataTableManager.SkillTable.GetSkillEffectState(skillData.Enemy_Speed);
+            skillAttackType = DataTableManager.SkillTable.GetAttackType(skillData.Area);
             skillProjectile = Resources.Load<GameObject>(skillData.Pjt);
         }
 
@@ -389,6 +393,10 @@ public class Tower : MonoBehaviour
         {
             projectile.SetTarget(currentTarget.gameObject);
         }
+
+    }
+    public void GetSkillType()
+    {
 
     }
 }

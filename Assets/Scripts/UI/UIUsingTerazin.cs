@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class UIUsingTerazin : MonoBehaviour
 {
     public GameObject usingTerazinPanel;
+    public GameObject chooseHeroTowerPanel;
     public Button quitButton;
     public Button getMineralButton;
     public Button getGasButton;
@@ -35,16 +36,25 @@ public class UIUsingTerazin : MonoBehaviour
         quitButton.onClick.AddListener(() => usingTerazinPanel.SetActive(false));
         getMineralButton.onClick.AddListener(() =>
         {
-            if(gameManager.MinusResource(ResourceType.Terazin, 1))
+            if(gameManager.canUseResource(ResourceType.Terazin, 1))
             {
+                gameManager.MinusResource(ResourceType.Terazin, 1);
                 gameManager.AddResource(ResourceType.Mineral, 400);
             }
         });
         getGasButton.onClick.AddListener(() =>
         {
-            if(gameManager.MinusResource(ResourceType.Terazin, 1))
+            if(gameManager.canUseResource(ResourceType.Terazin, 1))
             {
+                gameManager.MinusResource(ResourceType.Terazin, 1);
                 gameManager.AddResource(ResourceType.Gas, 300);
+            }
+        });
+        buildHeroTowerButton.onClick.AddListener(() =>
+        {
+            if(gameManager.canUseResource(ResourceType.Terazin, 1) && gameManager.canUseResource(ResourceType.Mineral, 100))
+            {
+                chooseHeroTowerPanel.SetActive(true);
             }
         });
     }

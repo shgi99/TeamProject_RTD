@@ -35,7 +35,13 @@ public enum EnemyType
 }
 public enum EffectState 
 { 
-    None, 
+    None = -1, 
+    StrongAttack,
     Slow, 
     Stun 
+}
+public enum AttackType
+{
+    Single,
+    Multiple
 }

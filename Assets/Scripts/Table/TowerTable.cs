@@ -95,10 +95,10 @@ public class TowerTable : DataTable
             case TowerRarity.Common:
                 break;
             case TowerRarity.Rare:
-                rarityColor = Color.blue;
+                rarityColor = new Color(0, 1, 1, 1);
                 break;
             case TowerRarity.Hero:
-                rarityColor = new Color(0.4f, 0, 1, 1);
+                rarityColor = new Color(0.6f, 0, 1, 1);
                 break;
             case TowerRarity.Legendary:
                 rarityColor = new Color(1, 0.2f, 0, 1);

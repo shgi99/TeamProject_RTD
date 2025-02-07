@@ -260,7 +260,7 @@ public class Tower : MonoBehaviour
         damage = towerData.AtkDmg;
         sellPrice = towerData.Sell_Price;
         normalAttackChance = towerData.Pct_1;
-        skillAttackChance = 100;
+        skillAttackChance = towerData.Pct_2;
         projectilePath = towerData.Pjt_1;
 
         if (towerData.SkillAtk_ID > 0)

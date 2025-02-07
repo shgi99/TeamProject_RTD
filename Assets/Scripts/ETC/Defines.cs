@@ -33,3 +33,9 @@ public enum EnemyType
     Boss,
     MissionBoss
 }
+public enum EffectState 
+{ 
+    None, 
+    Slow, 
+    Stun 
+}

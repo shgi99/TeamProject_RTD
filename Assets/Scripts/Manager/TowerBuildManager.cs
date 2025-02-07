@@ -27,7 +27,6 @@ public class TowerBuildManager : MonoBehaviour
     public void ToggleBuildingMode()
     {
         isBuildingMode = !isBuildingMode;
-        buildModeOffButton.SetActive(isBuildingMode);
         if(isBuildingMode)
         {
             towerUIManager.ShowBuildableTiles();

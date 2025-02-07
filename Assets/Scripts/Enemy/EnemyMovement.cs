@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class EnemyMovement : MonoBehaviour
@@ -13,6 +14,9 @@ public class EnemyMovement : MonoBehaviour
     public float waypointThreshold = 0.1f;
     private int damage;
     private GameManager gameManager;
+    private EffectState currentEffect = EffectState.None;
+    private float originalSpeed;
+    private float effectEndTime = 0f;
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -23,6 +27,7 @@ public class EnemyMovement : MonoBehaviour
         this.startPoint = startPoint;
         this.movePoints = movePoints;
         this.damage = damage;
+        originalSpeed = speed;
     }
     private void Start()
     {
@@ -40,6 +45,12 @@ public class EnemyMovement : MonoBehaviour
     {
         if (movePoints.Count == 0 || movePointIdx >= movePoints.Count || gameManager.isGameOver)
             return;
+
+        if (currentEffect != EffectState.None && Time.time >= effectEndTime)
+        {
+            speed = originalSpeed;
+            currentEffect = EffectState.None;
+        }
 
         Vector3 targetPosition = movePoints[movePointIdx].position;
 
@@ -82,5 +93,31 @@ public class EnemyMovement : MonoBehaviour
         speed *= (slowPct / 100f);
         yield return new WaitForSeconds(duration);
         speed = baseSpeed;
+    }
+    public void ApplyEffect(float slowPct, float duration)
+    {
+        if (slowPct <= 0)
+        {
+            if (currentEffect == EffectState.Stun)
+                return;
+
+            effectEndTime = Time.time + duration;
+            speed = 0;
+            currentEffect = EffectState.Stun;
+        }
+        else if (slowPct < 100) 
+        {
+            if (currentEffect == EffectState.Stun)
+                return;
+
+            float newEffectEndTime = Time.time + duration;
+
+            if (currentEffect == EffectState.None || newEffectEndTime > effectEndTime)
+            {
+                effectEndTime = newEffectEndTime;
+                speed = originalSpeed * (slowPct / 100f);
+                currentEffect = EffectState.Slow;
+            }
+        }
     }
 }

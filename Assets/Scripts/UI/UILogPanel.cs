@@ -8,7 +8,7 @@ public class UILogPanel : MonoBehaviour
     public TextMeshProUGUI[] logTexts; 
     private Queue<string> logQueue = new Queue<string>();
     private Coroutine fadeCoroutine;
-    private float fadeDelay = 5f;
+    private float fadeDelay = 3f;
     void Start()
     {
         foreach (var log in logTexts)

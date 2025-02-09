@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
     public int life { get; private set; } = 10;
     public int mineral { get; private set; } = 500;
     public int gas { get; private set; } = 0;
-    public int terazin { get; private set; } = 10;
+    public int terazin { get; private set; } = 0;
     private int currentRound = 1;
     private EnemySpawner enemySpawner;
     public int costMineralToGas { get; private set; } = 100;
@@ -31,8 +31,8 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         Application.targetFrameRate = int.MaxValue;
-        finalRound = DataTableManager.WaveTable.GetWaveCount();
         uiManager.SetRoundText(currentRound);
+        finalRound = DataTableManager.WaveTable.GetWaveCount();
         uiManager.UpdateResources();
         StartCoroutine(SpawnNextRound());
     }
@@ -190,7 +190,7 @@ public class GameManager : MonoBehaviour
         {
             return;
         }
-
+        MinusResource(ResourceType.Mineral, costMineralToGas);
         int addGas = Random.Range(20, 129);
         addGas = addGas - addGas % 10;
         FindObjectOfType<UILogPanel>().AddLog($"<color=green>{addGas}°¡½º</color> È¹µæ!");

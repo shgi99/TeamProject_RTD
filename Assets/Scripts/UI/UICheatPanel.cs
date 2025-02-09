@@ -8,6 +8,7 @@ public class UICheatPanel : MonoBehaviour
     public GameObject cheatPanel;
     public Button mineralButton;
     public Button gasButton;
+    public Button terazinButton;
     public Button quitButton;
     public GameObject FPS;
     private bool isSpeedUp = false;
@@ -18,6 +19,8 @@ public class UICheatPanel : MonoBehaviour
         mineralButton.onClick.AddListener(() => FindObjectOfType<GameManager>().AddResource(ResourceType.Mineral, 10000));
         gasButton.onClick.RemoveAllListeners();
         gasButton.onClick.AddListener(() => FindObjectOfType<GameManager>().AddResource(ResourceType.Gas, 1000));
+        terazinButton.onClick.RemoveAllListeners();
+        terazinButton.onClick.AddListener(() => FindObjectOfType<GameManager>().AddResource(ResourceType.Terazin, 10));
         quitButton.onClick.RemoveAllListeners();
         quitButton.onClick.AddListener(() => cheatPanel.SetActive(false));
     }

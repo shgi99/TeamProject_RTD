@@ -12,9 +12,10 @@ public class TowerBuildManager : MonoBehaviour
 
     public bool isBuildingMode = false;
     private int buildCost = 100;
-    private List<Tower> buildedTowers = new List<Tower>();
+    public List<Tower> buildedTowers { get; private set; } = new List<Tower>();
 
     private GameManager gameManager;
+    private QuestManager questManager;
     private TowerUIManager towerUIManager;
     private TowerData selectedHeroTower;
     private void Start()
@@ -24,6 +25,7 @@ public class TowerBuildManager : MonoBehaviour
     {
         gameManager = GetComponent<GameManager>();
         towerUIManager = FindObjectOfType<TowerUIManager>();
+        questManager = GetComponent<QuestManager>();
     }
     public void SelectTower(TowerData towerData)
     {
@@ -89,6 +91,7 @@ public class TowerBuildManager : MonoBehaviour
                                 var towerRarityText = DataTableManager.TowerTable.GetColoredRarityText(buildedTower.towerName, buildedTower.towerRarity);
                                 FindObjectOfType<UILogPanel>().AddLog($"{towerRarityText} 설치!");
                                 buildedTowers.Add(buildedTower);
+                                questManager.CheckQuests();
 
                                 selectedHeroTower = null;
                                 isBuildingMode = false;
@@ -102,6 +105,7 @@ public class TowerBuildManager : MonoBehaviour
                                 var towerRarityText = DataTableManager.TowerTable.GetColoredRarityText(buildedTower.towerName, buildedTower.towerRarity);
                                 FindObjectOfType<UILogPanel>().AddLog($"{towerRarityText} 설치!");
                                 buildedTowers.Add(buildedTower);
+                                questManager.CheckQuests();
                             }
                         }
                     }
@@ -153,6 +157,7 @@ public class TowerBuildManager : MonoBehaviour
         var towerRarityText = DataTableManager.TowerTable.GetColoredRarityText(newTower.towerName, newTower.towerRarity);
         FindObjectOfType<UILogPanel>().AddLog($"{towerRarityText} 합성 완료!");
         buildedTowers.Add(newTower);
+        questManager.CheckQuests();
     }
 
     public List<Tower> GetMatchingTowers(Tower selectedTower)

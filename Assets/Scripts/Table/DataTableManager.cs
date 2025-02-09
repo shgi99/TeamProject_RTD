@@ -24,6 +24,12 @@ public static class DataTableManager
         var skillTable = new SkillTable();
         skillTable.Load(DataTableIds.Skill);
         tables.Add(DataTableIds.Skill, skillTable);
+        var questTable = new QuestTable();
+        questTable.Load(DataTableIds.Quest);
+        tables.Add(DataTableIds.Quest, questTable);
+        var stringTable = new StringTable();
+        stringTable.Load(DataTableIds.String);
+        tables.Add(DataTableIds.String, stringTable);
     }
     public static EnemyTable EnemyTable
     {
@@ -59,6 +65,20 @@ public static class DataTableManager
         get
         {
             return Get<SkillTable>(DataTableIds.Skill);
+        }
+    }
+    public static QuestTable QuestTable
+    {
+        get
+        {
+            return Get<QuestTable>(DataTableIds.Quest);
+        }
+    }
+    public static StringTable StringTable
+    {
+        get
+        {
+            return Get<StringTable>(DataTableIds.String);
         }
     }
     public static T Get<T>(string id) where T : DataTable

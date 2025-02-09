@@ -30,10 +30,7 @@ public class UIQuestPanel : MonoBehaviour
 
         foreach (var quest in DataTableManager.QuestTable.GetDictionary().Values)
         {
-            if (!questManager.IsCompleted(quest.Quest_ID))
-            {
-                CreateQuestUI(quest);
-            }
+            CreateQuestUI(quest);
         }
     }
 
@@ -43,6 +40,10 @@ public class UIQuestPanel : MonoBehaviour
         UIQuestItem questUI = questItem.GetComponent<UIQuestItem>();
 
         questUI.SetQuestData(quest, GetQuestProgress(quest));
+        if (questManager.IsCompleted(quest.Quest_ID))
+        {
+            questUI.SetClear();
+        }
         activeQuestItems[quest.Quest_ID] = questItem;
     }
 

@@ -12,6 +12,7 @@ public class UIQuestItem : MonoBehaviour
     public TextMeshProUGUI questDescription;
     public TextMeshProUGUI questProgress;
     public List<Image> rewardIcons;
+    public GameObject clearPanel;
 
     public void SetQuestData(QuestData quest, string progress)
     {
@@ -42,5 +43,9 @@ public class UIQuestItem : MonoBehaviour
             }
         }
         return descText;
+    }
+    public void SetClear()
+    {
+        clearPanel.SetActive(true);
     }
 }

@@ -9,19 +9,21 @@ public class UIQuestPanel : MonoBehaviour
     public Transform questListParent;
     public GameObject questItemPrefab;
     public ScrollRect scrollRect;
+    public Button quitButton;
 
     private Dictionary<int, GameObject> activeQuestItems = new Dictionary<int, GameObject>();
     private QuestManager questManager;
     private TowerBuildManager towerBuildManager;
 
-    private void Start()
+    private void Awake()
     {
         questManager = FindObjectOfType<QuestManager>();
         towerBuildManager = FindObjectOfType<TowerBuildManager>();
-
+        quitButton.onClick.AddListener(() => questPanel.SetActive(false));
+    }
+    private void OnEnable() {
         PopulateQuests();
     }
-
     public void PopulateQuests()
     {
         ClearQuestUI();
@@ -73,14 +75,5 @@ public class UIQuestPanel : MonoBehaviour
             Destroy(child.gameObject);
         }
         activeQuestItems.Clear();
-    }
-
-    public void ToggleQuestPanel()
-    {
-        questPanel.SetActive(!questPanel.activeSelf);
-        if (questPanel.activeSelf)
-        {
-            PopulateQuests();
-        }
     }
 }

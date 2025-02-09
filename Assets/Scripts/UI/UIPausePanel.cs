@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class UIPausePanel : MonoBehaviour
 {
     public Button resumeButton;
+    public Button questButton;
     public Button quitButton;
 
     private UIManager uiManager;
@@ -18,6 +19,7 @@ public class UIPausePanel : MonoBehaviour
             return;
         }
         quitButton.onClick.AddListener(() => Application.Quit());
+        questButton.onClick.AddListener(() => uiManager.ShowQuestPanel());
         resumeButton.onClick.AddListener(() => uiManager.OnClickResumeButton());
     }
 }

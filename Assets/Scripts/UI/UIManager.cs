@@ -20,6 +20,7 @@ public class UIManager : MonoBehaviour
     public GameObject gameOverPanel;
     public GameObject useTerazinPanel;
     public GameObject upgradePanel;
+    public GameObject questPanel;
     public GameObject bossHpBarUI;
     public GameObject pausePanel;
     public GameObject cheatPanel;
@@ -30,7 +31,7 @@ public class UIManager : MonoBehaviour
     }
     public void SetRoundText(int currentRound)
     {
-        roundText.text = $"{currentRound} ∂ÛøÓµÂ";
+        roundText.text = $"{currentRound} ÎùºÏö¥Îìú";
     }
     public void SetGameOver()
     {
@@ -84,5 +85,9 @@ public class UIManager : MonoBehaviour
     public void ShowGameClearPanel()
     {
         gameClearPanel.SetActive(true);
+    }
+    public void ShowQuestPanel()
+    {
+        questPanel.SetActive(true);
     }
 }

@@ -15,7 +15,8 @@ public class UIQuestItem : MonoBehaviour
 
     public void SetQuestData(QuestData quest, string progress)
     {
-        rewardImage = rewardIcons[quest.Reward_Type];
+        rewardImage.sprite = rewardIcons[quest.Reward_Type - 1].sprite;
+        rewardImage.color = rewardIcons[quest.Reward_Type - 1].color;
         rewardAmount.text = $"{quest.Reward_Amt}";
         questName.text = quest.Quest_Name;
         questDescription.text = GetDescriptionText(quest);
@@ -28,11 +29,11 @@ public class UIQuestItem : MonoBehaviour
         string[] requiredTowers = quest.Req.Split('_');
         for(int i = 0; i < requiredTowers.Length; i++)
         {
-            var towerName = DataTableManager.TowerTable.Get(int.Parse(requiredTowers[i]));
+            var towerName = DataTableManager.TowerTable.Get(int.Parse(requiredTowers[i])).Tower_Name;
             descText += towerName;
             if(i ==  requiredTowers.Length - 1)
             {
-                descText += " ¼³Ä¡";
+                descText += " ì„¤ì¹˜";
                 break;
             }
             else

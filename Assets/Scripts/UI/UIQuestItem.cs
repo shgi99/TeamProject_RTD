@@ -47,5 +47,6 @@ public class UIQuestItem : MonoBehaviour
     public void SetClear()
     {
         clearPanel.SetActive(true);
+        questProgress.text = "클리어";
     }
 }

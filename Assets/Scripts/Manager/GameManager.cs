@@ -30,6 +30,7 @@ public class GameManager : MonoBehaviour
     }
     private void Start()
     {
+        Time.timeScale = 1f;
         Application.targetFrameRate = int.MaxValue;
         uiManager.SetRoundText(currentRound);
         finalRound = DataTableManager.WaveTable.GetWaveCount();

@@ -35,16 +35,17 @@ public class TowerBuildManager : MonoBehaviour
     }
     public void ToggleBuildingMode()
     {
-        isBuildingMode = !isBuildingMode;
-        if(isBuildingMode)
+        if(!isBuildingMode)
         {
+            isBuildingMode = true;
             towerUIManager.ShowBuildableTiles();
+            towerUIManager.HideTowerUI();
         }
         else
         {
+            isBuildingMode = false;
             towerUIManager.HideBuildableTiles();
         }
-        Debug.Log($"Building mode: {(isBuildingMode ? "ON" : "OFF")}");
     }
 
     private void Update()
@@ -68,60 +69,91 @@ public class TowerBuildManager : MonoBehaviour
         Touch touch = Input.GetTouch(0);
         if (touch.phase == TouchPhase.Began)
         {
-            if(IsPointerOverUIObject())
+            bool isBuildButton = false;
+            bool isMergeButton = false;
+            bool isSellButton = false;
+            if (IsPointerOverUIObject(out isBuildButton, out isMergeButton, out isSellButton))
             {
-                return;
-            }
-            Ray ray = Camera.main.ScreenPointToRay(touch.position);
-            if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, buildableLayer))
-            {
-                BuildableObject buildable = hit.collider.GetComponent<BuildableObject>();
-                if (buildable != null)
+                if (isBuildButton)
+                {
+                    return;
+                }
+
+                if (isMergeButton || isSellButton)
                 {
                     if (isBuildingMode)
                     {
-                        if (!buildable.isOccupied && gameManager.canUseResource(ResourceType.Mineral, buildCost))
-                        {
-                            if(selectedHeroTower != null && gameManager.canUseResource(ResourceType.Terazin, 1))
-                            {
-                                gameManager.MinusResource(ResourceType.Mineral, buildCost);
-                                gameManager.MinusResource(ResourceType.Terazin, 1);
-                                buildable.PlaceTower(towerPrefab, selectedHeroTower);
-                                Tower buildedTower = buildable.currentTower;
-                                var towerRarityText = DataTableManager.TowerTable.GetColoredRarityText(buildedTower.towerName, buildedTower.towerRarity);
-                                FindObjectOfType<UILogPanel>().AddLog($"{towerRarityText} 설치!");
-                                buildedTowers.Add(buildedTower);
-                                questManager.CheckQuests();
+                        ToggleBuildingMode();
+                    }
+                    return;
+                }
 
-                                selectedHeroTower = null;
-                                isBuildingMode = false;
-                                towerUIManager.HideBuildableTiles();
-                            }
-                            else
-                            {
-                                gameManager.MinusResource(ResourceType.Mineral, buildCost);
-                                buildable.PlaceTower(towerPrefab, DataTableManager.TowerTable.GetRandomByRarity(1));
-                                Tower buildedTower = buildable.currentTower;
-                                var towerRarityText = DataTableManager.TowerTable.GetColoredRarityText(buildedTower.towerName, buildedTower.towerRarity);
-                                FindObjectOfType<UILogPanel>().AddLog($"{towerRarityText} 설치!");
-                                buildedTowers.Add(buildedTower);
-                                questManager.CheckQuests();
-                            }
+                if (isBuildingMode)
+                {
+                    ToggleBuildingMode();
+                }
+                towerUIManager.HideTowerUI();
+                return;
+            }
+
+            Ray ray = Camera.main.ScreenPointToRay(touch.position);
+            if (!Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, buildableLayer))
+            {
+                if (isBuildingMode)
+                {
+                    ToggleBuildingMode();
+                }
+                towerUIManager.HideTowerUI();
+                return;
+            }
+
+            BuildableObject buildable = hit.collider.GetComponent<BuildableObject>();
+            if (buildable != null)
+            {
+                if (isBuildingMode)
+                {
+                    if (!buildable.isOccupied && gameManager.canUseResource(ResourceType.Mineral, buildCost))
+                    {
+                        if (selectedHeroTower != null && gameManager.canUseResource(ResourceType.Terazin, 1))
+                        {
+                            gameManager.MinusResource(ResourceType.Mineral, buildCost);
+                            gameManager.MinusResource(ResourceType.Terazin, 1);
+                            buildable.PlaceTower(towerPrefab, selectedHeroTower);
+                            Tower buildedTower = buildable.currentTower;
+                            var towerRarityText = DataTableManager.TowerTable.GetColoredRarityText(buildedTower.towerName, buildedTower.towerRarity);
+                            FindObjectOfType<UILogPanel>().AddLog($"{towerRarityText} 설치!");
+                            buildedTowers.Add(buildedTower);
+                            questManager.CheckQuests();
+
+                            selectedHeroTower = null;
+                            isBuildingMode = false;
+                            towerUIManager.HideBuildableTiles();
+                        }
+                        else
+                        {
+                            gameManager.MinusResource(ResourceType.Mineral, buildCost);
+                            buildable.PlaceTower(towerPrefab, DataTableManager.TowerTable.GetRandomByRarity(1));
+                            Tower buildedTower = buildable.currentTower;
+                            var towerRarityText = DataTableManager.TowerTable.GetColoredRarityText(buildedTower.towerName, buildedTower.towerRarity);
+                            FindObjectOfType<UILogPanel>().AddLog($"{towerRarityText} 설치!");
+                            buildedTowers.Add(buildedTower);
+                            questManager.CheckQuests();
                         }
                     }
                     else if(buildable.isOccupied)
                     {
+                        ToggleBuildingMode();
                         towerUIManager.DisplayTowerUI(buildable.currentTower, GetMatchingTowers(buildable.currentTower).Count > 1);
                     }
-                    else
-                    {
-                        towerUIManager.HideTowerUI();
-                    }
                 }
-            }
-            else
-            {
-                towerUIManager.HideTowerUI();
+                else if (buildable.isOccupied)
+                {
+                    towerUIManager.DisplayTowerUI(buildable.currentTower, GetMatchingTowers(buildable.currentTower).Count > 1);
+                }
+                else
+                {
+                    towerUIManager.HideTowerUI();
+                }
             }
         }
     }
@@ -225,12 +257,36 @@ public class TowerBuildManager : MonoBehaviour
         gameManager.AddResource(ResourceType.Mineral, selectedTower.sellPrice);
         RemoveTower(selectedTower);
     }
-    private bool IsPointerOverUIObject()
+    private bool IsPointerOverUIObject(out bool isBuildButton, out bool isMergeButton, out bool isSellButton)
     {
-        PointerEventData eventData = new PointerEventData(EventSystem.current);
-        eventData.position = Input.GetTouch(0).position;
+        isBuildButton = false;
+        isMergeButton = false;
+        isSellButton = false;
+        PointerEventData eventData = new PointerEventData(EventSystem.current)
+        {
+            position = Input.GetTouch(0).position
+        };
         List<RaycastResult> results = new List<RaycastResult>();
         EventSystem.current.RaycastAll(eventData, results);
+
+        foreach (RaycastResult result in results)
+        {
+            if (result.gameObject.name == "BuildButton")
+            {
+                isBuildButton = true;
+                return true;
+            }
+            else if(result.gameObject.name == "MergeButton")
+            {
+                isMergeButton = true;
+                return true;
+            }
+            else if (result.gameObject.name == "SellButton")
+            {
+                isSellButton = true;
+                return true;
+            }
+        }
         return results.Count > 0;
     }
 }

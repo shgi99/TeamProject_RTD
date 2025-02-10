@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -31,7 +32,27 @@ public class TowerUIManager : MonoBehaviour
         screenPosition.x = Mathf.Clamp(screenPosition.x, 50, Screen.width - 50);
         screenPosition.y = Mathf.Clamp(screenPosition.y, 50, Screen.height - 50);
 
-        mergeButton.interactable = canMerge;
+        if(tower.towerRarity == TowerRarity.God)
+        {
+            mergeButton.gameObject.SetActive(false);
+        }
+        else
+        {
+            mergeButton.gameObject.SetActive(true);
+            mergeButton.interactable = canMerge;
+            if(canMerge)
+            {
+                mergeButton.image.color = new Color(mergeButton.image.color.r, mergeButton.image.color.b, mergeButton.image.color.g, 1f);
+                var mergeButtonText = mergeButton.GetComponentInChildren<TextMeshProUGUI>();
+                mergeButtonText.color = new Color(mergeButtonText.color.r, mergeButtonText.color.g, mergeButtonText.color.b, 0.7f);
+            }
+            else
+            {
+                mergeButton.image.color = new Color(mergeButton.image.color.r, mergeButton.image.color.b, mergeButton.image.color.g, 0.3f);
+                var mergeButtonText = mergeButton.GetComponentInChildren<TextMeshProUGUI>();
+                mergeButtonText.color = new Color(mergeButtonText.color.r, mergeButtonText.color.g, mergeButtonText.color.b, 0.3f);
+            }
+        }
         towerInfoPanel.transform.position = screenPosition;
         towerInfoPanel.GetComponentInChildren<UITowerInfo>().SetTowerInfo(tower);
         towerInfoPanel.SetActive(true);

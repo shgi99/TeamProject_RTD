@@ -105,7 +105,7 @@ public class EnemyMovement : MonoBehaviour
             speed = 0;
             currentEffect = EffectState.Stun;
         }
-        else if (slowPct < 100) 
+        else if (slowPct < 100 && slowPct > 0) 
         {
             if (currentEffect == EffectState.Stun)
                 return;

@@ -209,7 +209,7 @@ public class Tower : MonoBehaviour
             if (skillData.Enemy_Speed < 100)
             {
                 var attackTargetMovement = target.GetComponent<EnemyMovement>();
-                attackTargetMovement.StartCoroutine(attackTargetMovement.OnSkillEffect(skillData.Enemy_Speed, skillData.Duration));
+                attackTargetMovement.ApplyEffect(skillData.Enemy_Speed, skillData.Duration);
             }
         }
     }

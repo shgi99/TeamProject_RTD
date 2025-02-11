@@ -24491,7 +24491,6 @@ GameObject:
   - component: {fileID: 3888773056080097952}
   - component: {fileID: 7779741637610138649}
   - component: {fileID: 8826294941461100321}
-  - component: {fileID: 2177092602367463508}
   m_Layer: 0
   m_Name: Slow Multiple
   m_TagString: Untagged
@@ -24597,40 +24596,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &2177092602367463508
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6534104808839234655}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b9e272d634f40434b85fbf756732714d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  size: 1
-  speed: 1
-  duration: 1
-  loop: 1
-  prewarm: 0
-  lights: 0
-  trails: 0
-  changeColor: 1
-  newMaxColor: {r: 0.11792451, g: 0.5934011, b: 1, a: 1}
-  newMinColor: {r: 0.10849059, g: 0.32848233, b: 1, a: 1}
-  ParticleSystems:
-  - {fileID: 8588644192005487387}
-  - {fileID: 3596503173348102679}
-  - {fileID: 7541200193567108566}
-  - {fileID: 6288541538852103820}
-  - {fileID: 7912757273331344319}
-  - {fileID: 9039837249007386829}
-  - {fileID: 2354993311434904863}
-  - {fileID: 2357139255289276195}
-  - {fileID: 8725869364413479893}
-  - {fileID: 3281725523748318111}
-  ActiveParticleSystems: 01010101010101010101
 --- !u!1 &7541200193567108566
 GameObject:
   m_ObjectHideFlags: 0

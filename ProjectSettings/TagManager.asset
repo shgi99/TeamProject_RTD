@@ -11,6 +11,7 @@ TagManager:
   - PathTile
   - Tower
   - Bullet
+  - IgnoreUI
   layers:
   - Default
   - TransparentFX

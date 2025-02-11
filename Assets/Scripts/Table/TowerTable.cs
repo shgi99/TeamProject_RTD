@@ -55,6 +55,10 @@ public class TowerTable : DataTable
         }
         return dictionary[id];
     }
+    public Dictionary<int, TowerData> GetAll()
+    {
+        return dictionary;
+    }
     public List<TowerData> GetListRarity(TowerRarity towerRarity)
     {
         return rarityDictionary[(int)towerRarity];

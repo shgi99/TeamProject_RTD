@@ -8,6 +8,11 @@ public class BuildableObject : MonoBehaviour
 
     public GameObject arrowUI; 
     public Tower currentTower {  get; private set; }
+    private ObjectPoolingManager poolManager;
+    private void Awake()
+    {
+        poolManager = FindObjectOfType<ObjectPoolingManager>();
+    }
     public void ShowArrow()
     {
         if (!isOccupied && arrowUI != null)
@@ -29,7 +34,9 @@ public class BuildableObject : MonoBehaviour
             return;
         }
 
-        GameObject tower = Instantiate(towerPrefab, transform.position, Quaternion.identity);
+        GameObject tower = poolManager.GetObject("Tower");
+        tower.transform.position = transform.position;
+        tower.transform.rotation = Quaternion.identity;
         tower.transform.SetParent(transform);
 
         currentTower = tower.GetComponent<Tower>();
@@ -45,11 +52,16 @@ public class BuildableObject : MonoBehaviour
     {
         if(currentTower != null)
         {
-            currentTower.ClearBeforeDestroy();
-            Destroy(currentTower.gameObject);
+            currentTower.ClearBeforeDestroy(); 
+            Transform model = currentTower.transform.GetChild(1);
+            model.SetParent(null);
+            var modelAssetPath = DataTableManager.TowerTable.Get(currentTower.towerId).Asset_Path;
+            poolManager.ReturnObject(modelAssetPath, model.gameObject);
+
+            currentTower.transform.SetParent(null);
+            poolManager.ReturnObject("Tower", currentTower.gameObject);
             currentTower = null;
             isOccupied = false;
         }
     }
-    
 }

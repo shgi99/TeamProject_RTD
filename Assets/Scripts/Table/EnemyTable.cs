@@ -40,4 +40,8 @@ public class EnemyTable : DataTable
         }
         return dictionary[id];
     }
+    public Dictionary<int, EnemyData> GetAll()
+    {
+        return dictionary;
+    }
 }

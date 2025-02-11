@@ -27,7 +27,9 @@ public class EnemyMovement : MonoBehaviour
         this.startPoint = startPoint;
         this.movePoints = movePoints;
         this.damage = damage;
+        movePointIdx = 0;
         originalSpeed = speed;
+        ResetState();
     }
     private void Start()
     {
@@ -111,5 +113,11 @@ public class EnemyMovement : MonoBehaviour
                 currentEffect = EffectState.Slow;
             }
         }
+    }
+    public void ResetState()
+    {
+        speed = originalSpeed;
+        currentEffect = EffectState.None;
+        effectEndTime = 0f;
     }
 }

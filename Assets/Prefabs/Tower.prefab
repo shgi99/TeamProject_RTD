@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3760588793497230965}
   m_Layer: 0
   m_Name: Tower
-  m_TagString: Untagged
+  m_TagString: Tower
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -82,6 +82,8 @@ MonoBehaviour:
   projectilePath: 
   firePoint: {fileID: 0}
   currentTarget: {fileID: 0}
+  skillType: 0
+  skillAttackType: 0
   resourceParent: {fileID: 6744958117887307336}
 --- !u!1 &3463276468866083698
 GameObject:

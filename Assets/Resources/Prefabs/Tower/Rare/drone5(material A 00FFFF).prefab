@@ -184,7 +184,7 @@ GameObject:
   - component: {fileID: 1006342014576947659}
   m_Layer: 0
   m_Name: drone5(material A 00FFFF)
-  m_TagString: Untagged
+  m_TagString: Tower
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

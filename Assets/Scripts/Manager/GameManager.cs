@@ -11,6 +11,8 @@ public class GameManager : MonoBehaviour
     public bool isGameOver = false;
 
     public UIManager uiManager;
+    public GameObject enemyPrefab;
+    public GameObject towerPrefab;
     public int life { get; private set; } = 10;
     public int mineral { get; private set; } = 500;
     public int gas { get; private set; } = 0;
@@ -30,6 +32,32 @@ public class GameManager : MonoBehaviour
     }
     private void Start()
     {
+        ResourceManager.instance.LoadAllResources();
+
+        ObjectPoolingManager poolManager = FindObjectOfType<ObjectPoolingManager>();
+        poolManager.PreloadObjects("Enemy", enemyPrefab, 20);
+        poolManager.PreloadObjects("Tower", towerPrefab, 20);
+
+        foreach (var towerData in DataTableManager.TowerTable.GetAll().Values)
+        {
+            poolManager.PreloadObjects(towerData.Asset_Path, ResourceManager.instance.GetResource(towerData.Asset_Path), 5);
+        }
+        foreach (var enemyData in DataTableManager.EnemyTable.GetAll().Values)
+        {
+            poolManager.PreloadObjects(enemyData.AssetPath, ResourceManager.instance.GetResource(enemyData.AssetPath), 2);
+        }
+        foreach (var towerData in DataTableManager.TowerTable.GetAll().Values)
+        {
+            if (towerData.Pjt_1 != "0")
+            {
+                poolManager.PreloadObjects(towerData.Pjt_1, ResourceManager.instance.GetResource(towerData.Pjt_1), 5);
+            }
+        }
+        foreach (var skillData in DataTableManager.SkillTable.GetAll().Values)
+        {
+            poolManager.PreloadObjects(skillData.Pjt, ResourceManager.instance.GetResource(skillData.Pjt), 5);
+        }
+
         Time.timeScale = 1f;
         Application.targetFrameRate = int.MaxValue;
         uiManager.SetRoundText(currentRound);

@@ -22,10 +22,13 @@ public class EnemyHealth : MonoBehaviour, IDamageable
 
     private Animator animator;
     private EnemyMovement enemyMovement;
+    private ObjectPoolingManager poolManager;
+    private int enemyId;
     private void Awake()
     {
         animator = GetComponent<Animator>();
         enemyMovement = GetComponent<EnemyMovement>();
+        poolManager = FindObjectOfType<ObjectPoolingManager>();
     }
     private void Start()
     {
@@ -41,6 +44,7 @@ public class EnemyHealth : MonoBehaviour, IDamageable
     }
     public void Init(EnemyData enemyData, EnemyType type)
     {
+        enemyId = enemyData.Enemy_ID;
         maxHp = enemyData.Enemy_HP;
         HP = maxHp;
 
@@ -57,6 +61,7 @@ public class EnemyHealth : MonoBehaviour, IDamageable
     {
         IsDead = false;
         HP = maxHp;
+        enemyMovement.enabled = true;
         HpSliderUpdate();
     }
     public void OnDamage(float damage)
@@ -108,22 +113,35 @@ public class EnemyHealth : MonoBehaviour, IDamageable
         enemyMovement.enabled = false;
         animator.SetTrigger("Dead");
         OnDeath?.Invoke(transform);
+
         if(bossHpBar != null)
         {
             bossHpBar.UpdateHpBar(maxHp, HP, HpFillImage.color);
             bossHpBar = null;
         }
+
         GameManager gameManager = FindObjectOfType<GameManager>();
         if(enemyType != EnemyType.MissionBoss)
         {
             gameManager.CheckClear(gameObject);
         }
         gameManager.AddResource(resourceType, resourceAmount);
-        StartCoroutine(StartSinking());
+        StartCoroutine(ReturnToPool());
     }
-    public IEnumerator StartSinking()
+    private IEnumerator ReturnToPool()
     {
         yield return new WaitForSeconds(1f);
-        Destroy(gameObject);
+
+        Transform visualParent = transform.Find("VisualParent");
+        if (visualParent != null && visualParent.childCount > 0)
+        {
+            Transform model = visualParent.GetChild(0);
+            model.SetParent(null);
+            var modelAssetPath = DataTableManager.EnemyTable.Get(enemyId).AssetPath;
+
+            poolManager.ReturnObject(modelAssetPath, model.gameObject);
+        }
+        enemyMovement.ResetState();
+        poolManager.ReturnObject("Enemy", gameObject);
     }
 }

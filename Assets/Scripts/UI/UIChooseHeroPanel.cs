@@ -39,5 +39,8 @@ public class UIChooseHeroPanel : MonoBehaviour
             });
         }
     }
-    
+    private void OnDisable()
+    {
+        
+    }
 }

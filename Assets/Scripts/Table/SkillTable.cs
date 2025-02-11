@@ -69,4 +69,8 @@ public class SkillTable : DataTable
             return AttackType.Multiple;
         }
     }
+    public Dictionary<int, SkillData> GetAll()
+    {
+        return dictionary;
+    }
 }

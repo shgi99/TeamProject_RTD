@@ -37,8 +37,8 @@ public class Tower : MonoBehaviour
     public Transform resourceParent;
     private GameManager gameManager;
     private bool isAttacking = false;
-    private GameObject normalProjectile;
-    private GameObject skillProjectile;
+    private ObjectPoolingManager poolManager;
+
     // Start is called before the first frame update
     private void Awake()
     {
@@ -47,7 +47,7 @@ public class Tower : MonoBehaviour
     }
     void Start()
     {
-        
+        poolManager = FindObjectOfType<ObjectPoolingManager>();
         gameManager = FindObjectOfType<GameManager>();
         StartCoroutine(AttackCoroutine());
         SetAnimationSpeed();
@@ -166,7 +166,7 @@ public class Tower : MonoBehaviour
         var attackTarget = target.GetComponent<EnemyHealth>();
         if (attackTarget != null && !attackTarget.IsDead)
         {
-            if(normalProjectile != null)
+            if(projectilePath != "0")
             {
                 Fire(false);
             }
@@ -248,11 +248,8 @@ public class Tower : MonoBehaviour
     {
         if (towerData == null)
         {
-            Debug.LogError("InitTower() ����: towerData�� null�Դϴ�..");
             return;
         }
-
-        Debug.Log($"InitTower ȣ�� - ID: {towerData.Tower_ID}, Name: {towerData.Tower_Name}");
 
         gameManager = FindObjectOfType<GameManager>();
         towerId = towerData.Tower_ID;
@@ -263,16 +260,15 @@ public class Tower : MonoBehaviour
         attackInterval = towerData.AtkSpd;
         damage = towerData.AtkDmg;
         sellPrice = towerData.Sell_Price;
+        projectilePath = towerData.Pjt_1;
         normalAttackChance = towerData.Pct_1;
         skillAttackChance = towerData.Pct_2;
-        normalProjectile = Resources.Load<GameObject>(towerData.Pjt_1);
 
         if (towerData.SkillAtk_ID > 0)
         {
             skillData = DataTableManager.SkillTable.Get(towerData.SkillAtk_ID);
             skillType = DataTableManager.SkillTable.GetSkillEffectState(skillData.Enemy_Speed);
             skillAttackType = DataTableManager.SkillTable.GetAttackType(skillData.Area);
-            skillProjectile = Resources.Load<GameObject>(skillData.Pjt);
         }
 
         UpgradeManager upgradeManager = FindObjectOfType<UpgradeManager>();
@@ -293,24 +289,24 @@ public class Tower : MonoBehaviour
 
     private void ApplyResource(string asset_Path)
     {
-        GameObject towerResource = Resources.Load<GameObject>(asset_Path);
+        GameObject towerResource = FindObjectOfType<ObjectPoolingManager>().GetObject(asset_Path);
         if (towerResource != null)
         {
             foreach (Transform child in resourceParent)
             {
                 if(child != rarityParticle.transform)
                 {
-                    Destroy(child.gameObject);
+                    FindObjectOfType<ObjectPoolingManager>().ReturnObject(child.gameObject.name, child.gameObject);
                 }
             }
+            towerResource.transform.SetParent(resourceParent, false);
 
-            GameObject towerInstance = Instantiate(towerResource, resourceParent);
-            towerInstance.transform.localPosition = towerResource.transform.localPosition;
-            towerInstance.transform.localRotation = Quaternion.identity;
+            towerResource.transform.localRotation = Quaternion.identity;
+            towerResource.SetActive(true);
 
-            firePoint = towerInstance.transform;
+            firePoint = towerResource.transform;
 
-            animator = towerInstance.GetComponent<Animator>();
+            animator = towerResource.GetComponent<Animator>();
             SetAnimationSpeed();
         }
     }
@@ -381,22 +377,21 @@ public class Tower : MonoBehaviour
     }
     public void Fire(bool isSkillAttack)
     {
-        GameObject projectilePrefab = isSkillAttack ? skillProjectile : normalProjectile;
-        if(projectilePrefab == null)
+        string projectileKey = isSkillAttack ? skillData.Pjt : projectilePath;
+        if (projectileKey == "0")
         {
             return;
         }
-        GameObject projectileInstance = Instantiate(projectilePrefab, firePoint.position + Vector3.up * 2f, Quaternion.identity);
+        GameObject projectileInstance = poolManager.GetObject(projectileKey);
+        projectileInstance.transform.position = firePoint.position + Vector3.up * 2f;
+        projectileInstance.transform.rotation = Quaternion.identity;
+
         ProjectileMoveScript projectile = projectileInstance.GetComponent<ProjectileMoveScript>();
 
         if (projectile != null && currentTarget != null)
         {
-            projectile.SetTarget(currentTarget.gameObject);
+            projectile.SetTarget(currentTarget.gameObject, projectileKey, firePoint);
         }
-
-    }
-    public void GetSkillType()
-    {
 
     }
 }

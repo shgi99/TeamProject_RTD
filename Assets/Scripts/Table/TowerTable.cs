@@ -55,7 +55,10 @@ public class TowerTable : DataTable
         }
         return dictionary[id];
     }
-
+    public List<TowerData> GetListRarity(TowerRarity towerRarity)
+    {
+        return rarityDictionary[(int)towerRarity];
+    }
     public TowerData GetRandomByRarity(int rarity)
     {
         if (rarityDictionary.TryGetValue(rarity, out List<TowerData> towers) && towers.Count > 0)
@@ -108,5 +111,12 @@ public class TowerTable : DataTable
                 break;
         }
         return rarityColor;
+    }
+    public string GetColoredRarityText(string baseText, TowerRarity rarity)
+    {
+        Color rarityColor = GetRarityColor(rarity);
+        string hexColor = ColorUtility.ToHtmlStringRGB(rarityColor);
+
+        return $"<color=#{hexColor}>{baseText}</color>";
     }
 }

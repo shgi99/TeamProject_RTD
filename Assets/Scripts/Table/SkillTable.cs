@@ -43,4 +43,30 @@ public class SkillTable : DataTable
         }
         return dictionary[id];
     }
+    public EffectState GetSkillEffectState(float speed)
+    {
+        if(speed == 0)
+        {
+            return EffectState.Stun;
+        }
+        else if(speed == 100)
+        {
+            return EffectState.StrongAttack;
+        }
+        else
+        {
+            return EffectState.Slow;
+        }
+    }
+    public AttackType GetAttackType(float area)
+    {
+        if(area == 0)
+        {
+            return AttackType.Single;
+        }
+        else
+        {
+            return AttackType.Multiple;
+        }
+    }
 }

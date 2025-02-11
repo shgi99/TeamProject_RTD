@@ -20,8 +20,10 @@ public class UIManager : MonoBehaviour
     public GameObject gameOverPanel;
     public GameObject useTerazinPanel;
     public GameObject upgradePanel;
+    public GameObject questPanel;
     public GameObject bossHpBarUI;
     public GameObject pausePanel;
+    public GameObject cheatPanel;
     private GameManager gameManager;
     private void Awake()
     {
@@ -29,7 +31,7 @@ public class UIManager : MonoBehaviour
     }
     public void SetRoundText(int currentRound)
     {
-        roundText.text = $"{currentRound} ∂ÛøÓµÂ";
+        roundText.text = $"{currentRound} ÎùºÏö¥Îìú";
     }
     public void SetGameOver()
     {
@@ -71,6 +73,10 @@ public class UIManager : MonoBehaviour
         pausePanel.SetActive(false);
         gameManager.TogglePause();
     }
+    public void OnClickCheatButton()
+    {
+        cheatPanel.SetActive(true);
+    }
     public void UpdatePlayTime(float playTime)
     {
         TimeSpan timeSpan = TimeSpan.FromSeconds(playTime);
@@ -79,5 +85,9 @@ public class UIManager : MonoBehaviour
     public void ShowGameClearPanel()
     {
         gameClearPanel.SetActive(true);
+    }
+    public void ShowQuestPanel()
+    {
+        questPanel.SetActive(true);
     }
 }

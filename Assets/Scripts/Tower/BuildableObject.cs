@@ -26,7 +26,6 @@ public class BuildableObject : MonoBehaviour
     {
         if (isOccupied)
         {
-            Debug.Log("This object is occupied");
             return;
         }
 
@@ -41,7 +40,6 @@ public class BuildableObject : MonoBehaviour
 
         isOccupied = true;
         HideArrow();
-        Debug.Log($"Tower '{towerData.Tower_Name}' placed successfully.");
     }
     public void RemoveTower()
     {

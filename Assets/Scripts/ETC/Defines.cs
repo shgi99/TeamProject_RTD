@@ -5,6 +5,8 @@ public static class DataTableIds
     public static readonly string Tower = "TowerTable";
     public static readonly string Upgrade = "UpgradeTable";
     public static readonly string Skill = "SkillTable";
+    public static readonly string Quest = "QuestTable";
+    public static readonly string String = "StringTable";
 }
 public enum TowerRarity
 {
@@ -35,7 +37,13 @@ public enum EnemyType
 }
 public enum EffectState 
 { 
-    None, 
+    None = -1, 
+    StrongAttack,
     Slow, 
     Stun 
+}
+public enum AttackType
+{
+    Single,
+    Multiple
 }

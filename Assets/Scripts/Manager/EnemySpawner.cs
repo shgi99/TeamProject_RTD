@@ -83,7 +83,11 @@ public class EnemySpawner : MonoBehaviour
     public void SpawnMissionBoss(int stage)
     {
         EnemyData currentEnemyData = DataTableManager.EnemyTable.Get(150 + stage);
-        GameObject enemyInstance = Instantiate(enemyBasePrefab, startPoint.position, Quaternion.identity);
+
+        GameObject enemyInstance = poolManager.GetObject("Enemy");
+        enemyInstance.transform.position = startPoint.position;
+        enemyInstance.transform.rotation = Quaternion.identity;
+        enemyInstance.SetActive(true);
 
         Transform visualParent = enemyInstance.transform.Find("VisualParent");
         if (visualParent == null)
@@ -95,7 +99,7 @@ public class EnemySpawner : MonoBehaviour
 
         foreach (Transform child in visualParent)
         {
-            Destroy(child.gameObject);
+            poolManager.ReturnObject(child.gameObject.name, child.gameObject);
         }
 
         string assetPath = currentEnemyData.AssetPath;
@@ -106,8 +110,10 @@ public class EnemySpawner : MonoBehaviour
         }
         else
         {
-            GameObject visualInstance = Instantiate(visualPrefab, visualParent);
-            visualInstance.transform.localRotation = Quaternion.identity;
+            visualPrefab.transform.SetParent(visualParent);
+            visualPrefab.transform.localPosition = Vector3.zero;
+            visualPrefab.transform.localRotation = Quaternion.identity;
+            visualPrefab.SetActive(true);
         }
 
         EnemyMovement enemyMovement = enemyInstance.GetComponent<EnemyMovement>();

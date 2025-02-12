@@ -12,6 +12,7 @@ TagManager:
   - Tower
   - Bullet
   - IgnoreUI
+  - BuildableTile
   layers:
   - Default
   - TransparentFX

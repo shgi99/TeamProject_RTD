@@ -32,8 +32,6 @@ public class GameManager : MonoBehaviour
     }
     private void Start()
     {
-        ResourceManager.instance.LoadAllResources();
-
         ObjectPoolingManager poolManager = FindObjectOfType<ObjectPoolingManager>();
         poolManager.PreloadObjects("Enemy", enemyPrefab, 20);
         poolManager.PreloadObjects("Tower", towerPrefab, 20);

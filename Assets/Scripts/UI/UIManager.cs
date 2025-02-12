@@ -23,6 +23,7 @@ public class UIManager : MonoBehaviour
     public GameObject questPanel;
     public GameObject bossHpBarUI;
     public GameObject pausePanel;
+    public GameObject guidePanel;
     public GameObject cheatPanel;
     private GameManager gameManager;
     private void Awake()
@@ -44,6 +45,10 @@ public class UIManager : MonoBehaviour
     public void ShowUsingTerazinPanel()
     {
         useTerazinPanel.SetActive(true);
+    }
+    public void ShowGuidePanel()
+    {
+        guidePanel.SetActive(true);
     }
     internal void UpdateResources()
     {

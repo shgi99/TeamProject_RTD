@@ -38,18 +38,39 @@ public class ProjectileMoveScript : MonoBehaviour
     private ObjectPoolingManager poolManager;
     private Transform firePoint;
     private bool isActive = false;
+    private bool isFired = false;
+    private EnemyHealth targetHealth;
+    private Vector3 targetPos;
+    private float rotationSpeed = 50f;
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
         poolManager = FindObjectOfType<ObjectPoolingManager>();
+
+        if (hitPrefab != null)
+        {
+            hitPrefab.SetActive(false);
+        }
     }
 
     public void SetTarget(GameObject trg, string key, Transform firePos)
     {
+        if (trg == null || trg.GetComponent<EnemyHealth>().IsDead)
+        {
+            ResetProjectile();
+            return;
+        }
+
         target = trg;
+        targetHealth = target.GetComponent<EnemyHealth>();
+        targetPos = target.transform.position;
         assetPath = key;
         firePoint = firePos;
         isActive = true;
+        isFired = false;
+
+        transform.position = firePoint.position + Vector3.up * 2f;
+        transform.rotation = Quaternion.LookRotation(targetPos - transform.position);
 
         if (rb != null)
         {
@@ -61,67 +82,127 @@ public class ProjectileMoveScript : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (!isActive || target == null || !target.activeSelf)
+        if (!isActive) return;
+
+        if (target == null || targetHealth == null || targetHealth.IsDead)
         {
-            ResetProjectile();
+            MoveProjectile();
+            if (Vector3.Distance(transform.position, targetPos) < 0.5f)
+            {
+                PlayHitEffect(transform.position, Vector3.up);
+                StartCoroutine(DestroyProjectile(0.2f));
+            }
             return;
         }
 
-        Vector3 direction = (target.transform.position - transform.position).normalized;
+        targetPos = target.transform.position;
+        MoveProjectile();
+    }
+    private void MoveProjectile()
+    {
+        if (!isActive) return;
+
+        isFired = true;
+
+        Vector3 direction = (targetPos - transform.position).normalized;
+
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(direction), rotationSpeed * Time.deltaTime);  
         transform.position += direction * speed * Time.deltaTime;
     }
 
+    private void FireProjectile()
+    {
+        isFired = true;
+
+        if (target == null || targetHealth == null || targetHealth.IsDead)
+        {
+            transform.position += transform.forward * 0.5f; 
+            StartCoroutine(DestroyProjectile(0.1f)); 
+            return;
+        }
+
+        StartCoroutine(DestroyProjectile(0.5f));
+    }
     void OnCollisionEnter(Collision co)
     {
         if (!bounce && isActive)
         {
-            if (target == null || !target.activeSelf)
+            if (co.gameObject.CompareTag("Bullet") || co.gameObject.CompareTag("BuildableTile") || co.gameObject.CompareTag("Tower"))
             {
-                ResetProjectile();
                 return;
             }
 
-            if (co.gameObject.tag != "Bullet" && co.gameObject.tag != "BuildableTile" && co.gameObject.tag != "Tower" && co.gameObject.tag != "Enemy")
+            isActive = false;
+            rb.isKinematic = true;
+
+            if (!isFired)
             {
-                isActive = false;
+                FireProjectile();
 
-                ContactPoint contact = co.contacts[0];
-                Quaternion rot = Quaternion.FromToRotation(Vector3.up, contact.normal);
-                Vector3 pos = contact.point;
+                return;
+            }
 
-                if (hitPrefab != null)
+            PlayHitEffect(co.contacts[0].point, co.contacts[0].normal);
+            StartCoroutine(DestroyProjectile(0.2f));
+        }
+    }
+    private void PlayHitEffect(Vector3 position, Vector3 normal)
+    {
+        if (hitPrefab != null)
+        {
+
+            hitPrefab.transform.position = position;
+            hitPrefab.transform.rotation = Quaternion.FromToRotation(Vector3.up, normal);
+            hitPrefab.SetActive(true);
+
+            ParticleSystem[] particles = hitPrefab.GetComponentsInChildren<ParticleSystem>(true);
+            float maxDuration = 0f;
+
+            foreach (ParticleSystem ps in particles)
+            {
+                ps.Play();
+                float duration = ps.main.duration + ps.main.startLifetime.constantMax;
+                if (duration > maxDuration)
                 {
-                    GameObject hitVFX = Instantiate(hitPrefab, pos, rot);
-                    hitVFX.transform.parent = null;
-
-                    var ps = hitVFX.GetComponent<ParticleSystem>();
-                    if (ps == null)
-                    {
-                        var psChild = hitVFX.transform.GetChild(0).GetComponent<ParticleSystem>();
-                        Destroy(hitVFX, psChild.main.duration);
-                    }
-                    else
-                    {
-                        Destroy(hitVFX, ps.main.duration);
-                    }
+                    maxDuration = duration;
                 }
+            }
 
-                StartCoroutine(DestroyProjectile(0.3f));
+            if (maxDuration > 0f)
+            {
+                StartCoroutine(DisableHitEffect(maxDuration));
             }
         }
     }
 
+    private IEnumerator DisableHitEffect(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        if (hitPrefab != null)
+        {
+            ParticleSystem[] particles = hitPrefab.GetComponentsInChildren<ParticleSystem>(true);
+            foreach (ParticleSystem ps in particles)
+            {
+                ps.Stop();
+            }
+
+            hitPrefab.SetActive(false);
+        }
+    }
+
+
     private IEnumerator DestroyProjectile(float waitTime)
     {
         yield return new WaitForSeconds(waitTime);
-        isActive = false;
         ResetProjectile();
     }
 
     private void ResetProjectile()
     {
         isActive = false;
+        isFired = false;
         target = null;
+        targetHealth = null;
 
         transform.position = firePoint != null ? firePoint.position + Vector3.up * 2f : Vector3.zero;
         transform.rotation = Quaternion.identity;
@@ -132,12 +213,13 @@ public class ProjectileMoveScript : MonoBehaviour
             rb.velocity = Vector3.zero;
             rb.angularVelocity = Vector3.zero;
         }
-        gameObject.SetActive(false);
 
-        if (!string.IsNullOrEmpty(assetPath))
+        if (hitPrefab != null)
         {
-            poolManager.ReturnObject(assetPath, gameObject);
+            hitPrefab.SetActive(false);
         }
+
+        gameObject.SetActive(false);
+        poolManager.ReturnObject(assetPath, gameObject);
     }
 }
-

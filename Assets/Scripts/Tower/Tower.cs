@@ -138,18 +138,20 @@ public class Tower : MonoBehaviour
         animator.SetTrigger("Attack");
 
         yield return new WaitForSeconds(attackInterval / 2);
-
-        if (currentTarget != null)
+        if (currentTarget == null || currentTarget.GetComponent<EnemyHealth>() == null || currentTarget.GetComponent<EnemyHealth>().IsDead)
         {
-            float randomAttack = Random.Range(0f, 100f);
-            if (randomAttack <= skillAttackChance && skillData != null)
-            {
-                UseSkill();
-            }
-            else
-            {
-                Attack(currentTarget);
-            }
+            isAttacking = false;
+            yield break;
+        }
+
+        float randomAttack = Random.Range(0f, 100f);
+        if (randomAttack <= skillAttackChance && skillData != null)
+        {
+            UseSkill();
+        }
+        else
+        {
+            Attack(currentTarget);
         }
 
         yield return new WaitForSeconds(attackInterval / 2);
@@ -157,9 +159,10 @@ public class Tower : MonoBehaviour
     }
     private void Attack(Transform target)
     {
-        if (target == null)
+        if (target == null || target.GetComponent<EnemyHealth>() == null || target.GetComponent<EnemyHealth>().IsDead)
         {
             currentTarget = null;
+            UpdateTarget();
             return;
         }
 
@@ -170,7 +173,10 @@ public class Tower : MonoBehaviour
             {
                 Fire(false);
             }
-            attackTarget.OnDamage(currentDamage);
+            else
+            {
+                attackTarget.OnDamage(currentDamage);
+            }
         }
         else
         {
@@ -179,22 +185,30 @@ public class Tower : MonoBehaviour
     }
     private void UseSkill()
     {
+        bool firedProjectile = false; 
 
-        if(skillData.Area == 0)
+        if (skillData.Area == 0)
         {
             if (currentTarget != null)
             {
                 ApplySkillEffect(currentTarget);
+                Fire(true);
             }
         }
         else
         {
-            if(currentTarget != null)
+            if (currentTarget != null)
             {
                 var enemiesInSkillRange = Physics.OverlapSphere(currentTarget.position, skillData.Area, LayerMask.GetMask("Enemy"));
                 foreach (var enemy in enemiesInSkillRange)
                 {
                     ApplySkillEffect(enemy.transform);
+
+                    if (!firedProjectile)
+                    {
+                        Fire(true);
+                        firedProjectile = true;
+                    }
                 }
             }
         }
@@ -204,9 +218,7 @@ public class Tower : MonoBehaviour
         var attackTargetHealth = target.GetComponent<EnemyHealth>();
         if (attackTargetHealth != null && !attackTargetHealth.IsDead)
         {
-            Fire(true);
             Debug.Log($"Using skill: {skillData.SkillAtk_ID}, {currentDamage * skillData.SkillDmgMul} damaged!");
-            attackTargetHealth.OnDamage(currentDamage * skillData.SkillDmgMul);
 
             if (skillData.Enemy_Speed < 100)
             {
@@ -377,11 +389,14 @@ public class Tower : MonoBehaviour
     }
     public void Fire(bool isSkillAttack)
     {
-        string projectileKey = isSkillAttack ? skillData.Pjt : projectilePath;
-        if (projectileKey == "0")
+        if (currentTarget == null || currentTarget.GetComponent<EnemyHealth>().IsDead)
         {
             return;
         }
+
+        string projectileKey = isSkillAttack ? skillData.Pjt : projectilePath;
+        float fireDamage = isSkillAttack ? currentDamage * skillData.SkillDmgMul : currentDamage;
+
         GameObject projectileInstance = poolManager.GetObject(projectileKey);
         projectileInstance.transform.position = firePoint.position + Vector3.up * 2f;
         projectileInstance.transform.rotation = Quaternion.identity;
@@ -391,6 +406,7 @@ public class Tower : MonoBehaviour
         if (projectile != null && currentTarget != null)
         {
             projectile.SetTarget(currentTarget.gameObject, projectileKey, firePoint);
+            currentTarget.GetComponent<EnemyHealth>().OnDamage(fireDamage);
         }
 
     }

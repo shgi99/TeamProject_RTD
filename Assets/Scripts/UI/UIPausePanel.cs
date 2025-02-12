@@ -7,6 +7,7 @@ public class UIPausePanel : MonoBehaviour
 {
     public Button resumeButton;
     public Button questButton;
+    public Button guideButton;
     public Button quitButton;
 
     private UIManager uiManager;
@@ -20,6 +21,7 @@ public class UIPausePanel : MonoBehaviour
         }
         quitButton.onClick.AddListener(() => Application.Quit());
         questButton.onClick.AddListener(() => uiManager.ShowQuestPanel());
+        guideButton.onClick.AddListener(() => uiManager.ShowGuidePanel());
         resumeButton.onClick.AddListener(() => uiManager.OnClickResumeButton());
     }
 }

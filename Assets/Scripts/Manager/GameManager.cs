@@ -60,6 +60,7 @@ public class GameManager : MonoBehaviour
         Application.targetFrameRate = int.MaxValue;
         uiManager.SetRoundText(currentRound);
         finalRound = DataTableManager.WaveTable.GetWaveCount();
+        SoundManager.Instance.PlayBGM();
         uiManager.UpdateResources();
         StartCoroutine(SpawnNextRound());
     }
@@ -77,10 +78,6 @@ public class GameManager : MonoBehaviour
             {
                 SceneManager.LoadScene(SceneManager.GetActiveScene().name);
             }
-        }
-        if(Input.GetKeyDown(KeyCode.Escape))
-        {
-            SetGameClear();
         }
     }
     public void TogglePause()
@@ -134,6 +131,7 @@ public class GameManager : MonoBehaviour
     private void SetGameClear()
     {
         clearTime = playTime;
+        SoundManager.Instance.StopBGM();
         TogglePause();
         uiManager.ShowGameClearPanel();
     }
@@ -146,6 +144,7 @@ public class GameManager : MonoBehaviour
         {
             life = 0;
             isGameOver = true;
+            SoundManager.Instance.StopBGM();
             uiManager.SetGameOver();
         }
         uiManager.UpdateResources();
@@ -212,8 +211,8 @@ public class GameManager : MonoBehaviour
     }
     public void MineralToGas()
     {
-        
-        if(!canUseResource(ResourceType.Mineral, costMineralToGas))
+        SoundManager.Instance.PlayButtonTouch();
+        if (!canUseResource(ResourceType.Mineral, costMineralToGas))
         {
             return;
         }

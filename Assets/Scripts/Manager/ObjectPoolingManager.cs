@@ -48,6 +48,7 @@ public class ObjectPoolingManager : MonoBehaviour
     public void ReturnObject(string key, GameObject obj)
     {
         obj.SetActive(false);
+        obj.transform.localPosition = prefabDictionary[key].transform.position;
         if (!poolDictionary.ContainsKey(key))
         {
             poolDictionary[key] = new Queue<GameObject>();

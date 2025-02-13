@@ -14,7 +14,8 @@ public class UIGuidePanel : MonoBehaviour
     }
     public void OnClickQuitButton()
     {
-        foreach(var page in pages)
+        SoundManager.Instance.PlayButtonTouch();
+        foreach (var page in pages)
         {
             page.SetActive(false);
         }
@@ -22,7 +23,8 @@ public class UIGuidePanel : MonoBehaviour
     }
     public void OnClickNextButton()
     {
-        if(pageIndex + 1 < pages.Count)
+        SoundManager.Instance.PlayButtonTouch();
+        if (pageIndex + 1 < pages.Count)
         {
             pages[pageIndex++].SetActive(false);
             pages[pageIndex].SetActive(true);
@@ -30,6 +32,7 @@ public class UIGuidePanel : MonoBehaviour
     }
     public void OnClickPrevButton()
     {
+        SoundManager.Instance.PlayButtonTouch();
         if (pageIndex - 1 >= 0)
         {
             pages[pageIndex--].SetActive(false);

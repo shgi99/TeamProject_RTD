@@ -27,8 +27,18 @@ public class TitleSceneManager : MonoBehaviour
                 loadingPanel.SetActive(false);
             });
 
-        startButton.onClick.AddListener(() => SceneManager.LoadScene("GameScene"));
-        quitButton.onClick.AddListener(() => Application.Quit());
+        startButton.onClick.AddListener(() =>
+            {
+            SoundManager.Instance.PlayButtonTouch();
+                SceneManager.LoadScene("GameScene");
+            }
+        );
+        quitButton.onClick.AddListener(() =>
+        {
+            SoundManager.Instance.PlayButtonTouch();
+            Application.Quit();
+            }
+        );
     }
     
 }

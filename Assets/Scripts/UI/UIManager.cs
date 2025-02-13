@@ -25,6 +25,7 @@ public class UIManager : MonoBehaviour
     public GameObject pausePanel;
     public GameObject guidePanel;
     public GameObject cheatPanel;
+    public GameObject optionPanel;
     private GameManager gameManager;
     private void Awake()
     {
@@ -40,10 +41,12 @@ public class UIManager : MonoBehaviour
     }
     public void ShowUpgradePanel()
     {
+        SoundManager.Instance.PlayButtonTouch();
         upgradePanel.SetActive(true);
     }
     public void ShowUsingTerazinPanel()
     {
+        SoundManager.Instance.PlayButtonTouch();
         useTerazinPanel.SetActive(true);
     }
     public void ShowGuidePanel()
@@ -70,16 +73,19 @@ public class UIManager : MonoBehaviour
     }
     public void OnClickPauseButton()
     {
+        SoundManager.Instance.PlayButtonTouch();
         pausePanel.SetActive(true);
         gameManager.TogglePause();
     }
     public void OnClickResumeButton()
     {
+        SoundManager.Instance.PlayButtonTouch();
         pausePanel.SetActive(false);
         gameManager.TogglePause();
     }
     public void OnClickCheatButton()
     {
+        SoundManager.Instance.PlayButtonTouch();
         cheatPanel.SetActive(true);
     }
     public void UpdatePlayTime(float playTime)
@@ -94,5 +100,10 @@ public class UIManager : MonoBehaviour
     public void ShowQuestPanel()
     {
         questPanel.SetActive(true);
+    }
+
+    public void ShowOptionPanel()
+    {
+        optionPanel.SetActive(true);
     }
 }

@@ -33,10 +33,15 @@ public class UIUsingTerazin : MonoBehaviour
             return;
         }
 
-        quitButton.onClick.AddListener(() => usingTerazinPanel.SetActive(false));
+        quitButton.onClick.AddListener(() =>
+        {
+            SoundManager.Instance.PlayButtonTouch();
+            usingTerazinPanel.SetActive(false);
+            });
         getMineralButton.onClick.AddListener(() =>
         {
-            if(gameManager.canUseResource(ResourceType.Terazin, 1))
+            SoundManager.Instance.PlayButtonTouch();
+            if (gameManager.canUseResource(ResourceType.Terazin, 1))
             {
                 gameManager.MinusResource(ResourceType.Terazin, 1);
                 gameManager.AddResource(ResourceType.Mineral, 400);
@@ -44,7 +49,8 @@ public class UIUsingTerazin : MonoBehaviour
         });
         getGasButton.onClick.AddListener(() =>
         {
-            if(gameManager.canUseResource(ResourceType.Terazin, 1))
+            SoundManager.Instance.PlayButtonTouch();
+            if (gameManager.canUseResource(ResourceType.Terazin, 1))
             {
                 gameManager.MinusResource(ResourceType.Terazin, 1);
                 gameManager.AddResource(ResourceType.Gas, 300);
@@ -52,7 +58,8 @@ public class UIUsingTerazin : MonoBehaviour
         });
         buildHeroTowerButton.onClick.AddListener(() =>
         {
-            if(gameManager.canUseResource(ResourceType.Terazin, 1) && gameManager.canUseResource(ResourceType.Mineral, 100))
+            SoundManager.Instance.PlayButtonTouch();
+            if (gameManager.canUseResource(ResourceType.Terazin, 1) && gameManager.canUseResource(ResourceType.Mineral, 100))
             {
                 chooseHeroTowerPanel.SetActive(true);
             }

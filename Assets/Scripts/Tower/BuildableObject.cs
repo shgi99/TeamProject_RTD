@@ -52,10 +52,16 @@ public class BuildableObject : MonoBehaviour
     {
         if(currentTower != null)
         {
-            currentTower.ClearBeforeDestroy(); 
+            currentTower.ClearBeforeDestroy();
+            if (currentTower.rarityParticle != null)
+            {
+                currentTower.rarityParticle.Stop();
+                currentTower.rarityParticle.gameObject.SetActive(false);
+            }
+
             Transform model = currentTower.transform.GetChild(1);
             model.SetParent(null);
-            var modelAssetPath = DataTableManager.TowerTable.Get(currentTower.towerId).Asset_Path;
+            var modelAssetPath = currentTower.resourceKey;
             poolManager.ReturnObject(modelAssetPath, model.gameObject);
 
             currentTower.transform.SetParent(null);

@@ -183,7 +183,7 @@ public class TowerBuildManager : MonoBehaviour
         RemoveTower(selectedTower);
         RemoveTower(closestTower);
 
-        buildableObject.PlaceTower(towerPrefab, DataTableManager.TowerTable.GetUpgradeRarity((int)currentRarity));
+        buildableObject.PlaceTower(towerPrefab, DataTableManager.TowerTable.GetUpgradeRarity((int)currentRarity));  
 
         Tower newTower = buildableObject.currentTower;
         var towerRarityText = DataTableManager.TowerTable.GetColoredRarityText(newTower.towerName, newTower.towerRarity);

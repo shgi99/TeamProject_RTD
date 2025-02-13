@@ -64,6 +64,7 @@ public class TowerUIManager : MonoBehaviour
     }
     public void MergeTower()
     {
+        SoundManager.Instance.PlayButtonTouch();
         if (selectedTower == null) return;
 
         TowerBuildManager buildManager = FindObjectOfType<TowerBuildManager>();
@@ -74,6 +75,7 @@ public class TowerUIManager : MonoBehaviour
 
     public void SellTower()
     {
+        SoundManager.Instance.PlayButtonTouch();
         if (selectedTower == null) return;
 
         TowerBuildManager buildManager = FindObjectOfType<TowerBuildManager>();

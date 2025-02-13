@@ -17,6 +17,11 @@ public class UIGameClear : MonoBehaviour
         TimeSpan timeSpan = TimeSpan.FromSeconds(gameManager.clearTime);
         clearTimeText.text = string.Format("{0:D2}:{1:D2}", timeSpan.Minutes, timeSpan.Seconds);
         quitButton.onClick.RemoveAllListeners();
-        quitButton.onClick.AddListener(() => SceneManager.LoadScene(SceneManager.GetActiveScene().name));
+        quitButton.onClick.AddListener(() =>
+        {
+            SoundManager.Instance.PlayButtonTouch();
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            }
+        );
     }
 }

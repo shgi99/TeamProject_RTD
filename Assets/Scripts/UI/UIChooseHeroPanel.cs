@@ -16,6 +16,7 @@ public class UIChooseHeroPanel : MonoBehaviour
     {
         heroTowerDatas = DataTableManager.TowerTable.GetListRarity(TowerRarity.Hero);
         quitButton.onClick.AddListener(() => {
+            SoundManager.Instance.PlayButtonTouch();
             uiChooseHeroPanel.SetActive(false);
             selectedTower = null;
 
@@ -30,6 +31,7 @@ public class UIChooseHeroPanel : MonoBehaviour
             heroTowers[i].onClick.RemoveAllListeners();
             heroTowers[i].onClick.AddListener(() =>
             {
+                SoundManager.Instance.PlayButtonTouch();
                 selectedTower = heroTowerDatas[index];
                 for (int j = 0; j < heroTowersMarker.Count; j++)
                 {

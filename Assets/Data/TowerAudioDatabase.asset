@@ -1,0 +1,92 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 282cf0cc5b49d29468f684e22d2f472f, type: 3}
+  m_Name: TowerAudioDatabase
+  m_EditorClassIdentifier: 
+  audioDictionary:
+    _serializedList:
+    - Key: 1011
+      Value: {fileID: 8300000, guid: 2b3c82259a5b86a4182d98ce10ca7a65, type: 3}
+    - Key: 1012
+      Value: {fileID: 8300000, guid: 2b3c82259a5b86a4182d98ce10ca7a65, type: 3}
+    - Key: 1021
+      Value: {fileID: 8300000, guid: ed371ae95fec32b4daadbf762e9f850b, type: 3}
+    - Key: 1022
+      Value: {fileID: 8300000, guid: 28caf3e4d33197a4690c54bbc7b3fbe2, type: 3}
+    - Key: 1031
+      Value: {fileID: 8300000, guid: a72e4a1497b126a4d94382e1584271f7, type: 3}
+    - Key: 1032
+      Value: {fileID: 8300000, guid: abf8d68fd412d044a9312e16104efadc, type: 3}
+    - Key: 2011
+      Value: {fileID: 8300000, guid: fbeb59656f7b042409cf9b4a899b28e1, type: 3}
+    - Key: 2012
+      Value: {fileID: 8300000, guid: f80dc58e18ab89c438e4121a402a24e5, type: 3}
+    - Key: 2021
+      Value: {fileID: 8300000, guid: a0d19eae14d3dda47b0dc92b2c31af50, type: 3}
+    - Key: 2022
+      Value: {fileID: 8300000, guid: a0d19eae14d3dda47b0dc92b2c31af50, type: 3}
+    - Key: 2031
+      Value: {fileID: 8300000, guid: d0a3a8afa793c7d4fb420b94f55442ee, type: 3}
+    - Key: 2032
+      Value: {fileID: 8300000, guid: 6e3b22bbc5089474aa76be1f12ca9743, type: 3}
+    - Key: 3011
+      Value: {fileID: 8300000, guid: 6c3af9bea871b8d409b8f41f895188c1, type: 3}
+    - Key: 3012
+      Value: {fileID: 8300000, guid: f80dc58e18ab89c438e4121a402a24e5, type: 3}
+    - Key: 3021
+      Value: {fileID: 8300000, guid: 28caf3e4d33197a4690c54bbc7b3fbe2, type: 3}
+    - Key: 3022
+      Value: {fileID: 8300000, guid: b7d762ddf4320d64da7c34b46e6e7bf6, type: 3}
+    - Key: 3031
+      Value: {fileID: 8300000, guid: a03198c65609d5342a049bf93f38bd39, type: 3}
+    - Key: 3032
+      Value: {fileID: 8300000, guid: f09119b21c7bd1e40b509bf228a20ac4, type: 3}
+    - Key: 4011
+      Value: {fileID: 8300000, guid: 45aae28623d4b7c4487df560e9f75f16, type: 3}
+    - Key: 4012
+      Value: {fileID: 8300000, guid: aaac62d71c95f4f4ea9c322380957be8, type: 3}
+    - Key: 4021
+      Value: {fileID: 8300000, guid: a0d19eae14d3dda47b0dc92b2c31af50, type: 3}
+    - Key: 4022
+      Value: {fileID: 8300000, guid: 9b14dcbb020631b4f86f59913f0c16b0, type: 3}
+    - Key: 4031
+      Value: {fileID: 8300000, guid: f09119b21c7bd1e40b509bf228a20ac4, type: 3}
+    - Key: 4032
+      Value: {fileID: 8300000, guid: 8d1971472e62746408cd282052044c1f, type: 3}
+    - Key: 5011
+      Value: {fileID: 8300000, guid: 3cea4ba2860cc0f4292661cca770457b, type: 3}
+    - Key: 5012
+      Value: {fileID: 8300000, guid: f09119b21c7bd1e40b509bf228a20ac4, type: 3}
+    - Key: 5021
+      Value: {fileID: 8300000, guid: b7d762ddf4320d64da7c34b46e6e7bf6, type: 3}
+    - Key: 5022
+      Value: {fileID: 8300000, guid: ed371ae95fec32b4daadbf762e9f850b, type: 3}
+    - Key: 5031
+      Value: {fileID: 8300000, guid: d88c3ecf0e13b1945962a4cd92f1a6c0, type: 3}
+    - Key: 5032
+      Value: {fileID: 8300000, guid: 1767fe165eb2d5244873bf60d2a62134, type: 3}
+    - Key: 1000011
+      Value: {fileID: 8300000, guid: c1c4ef5c03182924f9e5adb2b9c263b3, type: 3}
+    - Key: 1000012
+      Value: {fileID: 8300000, guid: 57d1bd5868cfa66428ed63b4628bad17, type: 3}
+    - Key: 1000013
+      Value: {fileID: 8300000, guid: a7b0ce11657583941b85922d96b465f5, type: 3}
+    - Key: 1000021
+      Value: {fileID: 8300000, guid: 91a3783dd99f14642be04de2243f5f0c, type: 3}
+    - Key: 1000022
+      Value: {fileID: 8300000, guid: c2a18cb99ee69104f97cb253a972569d, type: 3}
+    - Key: 1000023
+      Value: {fileID: 8300000, guid: f37b700e7f472df419b063efbcd7da90, type: 3}
+    - Key: BGM
+      Value: {fileID: 8300000, guid: c7aafb7b7c52bc74f90a11b036e9d588, type: 3}
+    - Key: Button
+      Value: {fileID: 8300000, guid: 435b4ad18f9833a468a2ca8446a6e7d6, type: 3}

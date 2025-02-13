@@ -27,13 +27,29 @@ public class UIUpgrade : MonoBehaviour
             return;
         }
         quitButton.onClick.RemoveAllListeners();
-        quitButton.onClick.AddListener(() => upgradePanel.SetActive(false));
+        quitButton.onClick.AddListener(() => 
+        { 
+            SoundManager.Instance.PlayButtonTouch(); 
+            upgradePanel.SetActive(false); 
+        });
         humanUpgradeButton.onClick.RemoveAllListeners();
-        humanUpgradeButton.onClick.AddListener(() => UpgradeTower(TowerType.Human));
+        humanUpgradeButton.onClick.AddListener(() =>
+        {
+            SoundManager.Instance.PlayButtonTouch();
+            UpgradeTower(TowerType.Human);
+        });
         machineUpgradeButton.onClick.RemoveAllListeners();
-        machineUpgradeButton.onClick.AddListener(() => UpgradeTower(TowerType.Machine));
+        machineUpgradeButton.onClick.AddListener(() =>
+        {
+            SoundManager.Instance.PlayButtonTouch();
+            UpgradeTower(TowerType.Machine);
+        });
         monsterUpgradeButton.onClick.RemoveAllListeners();
-        monsterUpgradeButton.onClick.AddListener(() => UpgradeTower(TowerType.Monster));
+        monsterUpgradeButton.onClick.AddListener(() =>
+        {
+            SoundManager.Instance.PlayButtonTouch();
+            UpgradeTower(TowerType.Monster);
+        });
         UpdateUpgradeUI();
     }
     private void UpgradeTower(TowerType type)
@@ -63,9 +79,9 @@ public class UIUpgrade : MonoBehaviour
         machineUpgradeCostText.color = gameManager.gas < machineCost ? Color.red : Color.black;
         monsterUpgradeCostText.color = gameManager.gas < monsterCost ? Color.red : Color.black;
 
-        humanUpgradeCostText.text = $"{humanCost}";
-        machineUpgradeCostText.text = $"{machineCost}";
-        monsterUpgradeCostText.text = $"{monsterCost}";
+        humanUpgradeCostText.text = upgradeManager.CanUpgrade(TowerType.Human) ? $"{humanCost}" : "풀강";
+        machineUpgradeCostText.text = upgradeManager.CanUpgrade(TowerType.Machine) ? $"{machineCost}" : "풀강";
+        monsterUpgradeCostText.text = upgradeManager.CanUpgrade(TowerType.Monster) ? $"{monsterCost}" : "풀강";
 
         humanUpgradeButton.interactable = upgradeManager.CanUpgrade(TowerType.Human);
         machineUpgradeButton.interactable = upgradeManager.CanUpgrade(TowerType.Machine);

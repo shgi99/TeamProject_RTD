@@ -9,7 +9,7 @@ public class UIPausePanel : MonoBehaviour
     public Button questButton;
     public Button guideButton;
     public Button quitButton;
-
+    public Button optionButton;
     private UIManager uiManager;
     // Start is called before the first frame update
     void Awake()
@@ -19,9 +19,30 @@ public class UIPausePanel : MonoBehaviour
         {
             return;
         }
-        quitButton.onClick.AddListener(() => Application.Quit());
-        questButton.onClick.AddListener(() => uiManager.ShowQuestPanel());
-        guideButton.onClick.AddListener(() => uiManager.ShowGuidePanel());
-        resumeButton.onClick.AddListener(() => uiManager.OnClickResumeButton());
+        quitButton.onClick.AddListener(() => 
+        { 
+            SoundManager.Instance.PlayButtonTouch(); 
+            Application.Quit(); 
+        });
+        questButton.onClick.AddListener(() => 
+        { 
+            SoundManager.Instance.PlayButtonTouch(); 
+            uiManager.ShowQuestPanel();
+        });
+        guideButton.onClick.AddListener(() => 
+        { 
+            SoundManager.Instance.PlayButtonTouch(); 
+            uiManager.ShowGuidePanel(); 
+        });
+        optionButton.onClick.AddListener(() =>
+        {
+            SoundManager.Instance.PlayButtonTouch();
+            uiManager.ShowOptionPanel();
+        });
+        resumeButton.onClick.AddListener(() => 
+        { 
+            SoundManager.Instance.PlayButtonTouch(); 
+            uiManager.OnClickResumeButton();
+        });
     }
 }

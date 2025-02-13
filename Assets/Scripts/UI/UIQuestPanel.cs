@@ -19,7 +19,12 @@ public class UIQuestPanel : MonoBehaviour
     {
         questManager = FindObjectOfType<QuestManager>();
         towerBuildManager = FindObjectOfType<TowerBuildManager>();
-        quitButton.onClick.AddListener(() => questPanel.SetActive(false));
+        quitButton.onClick.AddListener(() =>
+        {
+            SoundManager.Instance.PlayButtonTouch();
+            questPanel.SetActive(false);
+            }
+        );
     }
     private void OnEnable() {
         PopulateQuests();

@@ -33,24 +33,23 @@ public class Tower : MonoBehaviour
     private List<Transform> enemiesInRange = new List<Transform>();
     private SphereCollider sphereCollider;
     private float rotationSpeed = 5f;
-    private Animator animator;
+    [SerializeField] private Animator animator;
     public Transform resourceParent;
     private GameManager gameManager;
     private bool isAttacking = false;
     private ObjectPoolingManager poolManager;
-
+    public string resourceKey;
+    private Coroutine attackCoroutine;
+    
     // Start is called before the first frame update
     private void Awake()
     {
         sphereCollider = GetComponent<SphereCollider>();
-        animator = GetComponent<Animator>();
     }
     void Start()
     {
         poolManager = FindObjectOfType<ObjectPoolingManager>();
         gameManager = FindObjectOfType<GameManager>();
-        StartCoroutine(AttackCoroutine());
-        SetAnimationSpeed();
     }
     private void Update()
     {
@@ -135,7 +134,10 @@ public class Tower : MonoBehaviour
     private IEnumerator PerformAttack()
     {
         isAttacking = true;
-        animator.SetTrigger("Attack");
+        if (animator != null)
+        {
+            animator.SetTrigger("Attack");
+        }
 
         yield return new WaitForSeconds(attackInterval / 2);
         if (currentTarget == null || currentTarget.GetComponent<EnemyHealth>() == null || currentTarget.GetComponent<EnemyHealth>().IsDead)
@@ -175,6 +177,7 @@ public class Tower : MonoBehaviour
             }
             else
             {
+                SoundManager.Instance.PlayTowerSFX(towerId.ToString());
                 attackTarget.OnDamage(currentDamage);
             }
         }
@@ -263,6 +266,8 @@ public class Tower : MonoBehaviour
             return;
         }
 
+        ClearBeforeDestroy();
+
         gameManager = FindObjectOfType<GameManager>();
         towerId = towerData.Tower_ID;
         towerName = towerData.Tower_Name;
@@ -275,6 +280,7 @@ public class Tower : MonoBehaviour
         projectilePath = towerData.Pjt_1;
         normalAttackChance = towerData.Pct_1;
         skillAttackChance = towerData.Pct_2;
+        isAttacking = false;
 
         if (towerData.SkillAtk_ID > 0)
         {
@@ -284,40 +290,45 @@ public class Tower : MonoBehaviour
         }
 
         UpgradeManager upgradeManager = FindObjectOfType<UpgradeManager>();
-
         ApplyUpgrade(upgradeManager.GetUpgradeLevel(towerType));
 
         sphereCollider.radius = attackRange;
         ApplyResource(towerData.Asset_Path);
+        resourceKey = towerData.Asset_Path;
+        if (rarityParticle != null)
+        {
+            ParticleSystem.MainModule mainModule = rarityParticle.main;
+            mainModule.startColor = DataTableManager.TowerTable.GetRarityColor(towerRarity);
 
-        GameObject particleInstance = Instantiate(rarityParticle.gameObject, resourceParent);
-        particleInstance.transform.localPosition = rarityParticle.gameObject.transform.localPosition;
-
-        ParticleSystem.MainModule rarityParticleMain = particleInstance.GetComponent<ParticleSystem>().main;
-        rarityParticleMain.startColor = DataTableManager.TowerTable.GetRarityColor(towerRarity);
-
-        particleInstance.GetComponent<ParticleSystem>().Play();
+            rarityParticle.gameObject.SetActive(true);
+            rarityParticle.Play();
+        }
+        if (attackCoroutine != null)
+        {
+            StopCoroutine(attackCoroutine);
+        }
+        attackCoroutine = StartCoroutine(AttackCoroutine());
+        SetAnimationSpeed();
     }
 
     private void ApplyResource(string asset_Path)
     {
-        GameObject towerResource = FindObjectOfType<ObjectPoolingManager>().GetObject(asset_Path);
+        ObjectPoolingManager poolManager = FindObjectOfType<ObjectPoolingManager>();
+        GameObject towerResource = poolManager.GetObject(asset_Path);
         if (towerResource != null)
         {
             foreach (Transform child in resourceParent)
             {
                 if(child != rarityParticle.transform)
                 {
-                    FindObjectOfType<ObjectPoolingManager>().ReturnObject(child.gameObject.name, child.gameObject);
+                    poolManager.ReturnObject(resourceKey, child.gameObject);
                 }
             }
-            towerResource.transform.SetParent(resourceParent, false);
 
+            towerResource.transform.SetParent(resourceParent, false);
             towerResource.transform.localRotation = Quaternion.identity;
             towerResource.SetActive(true);
-
             firePoint = towerResource.transform;
-
             animator = towerResource.GetComponent<Animator>();
             SetAnimationSpeed();
         }
@@ -335,10 +346,21 @@ public class Tower : MonoBehaviour
                 }
             }
         }
+        if (attackCoroutine != null)
+        {
+            StopAllCoroutines();
+            attackCoroutine = null;
+        }
 
+        animator = null;
         enemiesInRange.Clear();
-        StopAllCoroutines();
         currentTarget = null;
+
+        if (rarityParticle != null)
+        {
+            rarityParticle.Stop();
+            rarityParticle.gameObject.SetActive(false);
+        }
     }
 
     public void ApplyUpgrade(int upgradeLevel)
@@ -396,6 +418,7 @@ public class Tower : MonoBehaviour
 
         string projectileKey = isSkillAttack ? skillData.Pjt : projectilePath;
         float fireDamage = isSkillAttack ? currentDamage * skillData.SkillDmgMul : currentDamage;
+        string attackSFX = isSkillAttack ? skillData.SkillAtk_ID.ToString() : towerId.ToString();
 
         GameObject projectileInstance = poolManager.GetObject(projectileKey);
         projectileInstance.transform.position = firePoint.position + Vector3.up * 2f;
@@ -406,6 +429,7 @@ public class Tower : MonoBehaviour
         if (projectile != null && currentTarget != null)
         {
             projectile.SetTarget(currentTarget.gameObject, projectileKey, firePoint);
+            SoundManager.Instance.PlayTowerSFX(attackSFX);
             currentTarget.GetComponent<EnemyHealth>().OnDamage(fireDamage);
         }
 

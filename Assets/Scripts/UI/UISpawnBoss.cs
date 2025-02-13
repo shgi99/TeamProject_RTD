@@ -22,9 +22,22 @@ public class UISpawnBoss : MonoBehaviour
     {
         enemySpawner = FindObjectOfType<EnemySpawner>();
 
-        SpawnBossButtonOne.onClick.AddListener(() => StartCoolDown(SpawnBossButtonOne, TimerTextOne, 1));
-        SpawnBossButtonTwo.onClick.AddListener(() => StartCoolDown(SpawnBossButtonTwo, TimerTextTwo, 2));
-        SpawnBossButtonThree.onClick.AddListener(() => StartCoolDown(SpawnBossButtonThree, TimerTextThree, 3));
+        SpawnBossButtonOne.onClick.AddListener(() =>
+        {
+            SoundManager.Instance.PlayButtonTouch();
+            StartCoolDown(SpawnBossButtonOne, TimerTextOne, 1);
+            }
+        );
+        SpawnBossButtonTwo.onClick.AddListener(() =>
+        {
+            SoundManager.Instance.PlayButtonTouch();
+            StartCoolDown(SpawnBossButtonTwo, TimerTextTwo, 2);
+            }) ;
+        SpawnBossButtonThree.onClick.AddListener(() =>
+        {
+            SoundManager.Instance.PlayButtonTouch();
+            StartCoolDown(SpawnBossButtonThree, TimerTextThree, 3);
+            });
     }
 
     public void StartCoolDown(Button button, TextMeshProUGUI timertext, int stage)

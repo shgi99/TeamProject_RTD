@@ -111,7 +111,7 @@ public class GameManager : MonoBehaviour
         if (enemies.Count <= 0)
         {
             FindObjectOfType<UILogPanel>().AddLog($"{currentRound}라운드 클리어!");
-            AddResource(ResourceType.Mineral, 250);
+            AddResource(ResourceType.Mineral, 200);
             if (currentRound % 10 == 0)
             {
                 uiManager.HideBossHpBar();

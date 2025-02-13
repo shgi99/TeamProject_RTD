@@ -51,4 +51,4 @@ Enemy_ID,Enemy_HP,DmgToLife,Drop,Drop_Amount,AssetPath
 150,1200000,10,0,0,Prefabs/Enemy/Round50
 151,3000,3,2,100,Prefabs/Enemy/Mission1
 152,30000,3,2,200,Prefabs/Enemy/Mission2
-153,175000,3,2,500,Prefabs/Enemy/Mission3
+153,175000,3,2,300,Prefabs/Enemy/Mission3

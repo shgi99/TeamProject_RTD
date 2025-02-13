@@ -67,9 +67,9 @@ public class UIUsingTerazin : MonoBehaviour
     }
     private void OnEnable()
     {
-        SetTextColor();
+        UpdateResource();
     }
-    public void SetTextColor()
+    public void UpdateResource()
     {
         terazinToMineralCostText.color = gameManager.terazin < costTerazinToMineral ? Color.red : Color.black;
         terazinToGasCostText.color = gameManager.terazin < costTerazinToGas ? Color.red : Color.black;

@@ -97,11 +97,11 @@ public class GameManager : MonoBehaviour
         nextRoundTimeLeft = 10f;
         while (nextRoundTimeLeft > 0)
         {
-            FindObjectOfType<UILogPanel>().AddLog($"´ÙÀ½ ¶ó¿îµå±îÁö {nextRoundTimeLeft}ÃÊ");
+            FindObjectOfType<UILogPanel>().AddLog($"ë‹¤ìŒ ë¼ìš´ë“œê¹Œì§€ {nextRoundTimeLeft}ì´ˆ");
             yield return new WaitForSeconds(1f);
             nextRoundTimeLeft -= 1f;
         }
-        FindObjectOfType<UILogPanel>().AddLog($"{currentRound}¶ó¿îµå ½ÃÀÛ!");
+        FindObjectOfType<UILogPanel>().AddLog($"{currentRound}ë¼ìš´ë“œ ì‹œì‘!");
         var currentRoundData = DataTableManager.WaveTable.Get(200 + currentRound);
         StartCoroutine(enemySpawner.SpawnEnemies(currentRoundData));
     }
@@ -110,7 +110,7 @@ public class GameManager : MonoBehaviour
         enemies.Remove(enemy);
         if (enemies.Count <= 0)
         {
-            FindObjectOfType<UILogPanel>().AddLog($"{currentRound}¶ó¿îµå Å¬¸®¾î!");
+            FindObjectOfType<UILogPanel>().AddLog($"{currentRound}ë¼ìš´ë“œ í´ë¦¬ì–´!");
             AddResource(ResourceType.Mineral, 200);
             if (currentRound % 10 == 0)
             {
@@ -188,21 +188,24 @@ public class GameManager : MonoBehaviour
             case ResourceType.Terazin:
                 if (terazin - amount < 0)
                 {
-                    FindObjectOfType<UILogPanel>().AddLog("<color=red>Å×¶óÁøÀÌ ºÎÁ·ÇÕ´Ï´Ù.</color>");
+                    SoundManager.Instance.PlayWarningSFX();
+                    FindObjectOfType<UILogPanel>().AddLog("<color=red>í…Œë¼ì§„ì´ ë¶€ì¡±í•©ë‹ˆë‹¤.</color>");
                     return false;
                 }
                 break;
             case ResourceType.Mineral:
                 if (mineral - amount < 0)
                 {
-                    FindObjectOfType<UILogPanel>().AddLog("<color=red>¹Ì³×¶öÀÌ ºÎÁ·ÇÕ´Ï´Ù.</color>");
+                    SoundManager.Instance.PlayWarningSFX();
+                    FindObjectOfType<UILogPanel>().AddLog("<color=red>ë¯¸ë„¤ë„ì´ ë¶€ì¡±í•©ë‹ˆë‹¤.</color>");
                     return false;
                 }
                 break;
             case ResourceType.Gas:
                 if (gas - amount < 0)
                 {
-                    FindObjectOfType<UILogPanel>().AddLog("<color=red>°¡½º°¡ ºÎÁ·ÇÕ´Ï´Ù.</color>");
+                    SoundManager.Instance.PlayWarningSFX();
+                    FindObjectOfType<UILogPanel>().AddLog("<color=red>ê°€ìŠ¤ê°€ ë¶€ì¡±í•©ë‹ˆë‹¤.</color>");
                     return false;
                 }
                 break;
@@ -219,7 +222,7 @@ public class GameManager : MonoBehaviour
         MinusResource(ResourceType.Mineral, costMineralToGas);
         int addGas = Random.Range(20, 129);
         addGas = addGas - addGas % 10;
-        FindObjectOfType<UILogPanel>().AddLog($"<color=green>{addGas}°¡½º</color> È¹µæ!");
+        FindObjectOfType<UILogPanel>().AddLog($"<color=green>{addGas}ê°€ìŠ¤</color> íšë“!");
         AddResource(ResourceType.Gas, addGas);
     }
     

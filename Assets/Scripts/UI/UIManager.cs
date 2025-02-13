@@ -62,6 +62,9 @@ public class UIManager : MonoBehaviour
 
         buildTowerCostText.color = gameManager.mineral < gameManager.costBuildTower ? Color.red : Color.white;
         buyGasCostText.color = gameManager.mineral < gameManager.costMineralToGas ? Color.red : Color.white;
+
+        // useTerazinPanel.GetComponent<UIUsingTerazin>().UpdateResource();
+        // upgradePanel.GetComponent<UIUpgrade>().UpdateUpgradeUI();
     }
     public void ShowBossHpBar()
     {

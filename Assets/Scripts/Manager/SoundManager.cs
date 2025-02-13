@@ -47,6 +47,13 @@ public class SoundManager : MonoBehaviour
             sfxSource.PlayOneShot(audioClipDict["Button"]);
         }
     }
+    public void PlayWarningSFX()
+    {
+         if (audioClipDict.ContainsKey("Warning"))
+        {
+            sfxSource.PlayOneShot(audioClipDict["Warning"]);
+        }
+    }
     public void PlayBGM()
     {
         if (audioClipDict.ContainsKey("BGM"))

@@ -90,3 +90,5 @@ MonoBehaviour:
       Value: {fileID: 8300000, guid: c7aafb7b7c52bc74f90a11b036e9d588, type: 3}
     - Key: Button
       Value: {fileID: 8300000, guid: 435b4ad18f9833a468a2ca8446a6e7d6, type: 3}
+    - Key: Warning
+      Value: {fileID: 8300000, guid: a36d34d15903fb34797c0a406711eebd, type: 3}
